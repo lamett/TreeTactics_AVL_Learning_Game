@@ -7,12 +7,12 @@ using UnityEngine;
 
 class AVLTree
 {
-    public AVLNode? root { get; private set; }
+    public AVLNode root { get; private set; }
     public int size { get; private set; }
 
     float posFactor = 1f;
 
-    AVLNode? markedDeletion = null;
+    AVLNode markedDeletion = null;
 
 
     public AVLTree()
@@ -23,7 +23,7 @@ class AVLTree
 
 
     //gibt die Höhe vom Blatt aus an
-    private int height(AVLNode? node)
+    private int height(AVLNode node)
     {
         return node?.height ?? 0;
     }
@@ -77,7 +77,7 @@ class AVLTree
         }
     }
 
-    private AVLNode? leftRotation(AVLNode? node)
+    private AVLNode leftRotation(AVLNode node)
     {
         if (node == null)
         {
@@ -91,12 +91,12 @@ class AVLTree
 
         node.height = max(height(node.left), height(node.right)) + 1;
         tempNode.height = max(height(tempNode.left), height(tempNode.right)) + 1;
-        node.balanceFactor = height(node.left) - height(node.right);
-        tempNode.balanceFactor = height(tempNode.left) - height(tempNode.right);
+        node.setBalanceFactor(height(node.left) - height(node.right));
+        tempNode.setBalanceFactor(height(tempNode.left) - height(tempNode.right));
         return tempNode;
     }
 
-    private AVLNode? rightRotation(AVLNode? node)
+    private AVLNode rightRotation(AVLNode node)
     {
         if (node == null)
         {
@@ -110,19 +110,19 @@ class AVLTree
 
         node.height = max(height(node.left), height(node.right)) + 1;
         tempNode.height = max(height(tempNode.left), height(tempNode.right)) + 1;
-        node.balanceFactor = height(node.left) - height(node.right);
-        tempNode.balanceFactor = height(tempNode.left) - height(tempNode.right);
+        node.setBalanceFactor(height(node.left) - height(node.right));
+        tempNode.setBalanceFactor(height(tempNode.left) - height(tempNode.right));
 
         return tempNode;
     }
 
 
-    public AVLNode? find(int ID)
+    public AVLNode find(int ID)
     {
         return find(root, ID);
     }
 
-    private AVLNode? find(AVLNode? node, int ID)
+    private AVLNode find(AVLNode node, int ID)
     {
         if (node == null)
         {
@@ -139,7 +139,7 @@ class AVLTree
         return find(node.right, ID);
     }
 
-    private AVLNode? findParent(AVLNode? node, int ID)
+    private AVLNode findParent(AVLNode node, int ID)
     {
         if (node == null)
         {
@@ -162,13 +162,11 @@ class AVLTree
         root = insert(root, newNode);
     }
 
-    private AVLNode insert(AVLNode? node, AVLNode newNode)
+    private AVLNode insert(AVLNode node, AVLNode newNode)
     {
         if (node == null)
         {
             size++;
-            Console.WriteLine("test");
-            //return new AVLNode(ID);
             return newNode;
         }
         if (newNode.ID < node.ID)
@@ -181,7 +179,7 @@ class AVLTree
         }
 
         node.height = max(height(node.left), height(node.right)) + 1;
-        node.balanceFactor = height(node.left) - height(node.right);
+        node.setBalanceFactor(height(node.left) - height(node.right));
         return node;
     }
 
@@ -226,7 +224,7 @@ class AVLTree
 
     //standard löschen, in abhängigkeit linker oder rechter nachbar
     //mit update der Node daten
-    private AVLNode? delete(AVLNode? node, int ID, bool left)
+    private AVLNode delete(AVLNode node, int ID, bool left)
     {
         if (node == null)
             return node;
@@ -238,7 +236,7 @@ class AVLTree
         {
             if ((node.left == null) || (node.right == null))
             {
-                AVLNode? temp = null;
+                AVLNode temp = null;
                 if (temp == node.left)
                     temp = node.right;
                 else
@@ -254,7 +252,7 @@ class AVLTree
             }
             else
             {
-                AVLNode? temp;
+                AVLNode temp;
                 if (left)
                 {
                     temp = findSmallerNeighbor(node);
@@ -278,11 +276,11 @@ class AVLTree
 
         // Update the balance factor of each node and balance the tree
         node.height = max(height(node.left), height(node.right)) + 1;
-        node.balanceFactor = height(node.left) - height(node.right);
+        node.setBalanceFactor(height(node.left) - height(node.right));
         return node;
     }
 
-    private AVLNode? findSmallerNeighbor(AVLNode node)
+    private AVLNode findSmallerNeighbor(AVLNode node)
     {
         if (node.left == null) return null;
         var currentNode = node.left;
@@ -293,7 +291,7 @@ class AVLTree
         return currentNode;
     }
 
-    private AVLNode? findHigherNeighbor(AVLNode node)
+    private AVLNode findHigherNeighbor(AVLNode node)
     {
         if (node.right == null) return null;
         var currentNode = node.right;
@@ -314,47 +312,6 @@ class AVLTree
         }
     }
 
-    public void print()
-    {
-        calculatePosition();
-        var allNodes = traverse();
-        Dictionary<int, List<AVLNode>> x = new Dictionary<int, List<AVLNode>>();
-        float minL = 0f;
-        foreach (var node in allNodes)
-        {
-            if (x.ContainsKey(node.depth))
-            {
-                x[node.depth].Add(node);
-            }
-            else
-            {
-                x.Add(node.depth, new List<AVLNode> { node });
-            }
-            if (node.position.x < minL)
-            {
-                minL = node.position.x;
-            }
-        }
-        minL = -minL;
-        for (int i = 0; i < x.Count; i++)
-        {
-            String s = "";
-            int j = 0;
-            foreach (var node in x[i])
-            {
-                while (j < (node.position.x + minL) * 7)
-                {
-                    s += " ";
-                    j++;
-                }
-                s += node.ID + "|" + node.balanceFactor;
-            }
-            Console.WriteLine(s);
-        }
-        Console.WriteLine("----------------------------------------------------------");
-    }
-
-
 
     public AVLNode[] traverse()
     {
@@ -363,7 +320,7 @@ class AVLTree
         return allNodes.ToArray();
     }
 
-    private void traverse(AVLNode? node, List<AVLNode> allNodes)
+    private void traverse(AVLNode node, List<AVLNode> allNodes)
     {
         //left, root, right
         if (node != null)
@@ -374,7 +331,7 @@ class AVLTree
         }
     }
 
-    private void updateDepth(AVLNode? node, int depth)
+    private void updateDepth(AVLNode node, int depth)
     {
         if (node != null)
         {

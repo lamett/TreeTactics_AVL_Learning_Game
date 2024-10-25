@@ -1,11 +1,12 @@
+using TMPro;
 using UnityEngine;
 
 public class AVLNode: MonoBehaviour
 {
     public int ID;
-    public AVLNode? left = null;
-    public AVLNode? right = null;
-    public int balanceFactor = 0;
+    public AVLNode left = null;
+    public AVLNode right = null;
+    int balanceFactor = 0;
     public int depth = 0;
     //height gibt an, wie weit es unter diesem Knoten bis zum weitersten Blatt geht
     public int height = 1;
@@ -14,11 +15,13 @@ public class AVLNode: MonoBehaviour
 
     public GameObject edge;
     Edge leftEdge = null;
+    Edge rightEdge = null;
+    TextMeshPro balanceFactorObject;
 
-    public AVLNode()
+    private void Start()
     {
         position = new Vector3(0f, 0f, 0f);
-        
+        balanceFactorObject = transform.GetChild(1).GetComponent<TextMeshPro>();
     }
 
     private void Update()
@@ -27,6 +30,11 @@ public class AVLNode: MonoBehaviour
         {
             leftEdge.headPos = transform.position;
             leftEdge.tailPos = left.transform.position;
+        }
+        if (rightEdge != null && right != null)
+        {
+            rightEdge.headPos = transform.position;
+            rightEdge.tailPos = right.transform.position;
         }
     }
 
@@ -40,6 +48,17 @@ public class AVLNode: MonoBehaviour
             var leftEdgeObject = Instantiate(edge);
             leftEdge = leftEdgeObject.GetComponent<Edge>();
         }
+        if (rightEdge == null && right != null)
+        {
+            var rightEdgeObject = Instantiate(edge);
+            rightEdge = rightEdgeObject.GetComponent<Edge>();
+        }
+    }
+
+    public void setBalanceFactor(int balanceFactor)
+    {
+        this.balanceFactor = balanceFactor;
+        balanceFactorObject.text = balanceFactor.ToString();
     }
 
     //Soll Edge Prefeab von this.positon zu left/right.position ziehen

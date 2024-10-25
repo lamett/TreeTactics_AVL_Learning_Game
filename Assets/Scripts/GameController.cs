@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -24,7 +25,7 @@ public class GameController : MonoBehaviour
         
     }
 
-    //Randomiziert die Liste von möglichen Nodes
+    //Randomiziert die Liste von mÃ¶glichen Nodes
     void shuffle()
     {
         var rnd = new System.Random();
@@ -38,6 +39,7 @@ public class GameController : MonoBehaviour
             var node = prefab.GetComponent<AVLNode>();
             node.ID = possibleNumbers.First();
             possibleNumbers.RemoveAt(0);
+            prefab.transform.GetChild(0).GetComponent< TextMeshPro>().text = node.ID.ToString();
             Debug.Log(node.ID.ToString());
             baum.insert(node);
             baum.calculatePosition();
