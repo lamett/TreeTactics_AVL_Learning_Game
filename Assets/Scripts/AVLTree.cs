@@ -10,7 +10,8 @@ class AVLTree
     public AVLNode root { get; private set; }
     public int size { get; private set; }
 
-    float posFactor = 1f;
+    public float posFactorWidth = 0.8f;
+    public float posFactorHeight = 1.2f;
 
     AVLNode markedDeletion = null;
 
@@ -37,7 +38,10 @@ class AVLTree
     {
         if (root?.ID == ID)
         {
-            root = rightRotation(root);
+            if (root.left != null)
+            {
+                root = rightRotation(root);
+            }
             return;
         }
         var parent = findParent(root, ID);
@@ -51,7 +55,7 @@ class AVLTree
         if (parent.right?.ID == ID)
         {
             node = parent.right;
-            parent.left = rightRotation(node) ?? node;
+            parent.right = rightRotation(node) ?? node;
         }
     }
 
@@ -59,7 +63,10 @@ class AVLTree
     {
         if (root?.ID == ID)
         {
-            root = leftRotation(root);
+            if (root.right != null)
+            {
+                root = leftRotation(root);
+            }
             return;
         }
         var parent = findParent(root, ID);
@@ -73,7 +80,7 @@ class AVLTree
         if (parent.right?.ID == ID)
         {
             node = parent.right;
-            parent.left = leftRotation(node) ?? node;
+            parent.right = leftRotation(node) ?? node;
         }
     }
 
@@ -194,7 +201,7 @@ class AVLTree
             root = delete(root, ID, true);
         }
 
-        markedDeletion.isDeleted = true;
+        markedDeletion.setDeletion();
         return true;
     }
 
@@ -208,14 +215,12 @@ class AVLTree
         if (leftNeighbor?.ID == neighborID)
         {
             root = delete(root, markedDeletion.ID, true);
-            size--;
             markedDeletion = null;
             return true;
         }
         if (rightNeighbor?.ID == neighborID)
         {
             root = delete(root, markedDeletion.ID, false);
-            size--;
             markedDeletion = null;
             return true;
         }
@@ -234,6 +239,7 @@ class AVLTree
             node.right = delete(node.right, ID, left);
         else
         {
+            //falls der Knoten maximal ein Kind hat
             if ((node.left == null) || (node.right == null))
             {
                 AVLNode temp = null;
@@ -241,15 +247,28 @@ class AVLTree
                     temp = node.right;
                 else
                     temp = node.left;
+                //Es ist ein Blatt
                 if (temp == null)
                 {
+                    if (ID == markedDeletion.ID)
+                    {
+                        node.delete();
+                        size--;
+                    }
                     node = null;
                 }
+                //Es ist kein Blatt
                 else
                 {
+                    if (ID == markedDeletion.ID)
+                    {
+                        node.delete();
+                        size--;
+                    }
                     node = temp;
                 }
             }
+            //Knoten hat zwei Kinder hier wird der Rechte oder Linke Nachbar ausgewählt
             else
             {
                 AVLNode temp;
@@ -266,6 +285,7 @@ class AVLTree
                     node = delete(node, temp.ID, left);
                     temp.left = node?.left;
                     temp.right = node?.right;
+                    node.delete();
                     node = temp;
                     size--;
                 }
@@ -355,7 +375,7 @@ class AVLTree
         }
         for (int i = 0; i < allNodes.Length; i++)
         {
-            allNodes[i].updatePosition(new Vector3((i - rootIndex) * posFactor, 0f, -allNodes[i].depth * posFactor));
+            allNodes[i].updatePosition(new Vector3((i - rootIndex) * posFactorWidth, 0f, -allNodes[i].depth * posFactorHeight));
         }
     }
 }

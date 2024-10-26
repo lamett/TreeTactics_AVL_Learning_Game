@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     //Randomiziert die Liste von möglichen Nodes
@@ -32,17 +32,41 @@ public class GameController : MonoBehaviour
         possibleNumbers = possibleNumbers.OrderBy(item => rnd.Next()).ToList();
     }
 
-    public void add() {
+    public void add()
+    {
         if (possibleNumbers.Count > 0)
         {
             var prefab = Instantiate(nodePrefab);
             var node = prefab.GetComponent<AVLNode>();
             node.ID = possibleNumbers.First();
             possibleNumbers.RemoveAt(0);
-            prefab.transform.GetChild(0).GetComponent< TextMeshPro>().text = node.ID.ToString();
-            Debug.Log(node.ID.ToString());
+            prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
             baum.insert(node);
             baum.calculatePosition();
         }
+    }
+
+    public void leftRotation(int ID)
+    {
+        baum.lRot(ID);
+        baum.calculatePosition();
+    }
+
+    public void rightRotation(int ID)
+    {
+        baum.rRot(ID);
+        baum.calculatePosition();
+    }
+
+    public void markDeletion(int ID)
+    {
+        baum.markDeletion(ID);
+        baum.calculatePosition();
+    }
+
+    public void chooseDeletion(int ID)
+    {
+        baum.chooseDeletion(ID);
+        baum.calculatePosition();
     }
 }
