@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
         if (possibleNumbers.Count > 0)
         {
             var prefab = Instantiate(nodePrefab);
+            prefab.transform.position = new Vector3(-10, 0, 0);
             var node = prefab.GetComponent<AVLNode>();
             node.ID = possibleNumbers.First();
             possibleNumbers.RemoveAt(0);
