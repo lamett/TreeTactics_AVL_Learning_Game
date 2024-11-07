@@ -59,22 +59,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2DLOD_fec84a6dbd6b40a6bdbc88384adac6f2_Texture_1:
-        m_Texture: {fileID: 2800000, guid: e4a5e9f99e095784eb54fdc7cd9299a4, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_6cf8bf7934af4767b7916f1e6a6ac8bd_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 09e32262e65dd444b8fc5d0734f8ec1f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_9b8dcce6a2ec4dd38af73115521d162b_Texture_1:
-        m_Texture: {fileID: 2800000, guid: d85ed17fe20c2184cbe868f414f4eefb, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_bbec6d1090e942d1afd4aff4c10e1be3_Texture_1:
-        m_Texture: {fileID: 2800000, guid: b3d9fc080a079a44db7406e753e4a7fe, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _BUILTIN_QueueControl: 0
