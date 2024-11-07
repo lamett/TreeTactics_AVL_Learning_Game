@@ -9,6 +9,8 @@ class TreeManager
     GameObject nodePrefab;
     List<int> possibleNumbers;
 
+    AVLNode newestNode = null;
+
     AVLTree baum;
     // Start is called before the first frame update
     public TreeManager(GameObject nodePrefab)
@@ -46,25 +48,41 @@ class TreeManager
 
     private void add(int ID)
     {
-        var prefab = Object.Instantiate(nodePrefab);
-        prefab.transform.position = new Vector3(-10, 0, 0);
-        var node = prefab.GetComponent<AVLNode>();
-        node.ID = ID;
-        prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
-        baum.insert(node);
-        baum.calculatePosition();
+        if (baum.treeBalance(baum.root) <= 1)
+        {
+            var prefab = Object.Instantiate(nodePrefab);
+            prefab.transform.position = new Vector3(-10, 0, 0);
+            var node = prefab.GetComponent<AVLNode>();
+            node.ID = ID;
+            prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
+            baum.insert(node);
+            baum.calculatePosition();
+            newestNode = node;
+            testTreeBalance();
+        }
     }
 
     public void leftRotation(int ID)
     {
         baum.leftRot(ID);
         baum.calculatePosition();
+        testTreeBalance();
     }
 
     public void rightRotation(int ID)
     {
         baum.rightRot(ID);
         baum.calculatePosition();
+        testTreeBalance();
+    }
+
+    private void testTreeBalance()
+    {
+        if (newestNode != null && baum.treeBalance(baum.root) <= 1)
+        {
+            newestNode.setGreenMaterial();
+            newestNode = null;
+        }
     }
 
     public void markDeletion(int ID)
@@ -76,6 +94,21 @@ class TreeManager
     public void chooseDeletion(int ID)
     {
         baum.chooseDeletion(ID);
+        baum.calculatePosition();
+    }
+
+    public void rotateRandom(int countRotation){
+        var allNodes = baum.traverse();
+        var rnd = new System.Random();
+        for(int i = 0; i < countRotation; i++){
+            var ID = allNodes[rnd.Next(0, allNodes.Length -1)].ID;
+            if(rnd.Next() % 2 ==0){
+                leftRotation(ID);
+            }else
+            {
+                rightRotation(ID);
+            }
+        }
         baum.calculatePosition();
     }
 }
