@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -11,7 +12,6 @@ public class AVLNode : MonoBehaviour
     //height gibt an, wie weit es unter diesem Knoten bis zum weitersten Blatt geht
     public int height = 1;
     bool isDeleted = false;
-    public Vector3 position { get; private set; }
 
     public GameObject edge;
     Edge leftEdge = null;
@@ -20,7 +20,6 @@ public class AVLNode : MonoBehaviour
 
     private void Start()
     {
-        position = new Vector3(0f, 0f, 0f);
         balanceFactorObject = transform.GetChild(1).GetComponent<TextMeshPro>();
     }
 
@@ -32,10 +31,26 @@ public class AVLNode : MonoBehaviour
     //Soll eine Animation triggern, um von der aktuellen Position zur neuen Position zu bewegen
     public void updatePosition(Vector3 newPosition)
     {
-        position = newPosition;
-        transform.position = position;
+        if (Vector3.Distance(transform.position, newPosition) > 0.1)
+        {
+            StartCoroutine(LerpPostion(newPosition, 0.25f));
+        }
 
         setEdges();
+    }
+
+    IEnumerator LerpPostion(Vector3 newPosition, float duration)
+    {
+        float time = 0;
+        Vector3 startPosition = transform.position;
+
+        while (time < duration)
+        {
+            transform.position = Vector3.Lerp(startPosition, newPosition, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = newPosition;
     }
 
     public void setBalanceFactor(int balanceFactor)
