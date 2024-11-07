@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class testAVLOperations : MonoBehaviour
+public class AVLOperations : MonoBehaviour
 {
     GameController gameController;
     AVLNode avlNode;
@@ -12,12 +10,6 @@ public class testAVLOperations : MonoBehaviour
     {
         gameController = FindObjectOfType<GameController>();
         avlNode = GetComponent<AVLNode>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     void OnMouseOver()
