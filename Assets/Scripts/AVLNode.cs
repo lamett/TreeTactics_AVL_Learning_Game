@@ -13,13 +13,18 @@ public class AVLNode : MonoBehaviour
     public int height = 1;
     bool isDeleted = false;
 
+    public Material green;
+    public Material gray;
     public GameObject edge;
     Edge leftEdge = null;
     Edge rightEdge = null;
     TextMeshPro balanceFactorObject;
+    new MeshRenderer renderer;
 
-    private void Start()
+    private void Awake()
     {
+        renderer = GetComponent<MeshRenderer>();
+        renderer.material = gray;
         balanceFactorObject = transform.GetChild(1).GetComponent<TextMeshPro>();
     }
 
@@ -57,6 +62,11 @@ public class AVLNode : MonoBehaviour
     {
         this.balanceFactor = balanceFactor;
         balanceFactorObject.text = balanceFactor.ToString();
+    }
+
+    public int getBalanceFactor()
+    {
+        return balanceFactor;
     }
 
     //Setzt die Edges für die Kindern
@@ -108,6 +118,7 @@ public class AVLNode : MonoBehaviour
         Debug.Log(ID.ToString() + " als gelöscht markiert: " + isDeleted.ToString());
         //TODO hier muss die bessere veränderung für eine Gelöschte node rein
         transform.localScale *= 0.5f;
+        renderer.enabled = false;
     }
 
     public void delete()
@@ -115,5 +126,10 @@ public class AVLNode : MonoBehaviour
         Destroy(leftEdge?.gameObject);
         Destroy(rightEdge?.gameObject);
         Destroy(gameObject);
+    }
+
+    public void setGreenMaterial()
+    {
+        renderer.material = green;
     }
 }
