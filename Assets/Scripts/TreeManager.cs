@@ -96,4 +96,19 @@ class TreeManager
         baum.chooseDeletion(ID);
         baum.calculatePosition();
     }
+
+    public void rotateRandom(int countRotation){
+        var allNodes = baum.traverse();
+        var rnd = new System.Random();
+        for(int i = 0; i < countRotation; i++){
+            var ID = allNodes[rnd.Next(0, allNodes.Length -1)].ID;
+            if(rnd.Next() % 2 ==0){
+                leftRotation(ID);
+            }else
+            {
+                rightRotation(ID);
+            }
+        }
+        baum.calculatePosition();
+    }
 }
