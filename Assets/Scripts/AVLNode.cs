@@ -31,7 +31,10 @@ public class AVLNode : MonoBehaviour
     //Soll eine Animation triggern, um von der aktuellen Position zur neuen Position zu bewegen
     public void updatePosition(Vector3 newPosition)
     {
-        StartCoroutine(LerpPostion(newPosition, 0.25f));
+        if (Vector3.Distance(transform.position, newPosition) > 0.1)
+        {
+            StartCoroutine(LerpPostion(newPosition, 0.25f));
+        }
 
         setEdges();
     }
