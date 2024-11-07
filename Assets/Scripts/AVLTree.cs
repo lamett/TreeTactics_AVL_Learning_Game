@@ -22,7 +22,6 @@ class AVLTree
         size = 0;
     }
 
-
     //gibt die Höhe vom Blatt aus an
     private int height(AVLNode node)
     {
@@ -34,54 +33,40 @@ class AVLTree
         return (a > b) ? a : b;
     }
 
-    public void rRot(int ID)
+    public void leftRot(int ID)
     {
-        if (root?.ID == ID)
-        {
-            if (root.left != null)
-            {
-                root = rightRotation(root);
-            }
-            return;
-        }
-        var parent = findParent(root, ID);
-        if (parent == null) return;
-        AVLNode node;
-        if (parent.left?.ID == ID)
-        {
-            node = parent.left;
-            parent.left = rightRotation(node) ?? node;
-        }
-        if (parent.right?.ID == ID)
-        {
-            node = parent.right;
-            parent.right = rightRotation(node) ?? node;
-        }
+        root = lRot(root, ID);
     }
 
-    public void lRot(int ID)
+    private AVLNode lRot(AVLNode node, int ID)
     {
-        if (root?.ID == ID)
+        if (node != null)
         {
-            if (root.right != null)
+            AVLNode tmpNode;
+            if (node.ID < ID)
             {
-                root = leftRotation(root);
+                tmpNode = node.right;
+                node.right = lRot(node.right, ID) ?? tmpNode;
+
             }
-            return;
+            else if (node.ID > ID)
+            {
+                tmpNode = node.left;
+                node.left = lRot(node.left, ID) ?? tmpNode;
+            }
+            else
+            {
+                if (node.right != null)
+                {
+                    node = leftRotation(node);
+                }
+            }
+
+            node.height = max(height(node.left), height(node.right)) + 1;
+            node.setBalanceFactor(height(node.left) - height(node.right));
         }
-        var parent = findParent(root, ID);
-        if (parent == null) return;
-        AVLNode node;
-        if (parent.left?.ID == ID)
-        {
-            node = parent.left;
-            parent.left = leftRotation(node) ?? node;
-        }
-        if (parent.right?.ID == ID)
-        {
-            node = parent.right;
-            parent.right = leftRotation(node) ?? node;
-        }
+
+        return node;
     }
 
     private AVLNode leftRotation(AVLNode node)
@@ -101,6 +86,42 @@ class AVLTree
         node.setBalanceFactor(height(node.left) - height(node.right));
         tempNode.setBalanceFactor(height(tempNode.left) - height(tempNode.right));
         return tempNode;
+    }
+
+    public void rightRot(int ID)
+    {
+        root = rRot(root, ID);
+    }
+
+    private AVLNode rRot(AVLNode node, int ID)
+    {
+        if (node != null)
+        {
+            AVLNode tmpNode;
+            if (node.ID < ID)
+            {
+                tmpNode = node.right;
+                node.right = rRot(node.right, ID) ?? tmpNode;
+
+            }
+            else if (node.ID > ID)
+            {
+                tmpNode = node.left;
+                node.left = rRot(node.left, ID) ?? tmpNode;
+            }
+            else
+            {
+                if (node.left != null)
+                {
+                    node = rightRotation(node);
+                }
+            }
+
+            node.height = max(height(node.left), height(node.right)) + 1;
+            node.setBalanceFactor(height(node.left) - height(node.right));
+        }
+
+        return node;
     }
 
     private AVLNode rightRotation(AVLNode node)
@@ -377,5 +398,17 @@ class AVLTree
         {
             allNodes[i].updatePosition(new Vector3((i - rootIndex) * posFactorWidth, 0f, -allNodes[i].depth * posFactorHeight));
         }
+    }
+
+    public int treeBalance(AVLNode root)
+    {
+        if (root != null)
+        {
+            var left = treeBalance(root.left);
+            var node = Math.Abs(root.getBalanceFactor());
+            var right = treeBalance(root.left);
+            return Math.Max(Math.Max(left, node), right);
+        }
+        return 0;
     }
 }

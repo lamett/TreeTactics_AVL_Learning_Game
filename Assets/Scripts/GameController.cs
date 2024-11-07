@@ -32,30 +32,45 @@ public class GameController : MonoBehaviour
         possibleNumbers = possibleNumbers.OrderBy(item => rnd.Next()).ToList();
     }
 
-    public void add()
+    public void addRandom()
     {
         if (possibleNumbers.Count > 0)
         {
-            var prefab = Instantiate(nodePrefab);
-            prefab.transform.position = new Vector3(-10, 0, 0);
-            var node = prefab.GetComponent<AVLNode>();
-            node.ID = possibleNumbers.First();
+            var ID = possibleNumbers.First();
             possibleNumbers.RemoveAt(0);
-            prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
-            baum.insert(node);
-            baum.calculatePosition();
+            add(ID);
         }
+    }
+
+    public void addMultiple(int[] IDs)
+    {
+        foreach (int ID in IDs)
+        {
+            add(ID);
+        }
+    }
+
+    private void add(int ID)
+    {
+        var prefab = Instantiate(nodePrefab);
+        prefab.transform.position = new Vector3(-10, 0, 0);
+        var node = prefab.GetComponent<AVLNode>();
+        node.ID = ID;
+        prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
+        baum.insert(node);
+        baum.calculatePosition();
+        Debug.Log(baum.treeBalance(baum.root));
     }
 
     public void leftRotation(int ID)
     {
-        baum.lRot(ID);
+        baum.leftRot(ID);
         baum.calculatePosition();
     }
 
     public void rightRotation(int ID)
     {
-        baum.rRot(ID);
+        baum.rightRot(ID);
         baum.calculatePosition();
     }
 
