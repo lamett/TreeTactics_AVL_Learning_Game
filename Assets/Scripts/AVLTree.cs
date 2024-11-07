@@ -406,7 +406,7 @@ class AVLTree
         {
             var left = treeBalance(root.left);
             var node = Math.Abs(root.getBalanceFactor());
-            var right = treeBalance(root.left);
+            var right = treeBalance(root.right);
             return Math.Max(Math.Max(left, node), right);
         }
         return 0;
