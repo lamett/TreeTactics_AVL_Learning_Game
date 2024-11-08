@@ -43,13 +43,11 @@ public class GameController : MonoBehaviour
         return leftNodesToAdd == 0 ? 1 : 0;
     }
 
-
-
-
     //Schleust aktuell die interaktive Methoden zum Baum durch
-    public void addRandom()
+    public void addFromButton()
     {
-        treeManager.addHard(true);
+        int ID = treeManager.calculateIDHard();
+        treeManager.add(ID);
     }
 
     //GameLoop AddPhase

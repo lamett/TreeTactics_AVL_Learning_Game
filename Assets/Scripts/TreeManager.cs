@@ -13,9 +13,6 @@ public class TreeManager
     List<int> possibleNumbers;
 
     AVLNode newestNode = null;
-
-    private int counter = 0; //Kann später weg wenn richtige calculate ID methode da ist
-
     AVLTree baum;
 
     public enum NodeMaterial
@@ -40,25 +37,6 @@ public class TreeManager
         var rnd = new System.Random();
         possibleNumbers = possibleNumbers.OrderBy(item => rnd.Next()).ToList();
     }
-
-    public void addRandom(bool blocking)
-    {
-        if (possibleNumbers.Count > 0)
-        {
-            var ID = possibleNumbers.First();
-            possibleNumbers.RemoveAt(0);
-            add(ID, blocking);
-        }
-    }
-
-    public void addMultiple(int[] IDs)
-    {
-        foreach (int ID in IDs)
-        {
-            add(ID, false);
-        }
-    }
-
     
     public GameObject instantiateBallForBowl()
     {   
@@ -67,12 +45,8 @@ public class TreeManager
         return prefab;
     }
 
-    public int calculateID()
+    public bool addObject(GameObject prefab, int ID)
     {
-        return counter++;
-    }
-
-    public bool addObject(GameObject prefab, int ID){
         if (baum.treeBalance(baum.root) <= 1)
         {
             var node = prefab.GetComponent<AVLNode>();
@@ -80,7 +54,7 @@ public class TreeManager
             prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
 
             prefab.GetComponent<Rigidbody>().isKinematic = true;
-            
+
             baum.insert(node);
             baum.calculatePosition();
             newestNode = node;
@@ -91,14 +65,38 @@ public class TreeManager
         return false;
     }
 
-    public bool addHard(bool blocking)
+    public int calculateID()
+    {
+        int ID = calculateIDHard();
+        int i = 0;
+        while(ID == -1 && i<5)
+        {
+            ID = calculateIDHard();
+            i++;
+        }
+        
+        return ID == -1?calculateIDRandom():ID;
+    }
+
+    public int calculateIDRandom()
+    {
+        if (possibleNumbers.Count > 0)
+        {
+            var ID = possibleNumbers.First();
+            possibleNumbers.RemoveAt(0);
+            return ID;
+        }
+
+        return -1;
+    }
+
+    public int calculateIDHard()
     {
         if (possibleNumbers.Count > 0)
         {
             if (baum.isTreeBalanceZero(baum.root))
             {
-                addRandom(blocking);
-                return true;
+                return calculateIDRandom();
             }
 
             var rangeWithExcept = findHardNode(baum.root, new Tuple<int, int, int>(int.MinValue, int.MaxValue, -1));
@@ -115,12 +113,11 @@ public class TreeManager
                 if (possibleID < heighEnd && possibleID > lowEnd && possibleID != except)
                 {
                     possibleNumbers.RemoveAt(i);
-                    add(possibleID, blocking);
-                    return true;
+                    return possibleID;
                 }
             }
         }
-        return false;
+        return -1;
     }
 
     Tuple<int, int, int> findHardNode(AVLNode node, Tuple<int, int, int> rangeWithExcept)
@@ -168,9 +165,9 @@ public class TreeManager
         return null;
     }
 
-    private void add(int ID, bool blocking)
+    public void add(int ID)
     {
-        if (!blocking || baum.treeBalance(baum.root) <= 1)
+        if (baum.treeBalance(baum.root) <= 1)
         {
             var prefab = UnityEngine.Object.Instantiate(nodePrefab);
             prefab.transform.position = new Vector3(-10, 0, 0);
