@@ -399,27 +399,37 @@ class AVLTree
         }
     }
 
-    public int treeBalance(AVLNode root)
+    public int treeBalance(AVLNode node)
     {
-        if (root != null)
+        if (node != null)
         {
-            var left = treeBalance(root.left);
-            var node = Math.Abs(root.getBalanceFactor());
-            var right = treeBalance(root.right);
-            return (left <= 1 ? 0: left) + (node <= 1 ? 0: node) + (right <= 1 ? 0: right);
+            var left = treeBalance(node.left);
+            var thisNode = Math.Abs(node.getBalanceFactor());
+            var right = treeBalance(node.right);
+            return (left <= 1 ? 0 : left) + (thisNode <= 1 ? 0 : thisNode) + (right <= 1 ? 0 : right);
         }
         return 0;
     }
 
-    public bool isTreeBalanceZero(AVLNode root)
+    public bool isTreeBalanceZero(AVLNode node)
     {
-        if (root != null)
+        if (node != null)
         {
-            var left = isTreeBalanceZero(root.left);
-            var node = root.getBalanceFactor() == 0;
-            var right = isTreeBalanceZero(root.right);
-            return left && node && right;
+            var left = isTreeBalanceZero(node.left);
+            var thisNode = node.getBalanceFactor() == 0;
+            var right = isTreeBalanceZero(node.right);
+            return left && thisNode && right;
         }
         return true;
+    }
+
+    public void setMaterial(AVLNode node, TreeManager.NodeMaterial material)
+    {
+        if (node != null)
+        {
+            setMaterial(node.left, material);
+            node.setMaterial(material);
+            setMaterial(node.right, material);
+        }
     }
 }

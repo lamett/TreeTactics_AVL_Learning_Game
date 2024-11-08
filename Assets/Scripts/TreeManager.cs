@@ -6,15 +6,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-class TreeManager
+public class TreeManager
 {
     public UnityEvent<int> updateTreeBalance;
     GameObject nodePrefab;
     List<int> possibleNumbers;
 
-    AVLNode newestNode = null;
-
     AVLTree baum;
+
+    public enum NodeMaterial
+    {
+        Green,
+        Gray,
+    }
+
     // Start is called before the first frame update
     public TreeManager(GameObject nodePrefab, UnityEvent<int> updateTreeBalance)
     {
@@ -138,7 +143,6 @@ class TreeManager
             prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
             baum.insert(node);
             baum.calculatePosition();
-            newestNode = node;
             testTreeBalance();
         }
     }
@@ -160,11 +164,14 @@ class TreeManager
     private void testTreeBalance()
     {
         var balance = baum.treeBalance(baum.root);
-        if (newestNode != null && balance <= 1)
+
+        NodeMaterial material = NodeMaterial.Gray;
+        if (balance <= 1)
         {
-            newestNode.setGreenMaterial();
-            newestNode = null;
+            material = NodeMaterial.Green;
         }
+        baum.setMaterial(baum.root, material);
+
         updateTreeBalance.Invoke(balance);
     }
 
@@ -187,6 +194,7 @@ class TreeManager
         {
             possibleNumbers.Add(markedDeletion);
             shuffle();
+            testTreeBalance();
         }
         baum.calculatePosition();
     }

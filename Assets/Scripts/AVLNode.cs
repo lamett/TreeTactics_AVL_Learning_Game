@@ -128,8 +128,18 @@ public class AVLNode : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void setGreenMaterial()
+    public void setMaterial(TreeManager.NodeMaterial material)
     {
-        renderer.material = green;
+        Material newMaterial = gray;
+        switch (material)
+        {
+            case TreeManager.NodeMaterial.Green:
+                newMaterial = green;
+                break;
+            case TreeManager.NodeMaterial.Gray:
+                newMaterial = gray;
+                break;
+        }
+        renderer.material = newMaterial;
     }
 }
