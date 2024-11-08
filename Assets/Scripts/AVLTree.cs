@@ -12,7 +12,7 @@ class AVLTree
     public float posFactorWidth = 0.8f;
     public float posFactorHeight = 1.2f;
 
-    AVLNode markedDeletion = null;
+    public AVLNode markedDeletion { get; private set; }
 
 
     public AVLTree()
@@ -406,8 +406,20 @@ class AVLTree
             var left = treeBalance(root.left);
             var node = Math.Abs(root.getBalanceFactor());
             var right = treeBalance(root.right);
-            return Math.Max(Math.Max(left, node), right);
+            return (left <= 1 ? 0: left) + (node <= 1 ? 0: node) + (right <= 1 ? 0: right);
         }
         return 0;
+    }
+
+    public bool isTreeBalanceZero(AVLNode root)
+    {
+        if (root != null)
+        {
+            var left = isTreeBalanceZero(root.left);
+            var node = root.getBalanceFactor() == 0;
+            var right = isTreeBalanceZero(root.right);
+            return left && node && right;
+        }
+        return true;
     }
 }

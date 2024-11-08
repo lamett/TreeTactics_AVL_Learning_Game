@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class showTreeBalance : MonoBehaviour
+{
+    RectTransform rt;
+    Image img;
+    // Start is called before the first frame update
+    void Awake()
+    {
+        rt = GetComponent<RectTransform>();
+        img = GetComponent<Image>();
+    }
+
+    public void updateTreeBalance(int balanceFactor)
+    {
+        var balance = Mathf.Clamp(balanceFactor, 0, 20);
+        
+        var pos = new Vector2(rt.offsetMax.x, -(650 - (balance * 20)));
+        rt.offsetMax = pos;
+
+        var color = Color.HSVToRGB(Mathf.Lerp(0.21f,0, balance/10f),1,1);
+        //Color.Lerp(new Color(190,255,0), Color.red, (balance-1)/10f);
+        if(balance == 0){
+            color = Color.green;
+        }
+        img.color = color;
+    }
+}
