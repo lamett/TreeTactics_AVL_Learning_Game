@@ -11,6 +11,8 @@ class TreeManager
 
     AVLNode newestNode = null;
 
+    private int counter = 0; //Kann später weg wenn richtige calculate ID methode da ist
+
     AVLTree baum;
     // Start is called before the first frame update
     public TreeManager(GameObject nodePrefab)
@@ -46,45 +48,32 @@ class TreeManager
         }
     }
 
-    public GameObject generate(int ID)
+    public GameObject instantiateBallForBowl()
     {   
         var prefab = Object.Instantiate(nodePrefab);
         prefab.transform.position = new Vector3(-11, 9, 4);
-        var node = prefab.GetComponent<AVLNode>();
-        node.ID = ID;
-        prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
-        setVisibilityID(prefab, false);
-        setVisibilityBF(prefab,false);
         return prefab;
     }
 
-    private void setVisibilityID(GameObject prefab, bool boolean){
-        if (prefab.transform.childCount > 0)
-        {
-            prefab.transform.GetChild(0).gameObject.SetActive(boolean);
-        }
-        else {Debug.Log("No Child found.");}
+    public int calculateID()
+    {
+        return counter++;
     }
 
-    private void setVisibilityBF(GameObject prefab, bool boolean){
-        if (prefab.transform.childCount > 1)
-        {
-            prefab.transform.GetChild(1).gameObject.SetActive(boolean);
-        }
-        else {Debug.Log("No Child found.");}
-    }
-
-    public bool addObject(GameObject prefab){
+    public bool addObject(GameObject prefab, int ID){
         if (baum.treeBalance(baum.root) <= 1)
         {
-            prefab.GetComponent<Rigidbody>().isKinematic = true;
-            setVisibilityID(prefab,true);
-            setVisibilityBF(prefab,true);
             var node = prefab.GetComponent<AVLNode>();
+            node.ID = ID;
+            prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
+
+            prefab.GetComponent<Rigidbody>().isKinematic = true;
+            
             baum.insert(node);
             baum.calculatePosition();
             newestNode = node;
             testTreeBalance();
+
             return true;
         }
         return false;

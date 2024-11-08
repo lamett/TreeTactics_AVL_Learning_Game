@@ -132,4 +132,23 @@ public class AVLNode : MonoBehaviour
     {
         renderer.material = green;
     }
+
+    //Visability of ID and Balancefaktor
+    public void showID()
+    {
+        this.transform.GetChild(0).gameObject.SetActive(true);
+    }
+    public void hideID()
+    {
+        this.transform.GetChild(0).gameObject.SetActive(false);
+    }
+    public void showBF()
+    {
+        this.transform.GetChild(1).gameObject.SetActive(true);
+    }
+    public void hideBF()
+    {
+        this.transform.GetChild(1).gameObject.SetActive(false);
+    }
+
 }

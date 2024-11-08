@@ -1,19 +1,26 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
+using System.Threading.Tasks;
 
 public class GameController : MonoBehaviour
 {
+    TreeManager treeManager;
+
+    private GameObject mainCamera;
 
     public GameObject nodePrefab;
-    TreeManager treeManager;
-    private int[] IDs;
+
+    public int amountBalls = 6;
+
     private List<GameObject> balls;
 
     // Start is called before the first frame update
     void Start()
     {
         treeManager = new TreeManager(nodePrefab);
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         balls = new List<GameObject>();
     }
 
@@ -23,38 +30,49 @@ public class GameController : MonoBehaviour
 
     }
 
+    //GameLoop AddPhase
+    async public void addPhase()
+    {
+        await SpawnBallsAsync();
+        mainCamera.GetComponent<KameraMovement>().MoveRotateAndRise();
+        enableBallsClick();
+    }
+
+    private async Task SpawnBallsAsync()
+    {
+        for (int i = 0; i < amountBalls; i++)
+        {
+            GameObject ball = treeManager.instantiateBallForBowl();
+            balls.Add(ball);
+            ball.GetComponent<AVLNode>().hideID();
+            ball.GetComponent<AVLNode>().hideBF();
+            await Task.Delay(300);
+        }
+        await Task.Delay(1000);
+    }
+
+    private void enableBallsClick()
+        {
+            foreach (GameObject ball in balls)
+            {
+                ball.GetComponent<AVLOperations>().setIsAddable(true);
+            }
+        }
+
+    public bool addFromBowl(GameObject ball)
+    {
+        int ID = treeManager.calculateID();
+
+        if(treeManager.addObject(ball, ID)){
+            balls.Remove(ball);
+            return true;
+        }
+        return false;
+    }
+
     public void addRandom()
     {
         treeManager.addRandom();
-    }
-
-    public void addFromBowl()
-    {
-        if(balls.Count > 0){
-            GameObject ball = balls[0];
-            if(treeManager.addObject(ball)){
-                balls.RemoveAt(0);    
-            }
-        }
-    }
-
-    private void setIDs()
-    {
-        int[] h = {1,2,3,4,5};
-        this.IDs = h;
-    }
-
-    public void startGenerateMultiple(){
-        setIDs();
-        StartCoroutine(SpawnBalls());
-    }
-
-    IEnumerator SpawnBalls(){
-        foreach(int ID in this.IDs){
-            GameObject ball = treeManager.generate(ID);
-            balls.Add(ball);
-            yield return new WaitForSeconds(0.7f);
-        }
     }
 
     public void leftRotation(int ID)

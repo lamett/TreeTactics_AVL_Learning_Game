@@ -1,13 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class BowlClick : MonoBehaviour
+public class Button : MonoBehaviour
 {
-
-    public UnityEvent OnClickBowl;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +16,8 @@ public class BowlClick : MonoBehaviour
         
     }
 
-    public void OnMouseOver()
+    public void destroy()
     {
-         if (Input.GetMouseButtonDown(0))
-        {
-            OnClickBowl.Invoke();
-        }
+        Destroy(gameObject);
     }
 }
