@@ -12,6 +12,10 @@ public class TreeManager
     GameObject nodePrefab;
     List<int> possibleNumbers;
 
+    AVLNode newestNode = null;
+
+    private int counter = 0; //Kann später weg wenn richtige calculate ID methode da ist
+
     AVLTree baum;
 
     public enum NodeMaterial
@@ -53,6 +57,38 @@ public class TreeManager
         {
             add(ID, false);
         }
+    }
+
+    
+    public GameObject instantiateBallForBowl()
+    {   
+        var prefab = Object.Instantiate(nodePrefab);
+        prefab.transform.position = new Vector3(-11, 9, 4);
+        return prefab;
+    }
+
+    public int calculateID()
+    {
+        return counter++;
+    }
+
+    public bool addObject(GameObject prefab, int ID){
+        if (baum.treeBalance(baum.root) <= 1)
+        {
+            var node = prefab.GetComponent<AVLNode>();
+            node.ID = ID;
+            prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
+
+            prefab.GetComponent<Rigidbody>().isKinematic = true;
+            
+            baum.insert(node);
+            baum.calculatePosition();
+            newestNode = node;
+            testTreeBalance();
+
+            return true;
+        }
+        return false;
     }
 
     public bool addHard(bool blocking)
