@@ -30,8 +30,6 @@ public class Timer
     {
         float endTime = Time.time + seconds;
 
-        Debug.Log($"{Time.time}  {endTime}");
-
         while (running && Time.time < endTime)
         {
             timerUpdate.Invoke(1 - (endTime - Time.time) / seconds);
