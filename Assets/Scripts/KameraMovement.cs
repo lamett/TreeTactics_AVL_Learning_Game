@@ -14,8 +14,8 @@ public class KameraMovement : MonoBehaviour
     private Quaternion targetRotation;
     private Vector3 targetPosition;
 
-    private Quaternion previousRotation; //save previous rotation to comeback
-    private Vector3 previousPosition;
+    private Quaternion originRotation; //save previous rotation to comeback
+    private Vector3 originPosition;
 
     private float rotationSpeed;  // Berechnete Rotationsgeschwindigkeit (Grad pro Sekunde)
     private float moveSpeed;      // Berechnete Bewegungsgeschwindigkeit (Einheiten pro Sekunde)
@@ -25,6 +25,9 @@ public class KameraMovement : MonoBehaviour
         // Zielrotation und -position initialisieren
         targetRotation = transform.rotation;
         targetPosition = transform.position;
+
+        originPosition = transform.position;
+        originRotation = transform.rotation;
     }
 
     void Update()
@@ -44,12 +47,9 @@ public class KameraMovement : MonoBehaviour
         }
     }
 
-    public void MoveRotateAndRise()
+    public void MoveToTopView()
     {
         if (isMoving) return; // Ignoriert weitere Aufrufe während der Bewegung
-
-        previousPosition = transform.position;
-        previousRotation = transform.rotation;
 
         isMoving = true;
 
@@ -63,4 +63,20 @@ public class KameraMovement : MonoBehaviour
         rotationSpeed = (float) rotationAngle / moveDuration;  // Grad in `moveDuration` Sekunden
         moveSpeed = Vector3.Distance(transform.position, targetPosition) / moveDuration;
     }
+
+    public void MoveToSideView()
+    {
+        if (isMoving) return; // Ignoriert weitere Aufrufe während der Bewegung
+
+        isMoving = true;
+
+        targetRotation = originRotation;
+        targetPosition = originPosition;
+
+        // Berechnet die Rotations- und Bewegungsgeschwindigkeit basierend auf der gewünschten Dauer
+        rotationSpeed = (float)rotationAngle / moveDuration;  // Grad in `moveDuration` Sekunden
+        moveSpeed = Vector3.Distance(transform.position, targetPosition) / moveDuration;
+    }
+
+
 }

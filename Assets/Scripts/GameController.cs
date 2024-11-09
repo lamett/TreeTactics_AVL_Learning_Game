@@ -45,21 +45,19 @@ public class GameController : MonoBehaviour
     }
 
     //#########-Methoden GameLoop-#################
-    async public void endAddphase()
+    public void endAddphase()
     {
-        //disableBallsClickOperation()
-        //camera movement
-        //count left in bowl
-        //clear bowl
-
+        disableBallsClick();
+        mainCamera.GetComponent<KameraMovement>().MoveToSideView();
+        leftNodesToAdd = balls.Count;
+        clearBowl();
     }
 
     async public void startAddPhase()
     {
         await SpawnBallsAsync();
-        mainCamera.GetComponent<KameraMovement>().MoveRotateAndRise();
-        enableBallsClickAdd();  // für die neuen in der Schüssel
-        enableBallsClickOperation(); //für alle im Tree
+        mainCamera.GetComponent<KameraMovement>().MoveToTopView();
+        enableBallsCLick();
     }
     //#############################################
 
@@ -75,6 +73,16 @@ public class GameController : MonoBehaviour
         }
         await Task.Delay(1000);
     }
+
+    private void clearBowl()
+    {
+        foreach (GameObject ball in balls)
+        {
+            Destroy(ball);
+        }
+        balls.Clear();
+    }
+
     public bool addFromBowl(GameObject ball)
     {
         int ID = treeManager.calculateID();
@@ -87,26 +95,34 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    public void updateBallsCLick()
+    public void disableBallsClick()
     {
-        enableBallsClickAdd();
-        enableBallsClickOperation();
+        enableBallsClickAdd(false);
+        enableBallsClickOperation(false);
     }
 
-    private void enableBallsClickAdd()
+    public void enableBallsCLick()
+    {
+        enableBallsClickAdd(true);
+        enableBallsClickOperation(true);
+    }
+
+    //controlls all Balls in Bowl
+    private void enableBallsClickAdd(bool activate)
     {
         foreach (GameObject ball in balls)
         {
-            ball.GetComponent<AVLOperations>().setIsAddable(true);
+            ball.GetComponent<AVLOperations>().setIsAddable(activate);
             ball.GetComponent<AVLOperations>().setIsOperatable(false);
         }
     }
 
-    private void enableBallsClickOperation()
+    //controlls all balls in Tree
+    private void enableBallsClickOperation(bool activate)
     {
         foreach (GameObject ball in treeManager.getTreeAsGOArray())
         {
-            ball.GetComponent<AVLOperations>().setIsOperatable(true);
+            ball.GetComponent<AVLOperations>().setIsOperatable(activate);
             ball.GetComponent<AVLOperations>().setIsAddable(false);
         }
     }
@@ -135,6 +151,6 @@ public class GameController : MonoBehaviour
     async public void addFromButton()
     {
         await SpawnBallsAsync();
-        enableBallsClickAdd();
+        enableBallsCLick();
     }
 }

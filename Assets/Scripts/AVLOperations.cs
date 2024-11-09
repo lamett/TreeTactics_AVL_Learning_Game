@@ -54,7 +54,7 @@ public class AVLOperations : MonoBehaviour
             {
                 if (gameController.addFromBowl(gameObject))
                 {
-                    gameController.updateBallsCLick();
+                    gameController.enableBallsCLick();
                     GetComponent<AVLNode>().showID();
                     GetComponent<AVLNode>().showBF();
                 }
