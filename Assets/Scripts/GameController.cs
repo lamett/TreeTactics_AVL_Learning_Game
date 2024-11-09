@@ -1,18 +1,21 @@
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 
 public class GameController : MonoBehaviour
 {
     TreeManager treeManager;
 
     private GameObject mainCamera;
-    
+
     public GameObject nodePrefab;
     public UnityEvent<int> updateTreeBalance;
+
+    public UnityEvent addPhaseEnd;
+    public UnityEvent<float> addPhaseTimeUpdate;
+
+    Timer AddPhaseTimer;
 
     public int amountBalls = 6;
     int leftNodesToAdd = 0;
@@ -23,6 +26,7 @@ public class GameController : MonoBehaviour
     {
         treeManager = new TreeManager(nodePrefab, updateTreeBalance);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        AddPhaseTimer = new Timer(this, addPhaseEnd, addPhaseTimeUpdate);
         balls = new List<GameObject>();
     }
 
@@ -32,21 +36,25 @@ public class GameController : MonoBehaviour
 
     }
 
-    void chooseAmountBalls(){
+    void chooseAmountBalls()
+    {
         var rnd = new System.Random();
         amountBalls = rnd.Next(2, 6);
     }
 
-    int damageToTake(){
+    int damageToTake()
+    {
         return leftNodesToAdd == 0 ? 0 : 1;
     }
-    int damageToDeal(){
+    int damageToDeal()
+    {
         return leftNodesToAdd == 0 ? 1 : 0;
     }
 
     //#########-Methoden GameLoop-#################
     public void endAddphase()
     {
+        AddPhaseTimer.stopTimer();
         disableBallsClick();
         mainCamera.GetComponent<KameraMovement>().MoveToSideView();
         leftNodesToAdd = balls.Count;
@@ -58,6 +66,7 @@ public class GameController : MonoBehaviour
         await SpawnBallsAsync();
         mainCamera.GetComponent<KameraMovement>().MoveToTopView();
         enableBallsCLick();
+        AddPhaseTimer.startTimer(amountBalls * 10, 0.2f);
     }
     //#############################################
 
@@ -147,7 +156,7 @@ public class GameController : MonoBehaviour
     {
         treeManager.chooseDeletion(ID);
     }
-    
+
     //#####-Methode zu Test zwecken-#############
     async public void addFromButton()
     {
