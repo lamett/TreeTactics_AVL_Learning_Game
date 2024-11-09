@@ -32,9 +32,9 @@ public class GameController : MonoBehaviour
 
     }
 
-    void chooseCountOfNodes(){
+    void chooseAmountBalls(){
         var rnd = new System.Random();
-        leftNodesToAdd = rnd.Next(2, 5);
+        amountBalls = rnd.Next(2, 6);
     }
 
     int damageToTake(){
@@ -63,6 +63,7 @@ public class GameController : MonoBehaviour
 
     private async Task SpawnBallsAsync()
     {
+        chooseAmountBalls();
         for (int i = 0; i < amountBalls; i++)
         {
             GameObject ball = treeManager.instantiateBallForBowl();

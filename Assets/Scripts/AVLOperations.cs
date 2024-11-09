@@ -54,6 +54,7 @@ public class AVLOperations : MonoBehaviour
             {
                 if (gameController.addFromBowl(gameObject))
                 {
+                    gameObject.transform.rotation = Quaternion.identity;
                     gameController.enableBallsCLick();
                     GetComponent<AVLNode>().showID();
                     GetComponent<AVLNode>().showBF();
