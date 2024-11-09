@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 public class GameController : MonoBehaviour
 {
@@ -43,20 +44,24 @@ public class GameController : MonoBehaviour
         return leftNodesToAdd == 0 ? 1 : 0;
     }
 
-    //Schleust aktuell die interaktive Methoden zum Baum durch
-    public void addFromButton()
+    //#########-Methoden GameLoop-#################
+    async public void endAddphase()
     {
-        int ID = treeManager.calculateIDHard();
-        treeManager.add(ID);
+        //disableBallsClickOperation()
+        //camera movement
+        //count left in bowl
+        //clear bowl
+
     }
 
-    //GameLoop AddPhase
-    async public void addPhase()
+    async public void startAddPhase()
     {
         await SpawnBallsAsync();
         mainCamera.GetComponent<KameraMovement>().MoveRotateAndRise();
-        enableBallsClick();
+        enableBallsClickAdd();  // für die neuen in der Schüssel
+        //enableBallsClickOperation(); //für alle im Tree
     }
+    //#############################################
 
     private async Task SpawnBallsAsync()
     {
@@ -70,25 +75,25 @@ public class GameController : MonoBehaviour
         }
         await Task.Delay(1000);
     }
+    public bool addFromBowl(GameObject ball)
+    {
+        int ID = treeManager.calculateID();
 
-    private void enableBallsClick()
+        if (treeManager.addObject(ball, ID))
+        {
+            balls.Remove(ball);
+            return true;
+        }
+        return false;
+    }
+
+    private void enableBallsClickAdd()
         {
             foreach (GameObject ball in balls)
             {
                 ball.GetComponent<AVLOperations>().setIsAddable(true);
             }
         }
-
-    public bool addFromBowl(GameObject ball)
-    {
-        int ID = treeManager.calculateID();
-
-        if(treeManager.addObject(ball, ID)){
-            balls.Remove(ball);
-            return true;
-        }
-        return false;
-    }
 
     public void leftRotation(int ID)
     {
@@ -108,5 +113,12 @@ public class GameController : MonoBehaviour
     public void chooseDeletion(int ID)
     {
         treeManager.chooseDeletion(ID);
+    }
+    
+    //#####-Methode zu Test zwecken-#############
+    async public void addFromButton()
+    {
+        await SpawnBallsAsync();
+        enableBallsClickAdd();
     }
 }

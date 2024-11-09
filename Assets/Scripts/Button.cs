@@ -20,4 +20,14 @@ public class Button : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void show()
+    {
+        gameObject.SetActive(true);
+    }
 }

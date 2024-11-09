@@ -165,20 +165,22 @@ public class TreeManager
         return null;
     }
 
-    public void add(int ID)
-    {
-        if (baum.treeBalance(baum.root) <= 1)
-        {
-            var prefab = UnityEngine.Object.Instantiate(nodePrefab);
-            prefab.transform.position = new Vector3(-10, 0, 0);
-            var node = prefab.GetComponent<AVLNode>();
-            node.ID = ID;
-            prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
-            baum.insert(node);
-            baum.calculatePosition();
-            testTreeBalance();
-        }
-    }
+    //public GameObject add(int ID)
+    //{
+    //    if (baum.treeBalance(baum.root) <= 1)
+    //    {
+    //        var prefab = UnityEngine.Object.Instantiate(nodePrefab);
+    //        prefab.transform.position = new Vector3(-10, 0, 0);
+    //        var node = prefab.GetComponent<AVLNode>();
+    //        node.ID = ID;
+    //        prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
+    //        baum.insert(node);
+    //        baum.calculatePosition();
+    //        testTreeBalance();
+    //        return prefab;
+    //    }
+    //    return null;
+    //}
 
     public void leftRotation(int ID)
     {

@@ -49,13 +49,18 @@ public class AVLOperations : MonoBehaviour
             {
                 if (gameController.addFromBowl(gameObject))
                 {
-                    isAddable = false;
-                    isOperationsEnabled = true;
-                    GetComponent<AVLNode>().showID();
-                    GetComponent<AVLNode>().showBF();
+                    switchFromAddToOp();
                 }
                 
             }
         }
+    }
+
+    public void switchFromAddToOp()
+    {
+        isAddable = false;
+        isOperationsEnabled = true;
+        GetComponent<AVLNode>().showID();
+        GetComponent<AVLNode>().showBF();
     }
 }
