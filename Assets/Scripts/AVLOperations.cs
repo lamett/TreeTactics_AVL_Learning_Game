@@ -5,8 +5,8 @@ public class AVLOperations : MonoBehaviour
     GameController gameController;
     AVLNode avlNode;
 
-    private bool isOperationsEnabled;
-    private bool isAddable;
+    public bool isOperationsEnabled;
+    public bool isAddable;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +19,11 @@ public class AVLOperations : MonoBehaviour
     public void setIsAddable(bool isAddable)
     {
         this.isAddable = isAddable;
+    }
+
+    public void setIsOperatable(bool isOperatable)
+    {
+        this.isOperationsEnabled = isOperatable;
     }
 
     void OnMouseOver()
@@ -49,18 +54,12 @@ public class AVLOperations : MonoBehaviour
             {
                 if (gameController.addFromBowl(gameObject))
                 {
-                    switchFromAddToOp();
+                    gameController.updateBallsCLick();
+                    GetComponent<AVLNode>().showID();
+                    GetComponent<AVLNode>().showBF();
                 }
                 
             }
         }
-    }
-
-    public void switchFromAddToOp()
-    {
-        isAddable = false;
-        isOperationsEnabled = true;
-        GetComponent<AVLNode>().showID();
-        GetComponent<AVLNode>().showBF();
     }
 }

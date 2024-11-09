@@ -21,6 +21,17 @@ public class TreeManager
         Gray,
     }
 
+    public GameObject[] getTreeAsGOArray()
+    {
+        AVLNode[] nodes = baum.traverse();
+        GameObject[] balls = new GameObject[nodes.Length];
+        for(int i = 0; i < nodes.Length; i++)
+        {
+            balls[i] = nodes[i].gameObject;
+        }
+        return balls;
+    }
+
     // Start is called before the first frame update
     public TreeManager(GameObject nodePrefab, UnityEvent<int> updateTreeBalance)
     {

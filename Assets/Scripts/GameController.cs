@@ -59,7 +59,7 @@ public class GameController : MonoBehaviour
         await SpawnBallsAsync();
         mainCamera.GetComponent<KameraMovement>().MoveRotateAndRise();
         enableBallsClickAdd();  // für die neuen in der Schüssel
-        //enableBallsClickOperation(); //für alle im Tree
+        enableBallsClickOperation(); //für alle im Tree
     }
     //#############################################
 
@@ -87,13 +87,29 @@ public class GameController : MonoBehaviour
         return false;
     }
 
+    public void updateBallsCLick()
+    {
+        enableBallsClickAdd();
+        enableBallsClickOperation();
+    }
+
     private void enableBallsClickAdd()
+    {
+        foreach (GameObject ball in balls)
         {
-            foreach (GameObject ball in balls)
-            {
-                ball.GetComponent<AVLOperations>().setIsAddable(true);
-            }
+            ball.GetComponent<AVLOperations>().setIsAddable(true);
+            ball.GetComponent<AVLOperations>().setIsOperatable(false);
         }
+    }
+
+    private void enableBallsClickOperation()
+    {
+        foreach (GameObject ball in treeManager.getTreeAsGOArray())
+        {
+            ball.GetComponent<AVLOperations>().setIsOperatable(true);
+            ball.GetComponent<AVLOperations>().setIsAddable(false);
+        }
+    }
 
     public void leftRotation(int ID)
     {
