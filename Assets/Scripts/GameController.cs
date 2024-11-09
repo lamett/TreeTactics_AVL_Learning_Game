@@ -8,7 +8,8 @@ public class GameController : MonoBehaviour
     TreeManager treeManager;
 
     private GameObject mainCamera;
-
+    private GameObject player;
+    private GameObject enemy;
     public GameObject nodePrefab;
     public UnityEvent<int> updateTreeBalance;
 
@@ -26,6 +27,8 @@ public class GameController : MonoBehaviour
     {
         treeManager = new TreeManager(nodePrefab, updateTreeBalance);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        player = GameObject.FindGameObjectWithTag("Player");
+        enemy = GameObject.FindGameObjectWithTag("Enemy");
         AddPhaseTimer = new Timer(this, addPhaseEnd, addPhaseTimeUpdate);
         balls = new List<GameObject>();
     }
@@ -42,13 +45,19 @@ public class GameController : MonoBehaviour
         amountBalls = rnd.Next(2, 6);
     }
 
-    int damageToTake()
+    bool dealDamage()
     {
-        return leftNodesToAdd == 0 ? 0 : 1;
+        if(leftNodesToAdd > 0){
+            player.GetComponent<PlayerScript>().reduceHealth();
+            return true;
+        } 
+        return false;
     }
-    int damageToDeal()
-    {
-        return leftNodesToAdd == 0 ? 1 : 0;
+
+    void checkHealth(){
+        if(player.GetComponent<PlayerScript>().Health <= 0){
+            gameOver();
+        }
     }
 
     //#########-Methoden GameLoop-#################
@@ -59,6 +68,10 @@ public class GameController : MonoBehaviour
         mainCamera.GetComponent<KameraMovement>().MoveToSideView();
         leftNodesToAdd = balls.Count;
         clearBowl();
+        if(!dealDamage()){
+            specialAttack();
+        }
+        checkHealth();
     }
 
     async public void startAddPhase()
@@ -67,6 +80,14 @@ public class GameController : MonoBehaviour
         mainCamera.GetComponent<KameraMovement>().MoveToTopView();
         enableBallsCLick();
         AddPhaseTimer.startTimer(amountBalls * 10, 0.2f);
+    }
+
+    public void specialAttack(){
+
+    }
+
+    public void gameOver(){
+        Debug.Log("GameOver!");
     }
     //#############################################
 
