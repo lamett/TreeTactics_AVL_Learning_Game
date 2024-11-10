@@ -90,6 +90,7 @@ public class GameController : MonoBehaviour
         mainCamera.GetComponent<KameraMovement>().MoveToSideView();
         leftNodesToAdd = balls.Count;
         clearBowl();
+        commandHistory.Clear();
         if (!dealDamage())
         {
             Debug.Log("starte special Attack");
@@ -97,9 +98,10 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            // treeMananger.rewind() //baum = oldBaum.Copy()
-            // currentRound --;
-            // startAddphase()
+            treeManager.destroyTree();
+            treeManager.rebuildTree();
+            enableBallsClickAddPhase();
+            startAddPhase();
         }
     }
 
@@ -127,12 +129,13 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void startSpecialAttackDelete()
+    public async void startSpecialAttackDelete()
     {
         enableBallsClickDelPhase(true);
         //mainCamera.GetComponent<KameraMovement>().MoveToTopView(); //bugfix
-        //treemanager.delete() // jetzt soll vom computer ein knoten gel�scht werden
-        //timer.startTimer(20, 0.2f); //actuell ist das noch ein bug -> siehe hacknplan
+        await Task.Delay(300);
+        treeManager.markDeletion(treeManager.findNodeToDelete());//treemanager.delete() // jetzt soll vom computer ein knoten gel�scht werden
+        timer.startTimer(20, 0.2f); //actuell ist das noch ein bug -> siehe hacknplan
     }
 
     public void endSpecialAttackDeletion(bool gotDeletionRight, bool isBalanced)
@@ -141,6 +144,7 @@ public class GameController : MonoBehaviour
         if (gotDeletionRight && !isBalanced)
         {
             //noch mal in die addphase aber ohne kugeln in der sch�ssel und ohne timer
+
         }
         if (gotDeletionRight && isBalanced)
         {

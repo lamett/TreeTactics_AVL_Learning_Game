@@ -273,6 +273,18 @@ public class TreeManager
             baum.calculatePosition();
         }
     }
+     public int findNodeToDelete(){
+        var rnd = new System.Random();
+        var nodes = baum.traverse().ToList().OrderBy(item => rnd.Next()).ToList();
+        var result = baum.root;
+        foreach(var node in nodes){
+            if(node.left != null && node.right !=null){
+                result = node;
+                break;
+            }
+        }
+        return result.ID;
+     }
 
     public async void rotateRandom(int countRotation)
     {
