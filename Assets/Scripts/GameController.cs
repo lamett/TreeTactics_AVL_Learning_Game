@@ -16,10 +16,14 @@ public class GameController : MonoBehaviour
     public UnityEvent addPhaseEnd;
     public UnityEvent<float> addPhaseTimeUpdate;
 
-    Timer AddPhaseTimer;
+    Timer timer;
 
+    public int playerStartHealth = 3;
+    public int enemyStartHealth = 5;
     public int amountBalls = 6;
     int leftNodesToAdd = 0;
+    public int currentRound = 1;
+
     private List<GameObject> balls;
 
     // Start is called before the first frame update
@@ -29,7 +33,9 @@ public class GameController : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         player = GameObject.FindGameObjectWithTag("Player");
         enemy = GameObject.FindGameObjectWithTag("Enemy");
-        AddPhaseTimer = new Timer(this, addPhaseEnd, addPhaseTimeUpdate);
+        player.GetComponent<HealthScript>().setHealth(playerStartHealth);
+        enemy.GetComponent<HealthScript>().setHealth(enemyStartHealth);
+        timer = new Timer(this, addPhaseEnd, addPhaseTimeUpdate);
         balls = new List<GameObject>();
     }
 
@@ -47,23 +53,33 @@ public class GameController : MonoBehaviour
 
     bool dealDamage()
     {
-        if(leftNodesToAdd > 0){
-            player.GetComponent<PlayerScript>().reduceHealth();
+        if(leftNodesToAdd > 0 || !treeManager.isBalanced()){
+            player.GetComponent<HealthScript>().reduceHealth();
+            checkHealth();
             return true;
-        } 
-        return false;
+        }
+        else{
+            enemy.GetComponent<HealthScript>().reduceHealth();
+            checkHealth();
+            return false;
+        }
     }
 
     void checkHealth(){
-        if(player.GetComponent<PlayerScript>().Health <= 0){
-            gameOver();
+        if(player.GetComponent<HealthScript>().Health <= 0){
+            gameOver("You Lose");
+        }
+        if(enemy.GetComponent<HealthScript>().Health <= 0)
+        {
+            gameOver("You win");
         }
     }
 
     //#########-Methoden GameLoop-#################
     public void endAddphase()
     {
-        AddPhaseTimer.stopTimer();
+        currentRound++;
+        timer.stopTimer();
         disableBallsClick();
         mainCamera.GetComponent<KameraMovement>().MoveToSideView();
         leftNodesToAdd = balls.Count;
@@ -71,23 +87,43 @@ public class GameController : MonoBehaviour
         if(!dealDamage()){
             specialAttack();
         }
-        checkHealth();
+        else
+        {
+            // treeMananger.rewind() //baum = oldBaum.Copy()
+            // currentRound --;
+            // startAddphase()
+        }
     }
 
     async public void startAddPhase()
     {
+        treeManager.backUpTree();
         await SpawnBallsAsync();
         mainCamera.GetComponent<KameraMovement>().MoveToTopView();
         enableBallsCLick();
-        AddPhaseTimer.startTimer(amountBalls * 10, 0.2f);
+        timer.startTimer(amountBalls * 10, 0.2f);
     }
 
-    public void specialAttack(){
-
+    public void specialAttack()
+    {
+        if (!(currentRound % 2 == 0)){
+            specialAttackDelete();
+        }
+        else{
+            specialAttackUnbalance();
+        }
     }
 
-    public void gameOver(){
-        Debug.Log("GameOver!");
+    public void specialAttackDelete(){
+        //
+    }
+
+    public void specialAttackUnbalance() { 
+        //
+    }
+
+    public void gameOver(string msg){
+        Debug.Log(msg);
     }
     //#############################################
 
