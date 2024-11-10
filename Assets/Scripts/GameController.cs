@@ -16,10 +16,14 @@ public class GameController : MonoBehaviour
     public UnityEvent addPhaseEnd;
     public UnityEvent<float> addPhaseTimeUpdate;
 
-    Timer AddPhaseTimer;
+    Timer timer;
 
+    public int playerStartHealth = 3;
+    public int enemyStartHealth = 5;
     public int amountBalls = 6;
     int leftNodesToAdd = 0;
+    public int currentRound = 1;
+
     private List<GameObject> balls;
 
     // Start is called before the first frame update
@@ -29,7 +33,9 @@ public class GameController : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         player = GameObject.FindGameObjectWithTag("Player");
         enemy = GameObject.FindGameObjectWithTag("Enemy");
-        AddPhaseTimer = new Timer(this, addPhaseEnd, addPhaseTimeUpdate);
+        player.GetComponent<HealthScript>().setHealth(playerStartHealth);
+        enemy.GetComponent<HealthScript>().setHealth(enemyStartHealth);
+        timer = new Timer(this, addPhaseEnd, addPhaseTimeUpdate);
         balls = new List<GameObject>();
     }
 
@@ -47,47 +53,101 @@ public class GameController : MonoBehaviour
 
     bool dealDamage()
     {
-        if(leftNodesToAdd > 0){
-            player.GetComponent<PlayerScript>().reduceHealth();
+        if(leftNodesToAdd > 0 || !treeManager.isBalanced()){
+            player.GetComponent<HealthScript>().reduceHealth();
+            checkHealth();
             return true;
-        } 
-        return false;
+        }
+        else{
+            enemy.GetComponent<HealthScript>().reduceHealth();
+            checkHealth();
+            return false;
+        }
     }
 
     void checkHealth(){
-        if(player.GetComponent<PlayerScript>().Health <= 0){
-            gameOver();
+        if(player.GetComponent<HealthScript>().Health <= 0){
+            gameOver("You Lose");
+        }
+        if(enemy.GetComponent<HealthScript>().Health <= 0)
+        {
+            gameOver("You win");
         }
     }
 
     //#########-Methoden GameLoop-#################
     public void endAddphase()
     {
-        AddPhaseTimer.stopTimer();
+        currentRound++;
+        timer.stopTimer();
         disableBallsClick();
         mainCamera.GetComponent<KameraMovement>().MoveToSideView();
         leftNodesToAdd = balls.Count;
         clearBowl();
         if(!dealDamage()){
+            Debug.Log("starte special Attack");
             specialAttack();
         }
-        checkHealth();
+        else
+        {
+            // treeMananger.rewind() //baum = oldBaum.Copy()
+            // currentRound --;
+            // startAddphase()
+        }
     }
 
     async public void startAddPhase()
     {
+        treeManager.backUpTree(); //hier soll der back up tree gespeichert werden...methode ist im momment noch leer
         await SpawnBallsAsync();
         mainCamera.GetComponent<KameraMovement>().MoveToTopView();
-        enableBallsCLick();
-        AddPhaseTimer.startTimer(amountBalls * 1000, 0.2f);
+        enableBallsClickAddPhase();
+        timer.startTimer(amountBalls * 10, 0.2f);
     }
 
-    public void specialAttack(){
-
+    public void specialAttack()
+    {
+        if (currentRound % 2 == 0){
+            startSpecialAttackDelete();
+        }
+        else{
+            specialAttackUnbalance(); //noch leer
+            Debug.Log("SpecialAttak Unbalance, add phase kann erneut gestartet werden");
+        }
     }
 
-    public void gameOver(){
-        Debug.Log("GameOver!");
+    public void startSpecialAttackDelete()
+    {
+        enableBallsClickDelPhase(true);
+        //mainCamera.GetComponent<KameraMovement>().MoveToTopView(); //bugfix
+        //treemanager.delete() // jetzt soll vom computer ein knoten gel�scht werden
+        //timer.startTimer(20, 0.2f); //actuell ist das noch ein bug -> siehe hacknplan
+    }
+
+    public void endSpecialAttackDeletion(bool gotDeletionRight,bool isBalanced)
+    {
+        disableBallsClick();
+        if (gotDeletionRight && !isBalanced)
+        {
+            //noch mal in die addphase aber ohne kugeln in der sch�ssel und ohne timer
+        }
+        if (gotDeletionRight && isBalanced) { 
+            //zurUck zur default stage
+        }
+        if (!gotDeletionRight)
+        {
+            //correktur
+            //damage
+            //defaultstage
+        }
+    }
+
+    public void specialAttackUnbalance() { 
+        //
+    }
+
+    public void gameOver(string msg){
+        Debug.Log(msg);
     }
     //#############################################
 
@@ -130,12 +190,22 @@ public class GameController : MonoBehaviour
     {
         enableBallsClickAdd(false);
         enableBallsClickOperation(false);
+        enableBallsClickDelPhase(false);
     }
 
-    public void enableBallsCLick()
+    public void enableBallsClickAddPhase()
     {
+        enableBallsClickDelPhase(false);
         enableBallsClickAdd(true);
         enableBallsClickOperation(true);
+    }
+
+    private void enableBallsClickDelPhase(bool activate)
+    {
+        foreach (GameObject ball in treeManager.getTreeAsGOArray())
+        {
+            ball.GetComponent<AVLOperations>().setIsChoosableForDel(activate);
+        }
     }
 
     //controlls all Balls in Bowl
@@ -182,7 +252,7 @@ public class GameController : MonoBehaviour
     async public void addFromButton()
     {
         await SpawnBallsAsync();
-        enableBallsCLick();
+        enableBallsClickAddPhase();
     }
 
     public void randomRot(){

@@ -15,6 +15,7 @@ public class TreeManager
 
     AVLNode newestNode = null;
     AVLTree baum;
+    AVLTree oldBaum;
 
     public enum NodeMaterial
     {
@@ -22,18 +23,6 @@ public class TreeManager
         Gray,
     }
 
-    public GameObject[] getTreeAsGOArray()
-    {
-        AVLNode[] nodes = baum.traverse();
-        GameObject[] balls = new GameObject[nodes.Length];
-        for (int i = 0; i < nodes.Length; i++)
-        {
-            balls[i] = nodes[i].gameObject;
-        }
-        return balls;
-    }
-
-    // Start is called before the first frame update
     public TreeManager(GameObject nodePrefab, UnityEvent<int> updateTreeBalance)
     {
         this.nodePrefab = nodePrefab;
@@ -48,6 +37,21 @@ public class TreeManager
     {
         var rnd = new System.Random();
         possibleNumbers = possibleNumbers.OrderBy(item => rnd.Next()).ToList();
+    }
+    public GameObject[] getTreeAsGOArray()
+    {
+        AVLNode[] nodes = baum.traverse();
+        GameObject[] balls = new GameObject[nodes.Length];
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            balls[i] = nodes[i].gameObject;
+        }
+        return balls;
+    }
+
+    public void backUpTree()
+    {
+        //oldBaum = baum.Copy();
     }
 
     public GameObject instantiateBallForBowl()
@@ -177,23 +181,6 @@ public class TreeManager
         return null;
     }
 
-    //public GameObject add(int ID)
-    //{
-    //    if (baum.treeBalance(baum.root) <= 1)
-    //    {
-    //        var prefab = UnityEngine.Object.Instantiate(nodePrefab);
-    //        prefab.transform.position = new Vector3(-10, 0, 0);
-    //        var node = prefab.GetComponent<AVLNode>();
-    //        node.ID = ID;
-    //        prefab.transform.GetChild(0).GetComponent<TextMeshPro>().text = node.ID.ToString();
-    //        baum.insert(node);
-    //        baum.calculatePosition();
-    //        testTreeBalance();
-    //        return prefab;
-    //    }
-    //    return null;
-    //}
-
     public void leftRotation(int ID)
     {
         baum.leftRot(ID);
@@ -206,6 +193,15 @@ public class TreeManager
         baum.rightRot(ID);
         baum.calculatePosition();
         testTreeBalance();
+    }
+
+    public bool isBalanced()
+    {
+        if(baum.treeBalance(baum.root) <= 1)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void testTreeBalance()
@@ -235,6 +231,8 @@ public class TreeManager
 
     public void chooseDeletion(int ID)
     {
+        if(baum.markedDeletion != null)
+        {
         int markedDeletion = baum.markedDeletion.ID;
         var correct = baum.chooseDeletion(ID);
         if (correct)
@@ -244,6 +242,7 @@ public class TreeManager
             testTreeBalance();
         }
         baum.calculatePosition();
+        }
     }
 
     public async void rotateRandom(int countRotation)
