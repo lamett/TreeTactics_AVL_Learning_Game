@@ -16,8 +16,11 @@ public class GameController : MonoBehaviour
 
     public UnityEvent addPhaseEnd;
     public UnityEvent<float> addPhaseTimeUpdate;
+    public UnityEvent specialPhaseEnd;
+    public UnityEvent<float> specialPhaseTimeUpdate;
 
-    Timer timer;
+    Timer addPhaseTimer;
+    Timer specialPhaseTimer;
 
     public int playerStartHealth = 3;
     public int enemyStartHealth = 5;
@@ -37,7 +40,8 @@ public class GameController : MonoBehaviour
         enemy = GameObject.FindGameObjectWithTag("Enemy");
         player.GetComponent<HealthScript>().setHealth(playerStartHealth);
         enemy.GetComponent<HealthScript>().setHealth(enemyStartHealth);
-        timer = new Timer(this, addPhaseEnd, addPhaseTimeUpdate);
+        addPhaseTimer = new Timer(this, addPhaseEnd, addPhaseTimeUpdate);
+        specialPhaseTimer = new Timer(this, specialPhaseEnd, specialPhaseTimeUpdate);
         balls = new List<GameObject>();
     }
 
@@ -85,7 +89,7 @@ public class GameController : MonoBehaviour
     public void endAddphase()
     {
         currentRound++;
-        timer.stopTimer();
+        addPhaseTimer.stopTimer();
         disableBallsClick();
         mainCamera.GetComponent<KameraMovement>().MoveToSideView();
         leftNodesToAdd = balls.Count;
@@ -112,7 +116,7 @@ public class GameController : MonoBehaviour
         await SpawnBallsAsync();
         mainCamera.GetComponent<KameraMovement>().MoveToTopView();
         enableBallsClickAddPhase();
-        timer.startTimer(amountBalls * 10, 0.2f);
+        addPhaseTimer.startTimer(amountBalls * 10, 0.2f);
         commandHistory.Clear();
     }
 
@@ -135,11 +139,12 @@ public class GameController : MonoBehaviour
         //mainCamera.GetComponent<KameraMovement>().MoveToTopView(); //bugfix
         await Task.Delay(300);
         treeManager.markDeletion(treeManager.findNodeToDelete());//treemanager.delete() // jetzt soll vom computer ein knoten gel�scht werden
-        timer.startTimer(20, 0.2f); //actuell ist das noch ein bug -> siehe hacknplan
+        specialPhaseTimer.startTimer(20, 0.2f); //actuell ist das noch ein bug -> siehe hacknplan
     }
 
     public void endSpecialAttackDeletion(bool gotDeletionRight, bool isBalanced)
     {
+        specialPhaseTimer.stopTimer();
         disableBallsClick();
         if (gotDeletionRight && !isBalanced)
         {
