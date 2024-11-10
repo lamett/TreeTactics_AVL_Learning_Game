@@ -66,12 +66,12 @@ public class AVLOperations : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0))
             {
-                gameController.chooseDeletion(avlNode.ID);
-                //gameController.endSpecialAttackDeletion(); hier muss methode so geschrieben werden dass gotDeltionRight und isBalanced mit �bergeben werden k�nnen
+                //hier muss methode so geschrieben werden dass gotDeltionRight und isBalanced mit �bergeben werden k�nnen
+                gameController.endSpecialAttackDeletion(gameController.chooseDeletion(avlNode.ID));
             }
         }
 
-        if(isAddable)
+        if (isAddable)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -82,7 +82,7 @@ public class AVLOperations : MonoBehaviour
                     GetComponent<AVLNode>().showID();
                     GetComponent<AVLNode>().showBF();
                 }
-                
+
             }
         }
     }

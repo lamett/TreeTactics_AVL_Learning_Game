@@ -226,11 +226,7 @@ public class TreeManager
 
     public bool isBalanced()
     {
-        if (baum.treeBalance(baum.root) <= 1)
-        {
-            return true;
-        }
-        return false;
+        return baum.treeBalance(baum.root) <= 1;
     }
 
     private void colorTree()
@@ -258,7 +254,7 @@ public class TreeManager
         baum.calculatePosition();
     }
 
-    public void chooseDeletion(int ID)
+    public bool chooseDeletion(int ID)
     {
         if (baum.markedDeletion != null)
         {
@@ -271,7 +267,9 @@ public class TreeManager
                 colorTree();
             }
             baum.calculatePosition();
+            return correct;
         }
+        return false;
     }
      public int findNodeToDelete(){
         var rnd = new System.Random();

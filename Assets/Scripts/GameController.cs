@@ -142,8 +142,9 @@ public class GameController : MonoBehaviour
         specialPhaseTimer.startTimer(20, 0.2f); //actuell ist das noch ein bug -> siehe hacknplan
     }
 
-    public void endSpecialAttackDeletion(bool gotDeletionRight, bool isBalanced)
+    public void endSpecialAttackDeletion(bool gotDeletionRight)
     {
+        bool isBalanced = treeManager.isBalanced();
         specialPhaseTimer.stopTimer();
         disableBallsClick();
         if (gotDeletionRight && !isBalanced)
@@ -265,9 +266,9 @@ public class GameController : MonoBehaviour
         treeManager.markDeletion(ID);
     }
 
-    public void chooseDeletion(int ID)
+    public bool chooseDeletion(int ID)
     {
-        treeManager.chooseDeletion(ID);
+        return treeManager.chooseDeletion(ID);
     }
 
     public async void undo()
