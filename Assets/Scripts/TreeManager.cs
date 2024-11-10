@@ -230,6 +230,8 @@ public class TreeManager
 
     public void chooseDeletion(int ID)
     {
+        if(baum.markedDeletion != null)
+        {
         int markedDeletion = baum.markedDeletion.ID;
         var correct = baum.chooseDeletion(ID);
         if (correct)
@@ -239,6 +241,7 @@ public class TreeManager
             testTreeBalance();
         }
         baum.calculatePosition();
+        }
     }
 
     public void rotateRandom(int countRotation)

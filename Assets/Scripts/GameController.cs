@@ -85,6 +85,7 @@ public class GameController : MonoBehaviour
         leftNodesToAdd = balls.Count;
         clearBowl();
         if(!dealDamage()){
+            Debug.Log("starte special Attack");
             specialAttack();
         }
         else
@@ -97,25 +98,48 @@ public class GameController : MonoBehaviour
 
     async public void startAddPhase()
     {
-        treeManager.backUpTree();
+        treeManager.backUpTree(); //hier soll der back up tree gespeichert werden...methode ist im momment noch leer
         await SpawnBallsAsync();
         mainCamera.GetComponent<KameraMovement>().MoveToTopView();
-        enableBallsCLick();
+        enableBallsClickAddPhase();
         timer.startTimer(amountBalls * 10, 0.2f);
     }
 
     public void specialAttack()
     {
-        if (!(currentRound % 2 == 0)){
-            specialAttackDelete();
+        if (currentRound % 2 == 0){
+            startSpecialAttackDelete();
         }
         else{
-            specialAttackUnbalance();
+            specialAttackUnbalance(); //noch leer
+            Debug.Log("SpecialAttak Unbalance, add phase kann erneut gestartet werden");
         }
     }
 
-    public void specialAttackDelete(){
-        //
+    public void startSpecialAttackDelete()
+    {
+        enableBallsClickDelPhase(true);
+        //mainCamera.GetComponent<KameraMovement>().MoveToTopView(); //bugfix
+        //treemanager.delete() // jetzt soll vom computer ein knoten gelöscht werden
+        //timer.startTimer(20, 0.2f); //actuell ist das noch ein bug -> siehe hacknplan
+    }
+
+    public void endSpecialAttackDeletion(bool gotDeletionRight,bool isBalanced)
+    {
+        disableBallsClick();
+        if (gotDeletionRight && !isBalanced)
+        {
+            //noch mal in die addphase aber ohne kugeln in der schüssel und ohne timer
+        }
+        if (gotDeletionRight && isBalanced) { 
+            //zurUck zur default stage
+        }
+        if (!gotDeletionRight)
+        {
+            //correktur
+            //damage
+            //defaultstage
+        }
     }
 
     public void specialAttackUnbalance() { 
@@ -166,12 +190,22 @@ public class GameController : MonoBehaviour
     {
         enableBallsClickAdd(false);
         enableBallsClickOperation(false);
+        enableBallsClickDelPhase(false);
     }
 
-    public void enableBallsCLick()
+    public void enableBallsClickAddPhase()
     {
+        enableBallsClickDelPhase(false);
         enableBallsClickAdd(true);
         enableBallsClickOperation(true);
+    }
+
+    private void enableBallsClickDelPhase(bool activate)
+    {
+        foreach (GameObject ball in treeManager.getTreeAsGOArray())
+        {
+            ball.GetComponent<AVLOperations>().setIsChoosableForDel(activate);
+        }
     }
 
     //controlls all Balls in Bowl
@@ -218,6 +252,6 @@ public class GameController : MonoBehaviour
     async public void addFromButton()
     {
         await SpawnBallsAsync();
-        enableBallsCLick();
+        enableBallsClickAddPhase();
     }
 }
