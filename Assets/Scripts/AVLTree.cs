@@ -397,7 +397,8 @@ class AVLTree
     //Muss vorm rendern aufgerufen werden.
     public void calculatePosition()
     {
-        if(root == null){
+        if (root == null)
+        {
             return;
         }
         updateDepth(root, 0);
@@ -447,14 +448,17 @@ class AVLTree
         }
     }
 
-    public int[] saveTree(){
+    public int[] saveTree()
+    {
         updateDepth(root, 0);
         var dict = new Dictionary<int, List<int>>();
         dict = depthTraversal(root, dict);
         var savedTree = new int[size];
         int i = 0;
-        for(int j = 0; j < dict.Keys.Count; j++){
-            foreach(int k in dict[j]){
+        for (int j = 0; j < dict.Keys.Count; j++)
+        {
+            foreach (int k in dict[j])
+            {
                 savedTree[i] = k;
                 i++;
             }
@@ -462,12 +466,17 @@ class AVLTree
         return savedTree;
     }
 
-    Dictionary<int, List<int>> depthTraversal(AVLNode node, Dictionary<int, List<int>> dict){
-        if(node != null){
-            if(dict.ContainsKey(node.depth)){
+    Dictionary<int, List<int>> depthTraversal(AVLNode node, Dictionary<int, List<int>> dict)
+    {
+        if (node != null)
+        {
+            if (dict.ContainsKey(node.depth))
+            {
                 dict[node.depth].Add(node.ID);
-            } else{
-                dict.Add(node.depth, new List<int>(){node.ID});
+            }
+            else
+            {
+                dict.Add(node.depth, new List<int>() { node.ID });
             }
             dict = depthTraversal(node.left, dict);
             dict = depthTraversal(node.right, dict);

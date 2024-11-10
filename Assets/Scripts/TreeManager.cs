@@ -17,7 +17,8 @@ public class TreeManager
     AVLTree baum;
     int[] oldBaum;
 
-    public enum Commands{
+    public enum Commands
+    {
         RotateRight,
         RotateLeft,
         Insert,
@@ -61,18 +62,23 @@ public class TreeManager
         oldBaum = baum.saveTree();
     }
 
-    public void destroyTree(){
+    public void destroyTree()
+    {
         var nodes = baum.saveTree().Reverse();
-        foreach(int ID in nodes){
+        foreach (int ID in nodes)
+        {
             baum.markDeletion(ID);
         }
     }
-    public void rebuildTree(){
+    public void rebuildTree()
+    {
         rebuildTree(oldBaum);
     }
-    
-    public void rebuildTree(int[] nodes){
-        foreach(int ID in nodes){
+
+    public void rebuildTree(int[] nodes)
+    {
+        foreach (int ID in nodes)
+        {
             addObject(instantiateBallForBowl(), ID);
         }
     }
@@ -220,7 +226,7 @@ public class TreeManager
 
     public bool isBalanced()
     {
-        if(baum.treeBalance(baum.root) <= 1)
+        if (baum.treeBalance(baum.root) <= 1)
         {
             return true;
         }
@@ -254,17 +260,17 @@ public class TreeManager
 
     public void chooseDeletion(int ID)
     {
-        if(baum.markedDeletion != null)
+        if (baum.markedDeletion != null)
         {
-        int markedDeletion = baum.markedDeletion.ID;
-        var correct = baum.chooseDeletion(ID);
-        if (correct)
-        {
-            possibleNumbers.Add(markedDeletion);
-            shuffle();
-            colorTree();
-        }
-        baum.calculatePosition();
+            int markedDeletion = baum.markedDeletion.ID;
+            var correct = baum.chooseDeletion(ID);
+            if (correct)
+            {
+                possibleNumbers.Add(markedDeletion);
+                shuffle();
+                colorTree();
+            }
+            baum.calculatePosition();
         }
     }
 

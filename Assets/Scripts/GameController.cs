@@ -55,23 +55,27 @@ public class GameController : MonoBehaviour
 
     bool dealDamage()
     {
-        if(leftNodesToAdd > 0 || !treeManager.isBalanced()){
+        if (leftNodesToAdd > 0 || !treeManager.isBalanced())
+        {
             player.GetComponent<HealthScript>().reduceHealth();
             checkHealth();
             return true;
         }
-        else{
+        else
+        {
             enemy.GetComponent<HealthScript>().reduceHealth();
             checkHealth();
             return false;
         }
     }
 
-    void checkHealth(){
-        if(player.GetComponent<HealthScript>().Health <= 0){
+    void checkHealth()
+    {
+        if (player.GetComponent<HealthScript>().Health <= 0)
+        {
             gameOver("You Lose");
         }
-        if(enemy.GetComponent<HealthScript>().Health <= 0)
+        if (enemy.GetComponent<HealthScript>().Health <= 0)
         {
             gameOver("You win");
         }
@@ -86,7 +90,8 @@ public class GameController : MonoBehaviour
         mainCamera.GetComponent<KameraMovement>().MoveToSideView();
         leftNodesToAdd = balls.Count;
         clearBowl();
-        if(!dealDamage()){
+        if (!dealDamage())
+        {
             Debug.Log("starte special Attack");
             specialAttack();
         }
@@ -111,10 +116,12 @@ public class GameController : MonoBehaviour
 
     public void specialAttack()
     {
-        if (currentRound % 2 == 0){
+        if (currentRound % 2 == 0)
+        {
             startSpecialAttackDelete();
         }
-        else{
+        else
+        {
             specialAttackUnbalance(); //noch leer
             Debug.Log("SpecialAttak Unbalance, add phase kann erneut gestartet werden");
         }
@@ -128,14 +135,15 @@ public class GameController : MonoBehaviour
         //timer.startTimer(20, 0.2f); //actuell ist das noch ein bug -> siehe hacknplan
     }
 
-    public void endSpecialAttackDeletion(bool gotDeletionRight,bool isBalanced)
+    public void endSpecialAttackDeletion(bool gotDeletionRight, bool isBalanced)
     {
         disableBallsClick();
         if (gotDeletionRight && !isBalanced)
         {
             //noch mal in die addphase aber ohne kugeln in der sch�ssel und ohne timer
         }
-        if (gotDeletionRight && isBalanced) { 
+        if (gotDeletionRight && isBalanced)
+        {
             //zurUck zur default stage
         }
         if (!gotDeletionRight)
@@ -146,11 +154,13 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void specialAttackUnbalance() { 
+    public void specialAttackUnbalance()
+    {
         //
     }
 
-    public void gameOver(string msg){
+    public void gameOver(string msg)
+    {
         Debug.Log(msg);
     }
     //#############################################
@@ -251,8 +261,10 @@ public class GameController : MonoBehaviour
         treeManager.chooseDeletion(ID);
     }
 
-    public async void undo(){
-        if(commandHistory.Count <= 0){
+    public async void undo()
+    {
+        if (commandHistory.Count <= 0)
+        {
             return;
         }
         var command = commandHistory.Pop();
@@ -260,21 +272,24 @@ public class GameController : MonoBehaviour
         {
             case TreeManager.Commands.RotateLeft:
                 treeManager.rightRotation(command.Item2);
+                commandHistory.Pop();
                 break;
             case TreeManager.Commands.RotateRight:
                 treeManager.leftRotation(command.Item2);
+                commandHistory.Pop();
                 break;
             case TreeManager.Commands.Insert:
                 treeManager.markDeletion(command.Item2);
+                commandHistory.Pop();
                 amountBalls = 1;
                 await SpawnBallsAsync();
                 enableBallsClickAddPhase();
                 break;
             case TreeManager.Commands.Delete:
                 treeManager.addObject(treeManager.instantiateBallForBowl(), command.Item2);
+                commandHistory.Pop();
                 break;
         }
-        commandHistory.Pop();
     }
 
     //#####-Methode zu Test zwecken-#############
@@ -285,14 +300,17 @@ public class GameController : MonoBehaviour
         enableBallsClickAddPhase();
     }
 
-    public void randomRot(){
+    public void randomRot()
+    {
         treeManager.rotateRandom(10);
     }
-    public void balance(){
+    public void balance()
+    {
         treeManager.balanceTreeCompletly();
     }
 
-    public void killTree(){
+    public void killTree()
+    {
         treeManager.destroyTree();
         treeManager.rebuildTree();
     }
