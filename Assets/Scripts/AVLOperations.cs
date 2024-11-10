@@ -44,6 +44,18 @@ public class AVLOperations : MonoBehaviour
             {
                 gameController.rightRotation(avlNode.ID);
             }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                gameController.balance();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                gameController.randomRot();
+            }
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                gameController.killTree();
+            }
         }
 
         if (isChoosableForDel)
@@ -55,14 +67,7 @@ public class AVLOperations : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 gameController.chooseDeletion(avlNode.ID);
-                //gameController.endSpecialAttackDeletion(); hier muss methode so geschrieben werden dass gotDeltionRight und isBalanced mit übergeben werden können
-            }
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                gameController.balance();
-            }if (Input.GetKeyDown(KeyCode.R))
-            {
-                gameController.randomRot();
+                //gameController.endSpecialAttackDeletion(); hier muss methode so geschrieben werden dass gotDeltionRight und isBalanced mit ï¿½bergeben werden kï¿½nnen
             }
         }
 

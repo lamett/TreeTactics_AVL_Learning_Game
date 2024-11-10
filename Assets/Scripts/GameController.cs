@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -25,11 +26,12 @@ public class GameController : MonoBehaviour
     public int currentRound = 1;
 
     private List<GameObject> balls;
+    Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
 
     // Start is called before the first frame update
     void Start()
     {
-        treeManager = new TreeManager(nodePrefab, updateTreeBalance);
+        treeManager = new TreeManager(nodePrefab, updateTreeBalance, commandHistory);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         player = GameObject.FindGameObjectWithTag("Player");
         enemy = GameObject.FindGameObjectWithTag("Enemy");
@@ -99,10 +101,12 @@ public class GameController : MonoBehaviour
     async public void startAddPhase()
     {
         treeManager.backUpTree(); //hier soll der back up tree gespeichert werden...methode ist im momment noch leer
+        chooseAmountBalls();
         await SpawnBallsAsync();
         mainCamera.GetComponent<KameraMovement>().MoveToTopView();
         enableBallsClickAddPhase();
         timer.startTimer(amountBalls * 10, 0.2f);
+        commandHistory.Clear();
     }
 
     public void specialAttack()
@@ -153,7 +157,6 @@ public class GameController : MonoBehaviour
 
     private async Task SpawnBallsAsync()
     {
-        chooseAmountBalls();
         for (int i = 0; i < amountBalls; i++)
         {
             GameObject ball = treeManager.instantiateBallForBowl();
@@ -248,9 +251,36 @@ public class GameController : MonoBehaviour
         treeManager.chooseDeletion(ID);
     }
 
+    public async void undo(){
+        if(commandHistory.Count <= 0){
+            return;
+        }
+        var command = commandHistory.Pop();
+        switch (command.Item1)
+        {
+            case TreeManager.Commands.RotateLeft:
+                treeManager.rightRotation(command.Item2);
+                break;
+            case TreeManager.Commands.RotateRight:
+                treeManager.leftRotation(command.Item2);
+                break;
+            case TreeManager.Commands.Insert:
+                treeManager.markDeletion(command.Item2);
+                amountBalls = 1;
+                await SpawnBallsAsync();
+                enableBallsClickAddPhase();
+                break;
+            case TreeManager.Commands.Delete:
+                treeManager.addObject(treeManager.instantiateBallForBowl(), command.Item2);
+                break;
+        }
+        commandHistory.Pop();
+    }
+
     //#####-Methode zu Test zwecken-#############
     async public void addFromButton()
     {
+        chooseAmountBalls();
         await SpawnBallsAsync();
         enableBallsClickAddPhase();
     }
@@ -260,5 +290,10 @@ public class GameController : MonoBehaviour
     }
     public void balance(){
         treeManager.balanceTreeCompletly();
+    }
+
+    public void killTree(){
+        treeManager.destroyTree();
+        treeManager.rebuildTree();
     }
 }

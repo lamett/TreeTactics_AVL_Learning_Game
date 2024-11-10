@@ -15,8 +15,11 @@ class AVLTree
     public AVLNode markedDeletion { get; private set; }
 
 
-    public AVLTree()
+    Stack<Tuple<TreeManager.Commands, int>> commandHistory;
+
+    public AVLTree(Stack<Tuple<TreeManager.Commands, int>> commandHistory)
     {
+        this.commandHistory = commandHistory;
         root = null;
         size = 0;
     }
@@ -80,6 +83,8 @@ class AVLTree
         tempNode.left = node;
         node.right = T2;
 
+        commandHistory.Push(new Tuple<TreeManager.Commands, int>(TreeManager.Commands.RotateLeft, tempNode.ID));
+
         node.height = max(height(node.left), height(node.right)) + 1;
         tempNode.height = max(height(tempNode.left), height(tempNode.right)) + 1;
         node.setBalanceFactor(height(node.left) - height(node.right));
@@ -134,6 +139,8 @@ class AVLTree
         var T2 = tempNode.right;
         tempNode.right = node;
         node.left = T2;
+
+        commandHistory.Push(new Tuple<TreeManager.Commands, int>(TreeManager.Commands.RotateRight, tempNode.ID));
 
         node.height = max(height(node.left), height(node.right)) + 1;
         tempNode.height = max(height(tempNode.left), height(tempNode.right)) + 1;
@@ -194,6 +201,7 @@ class AVLTree
         if (node == null)
         {
             size++;
+            commandHistory.Push(new Tuple<TreeManager.Commands, int>(TreeManager.Commands.Insert, newNode.ID));
             return newNode;
         }
         if (newNode.ID < node.ID)
@@ -273,6 +281,7 @@ class AVLTree
                     if (ID == markedDeletion.ID)
                     {
                         node.delete();
+                        commandHistory.Push(new Tuple<TreeManager.Commands, int>(TreeManager.Commands.Delete, ID));
                         size--;
                     }
                     node = null;
@@ -283,6 +292,7 @@ class AVLTree
                     if (ID == markedDeletion.ID)
                     {
                         node.delete();
+                        commandHistory.Push(new Tuple<TreeManager.Commands, int>(TreeManager.Commands.Delete, ID));
                         size--;
                     }
                     node = temp;
@@ -306,6 +316,7 @@ class AVLTree
                     temp.left = node?.left;
                     temp.right = node?.right;
                     node.delete();
+                    commandHistory.Push(new Tuple<TreeManager.Commands, int>(TreeManager.Commands.Delete, ID));
                     node = temp;
                     size--;
                 }
@@ -386,6 +397,9 @@ class AVLTree
     //Muss vorm rendern aufgerufen werden.
     public void calculatePosition()
     {
+        if(root == null){
+            return;
+        }
         updateDepth(root, 0);
         var allNodes = traverse();
         int rootIndex = 0;
@@ -431,5 +445,33 @@ class AVLTree
             node.setMaterial(material);
             setMaterial(node.right, material);
         }
+    }
+
+    public int[] saveTree(){
+        updateDepth(root, 0);
+        var dict = new Dictionary<int, List<int>>();
+        dict = depthTraversal(root, dict);
+        var savedTree = new int[size];
+        int i = 0;
+        for(int j = 0; j < dict.Keys.Count; j++){
+            foreach(int k in dict[j]){
+                savedTree[i] = k;
+                i++;
+            }
+        }
+        return savedTree;
+    }
+
+    Dictionary<int, List<int>> depthTraversal(AVLNode node, Dictionary<int, List<int>> dict){
+        if(node != null){
+            if(dict.ContainsKey(node.depth)){
+                dict[node.depth].Add(node.ID);
+            } else{
+                dict.Add(node.depth, new List<int>(){node.ID});
+            }
+            dict = depthTraversal(node.left, dict);
+            dict = depthTraversal(node.right, dict);
+        }
+        return dict;
     }
 }

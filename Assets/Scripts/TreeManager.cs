@@ -15,7 +15,14 @@ public class TreeManager
 
     AVLNode newestNode = null;
     AVLTree baum;
-    AVLTree oldBaum;
+    int[] oldBaum;
+
+    public enum Commands{
+        RotateRight,
+        RotateLeft,
+        Insert,
+        Delete,
+    }
 
     public enum NodeMaterial
     {
@@ -23,11 +30,11 @@ public class TreeManager
         Gray,
     }
 
-    public TreeManager(GameObject nodePrefab, UnityEvent<int> updateTreeBalance)
+    public TreeManager(GameObject nodePrefab, UnityEvent<int> updateTreeBalance, Stack<Tuple<Commands, int>> commandHistory)
     {
         this.nodePrefab = nodePrefab;
         this.updateTreeBalance = updateTreeBalance;
-        baum = new AVLTree();
+        baum = new AVLTree(commandHistory);
         possibleNumbers = Enumerable.Range(0, 50).ToList();
         shuffle();
     }
@@ -51,7 +58,23 @@ public class TreeManager
 
     public void backUpTree()
     {
-        //oldBaum = baum.Copy();
+        oldBaum = baum.saveTree();
+    }
+
+    public void destroyTree(){
+        var nodes = baum.saveTree().Reverse();
+        foreach(int ID in nodes){
+            baum.markDeletion(ID);
+        }
+    }
+    public void rebuildTree(){
+        rebuildTree(oldBaum);
+    }
+    
+    public void rebuildTree(int[] nodes){
+        foreach(int ID in nodes){
+            addObject(instantiateBallForBowl(), ID);
+        }
     }
 
     public GameObject instantiateBallForBowl()
@@ -74,7 +97,7 @@ public class TreeManager
             baum.insert(node);
             baum.calculatePosition();
             newestNode = node;
-            testTreeBalance();
+            colorTree();
 
             return true;
         }
@@ -185,14 +208,14 @@ public class TreeManager
     {
         baum.leftRot(ID);
         baum.calculatePosition();
-        testTreeBalance();
+        colorTree();
     }
 
     public void rightRotation(int ID)
     {
         baum.rightRot(ID);
         baum.calculatePosition();
-        testTreeBalance();
+        colorTree();
     }
 
     public bool isBalanced()
@@ -204,7 +227,7 @@ public class TreeManager
         return false;
     }
 
-    private void testTreeBalance()
+    private void colorTree()
     {
         var balance = baum.treeBalance(baum.root);
 
@@ -239,7 +262,7 @@ public class TreeManager
         {
             possibleNumbers.Add(markedDeletion);
             shuffle();
-            testTreeBalance();
+            colorTree();
         }
         baum.calculatePosition();
         }
