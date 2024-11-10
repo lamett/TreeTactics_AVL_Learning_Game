@@ -46,6 +46,13 @@ public class AVLOperations : MonoBehaviour
             {
                 gameController.chooseDeletion(avlNode.ID);
             }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                gameController.balance();
+            }if (Input.GetKeyDown(KeyCode.R))
+            {
+                gameController.randomRot();
+            }
         }
 
         if(isAddable)

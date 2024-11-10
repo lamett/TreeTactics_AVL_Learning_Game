@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -25,7 +26,7 @@ public class TreeManager
     {
         AVLNode[] nodes = baum.traverse();
         GameObject[] balls = new GameObject[nodes.Length];
-        for(int i = 0; i < nodes.Length; i++)
+        for (int i = 0; i < nodes.Length; i++)
         {
             balls[i] = nodes[i].gameObject;
         }
@@ -48,9 +49,9 @@ public class TreeManager
         var rnd = new System.Random();
         possibleNumbers = possibleNumbers.OrderBy(item => rnd.Next()).ToList();
     }
-    
+
     public GameObject instantiateBallForBowl()
-    {   
+    {
         var prefab = UnityEngine.Object.Instantiate(nodePrefab);
         prefab.transform.position = new Vector3(-11, 9, 4);
         return prefab;
@@ -80,13 +81,13 @@ public class TreeManager
     {
         int ID = calculateIDHard();
         int i = 0;
-        while(ID == -1 && i<5)
+        while (ID == -1 && i < 5)
         {
             ID = calculateIDHard();
             i++;
         }
-        
-        return ID == -1?calculateIDRandom():ID;
+
+        return ID == -1 ? calculateIDRandom() : ID;
     }
 
     public int calculateIDRandom()
@@ -245,7 +246,7 @@ public class TreeManager
         baum.calculatePosition();
     }
 
-    public void rotateRandom(int countRotation)
+    public async void rotateRandom(int countRotation)
     {
         var allNodes = baum.traverse();
         var rnd = new System.Random();
@@ -260,7 +261,74 @@ public class TreeManager
             {
                 rightRotation(ID);
             }
+            await Task.Delay(300);
         }
         baum.calculatePosition();
+    }
+
+    public async void balanceTreeCompletly()
+    {
+
+        if (baum.treeBalance(baum.root) < 2)
+        {
+            return;
+        }
+        var index = 2;
+        while (index < baum.size)
+        {
+            var notDone = await balanceTree(baum.root, index);
+            while (notDone)
+            {
+                index = 2;
+                notDone = await balanceTree(baum.root, index);
+            }
+            if (baum.treeBalance(baum.root) < 2)
+            {
+                break;
+            }
+            index++;
+        }
+    }
+
+    async Task<bool> balanceTree(AVLNode node, int balanceFactor)
+    {
+        bool result = false;
+        if (node != null)
+        {
+            if (Mathf.Abs(node.getBalanceFactor()) == balanceFactor)
+            {
+                if (node.getBalanceFactor() < 0)
+                {
+                    if (node.right.getBalanceFactor() >= 0)
+                    {
+                        rightRotation(node.right.ID);
+                        await Task.Delay(300);
+                        leftRotation(node.ID);
+                    }
+                    else
+                    {
+                        leftRotation(node.ID);
+                    }
+                }
+                else
+                {
+                    if (node.left.getBalanceFactor() >= 0)
+                    {
+                        leftRotation(node.left.ID);
+                        await Task.Delay(300);
+                        rightRotation(node.ID);
+                    }
+                    else
+                    {
+                        rightRotation(node.ID);
+                    }
+                }
+                await Task.Delay(300);
+                return true;
+            }
+            result |= await balanceTree(node.left, balanceFactor);
+            result |= await balanceTree(node.right, balanceFactor);
+        }
+        return result;
     }
 }

@@ -79,7 +79,7 @@ public class GameController : MonoBehaviour
         await SpawnBallsAsync();
         mainCamera.GetComponent<KameraMovement>().MoveToTopView();
         enableBallsCLick();
-        AddPhaseTimer.startTimer(amountBalls * 10, 0.2f);
+        AddPhaseTimer.startTimer(amountBalls * 1000, 0.2f);
     }
 
     public void specialAttack(){
@@ -183,5 +183,12 @@ public class GameController : MonoBehaviour
     {
         await SpawnBallsAsync();
         enableBallsCLick();
+    }
+
+    public void randomRot(){
+        treeManager.rotateRandom(10);
+    }
+    public void balance(){
+        treeManager.balanceTreeCompletly();
     }
 }
