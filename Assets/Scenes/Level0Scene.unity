@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 117327496}
   - component: {fileID: 117327495}
   - component: {fileID: 117327494}
-  - component: {fileID: 117327493}
+  - component: {fileID: 117327498}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -257,19 +257,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &117327493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 117327492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f1a1c6f01c68184db8b17cfb1574778, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Health: 5
 --- !u!65 &117327494
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -348,6 +335,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &117327498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117327492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156841dd4e17ca340ac2bd7052dae2a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 3
 --- !u!1 &152970527
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,7 +1663,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  playerStartHealth: 3
+  enemyStartHealth: 5
   amountBalls: 6
+  currentRound: 1
 --- !u!4 &1034459915
 Transform:
   m_ObjectHideFlags: 0
