@@ -1,0 +1,169 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager Instance;
+    public GameState gameState;
+    public GameState prevGameState;
+
+    private GameController gameController;
+
+    public static event Action<GameState> OnGameStateChanged;
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void Start()
+    {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        UpdateGameState(GameState.StartMenu); //needs to be set to StartMenu in the future
+    }
+
+    public void UpdateGameState(GameState newState)
+    {
+        prevGameState = gameState;
+        gameState = newState;
+        switch (newState)
+        {
+            case GameState.StartMenu:
+                Debug.Log("StartMenu");
+                break;
+            case GameState.RollChallengeTalk:
+                Debug.Log("RollChallengeTalk");
+                HandleRollChallangeTalk();
+                break;
+            case GameState.AddPhase:
+                Debug.Log("AddPhase");
+                HandleAddPhase();
+                break;
+            case GameState.DamageOnPlayer:
+                Debug.Log("DamagePlayer");
+                HandleDamageOnPlayer();
+                break;
+            case GameState.DamageOnEnemy:
+                Debug.Log("DamageEnemy");
+                HandleDamageOnEnemy();
+                break;
+            case GameState.SpezialAttakUnbalanceTalk:
+                Debug.Log("SpezialAttakUnbalanceTalk");
+                break;
+            case GameState.SpezialAttakUnBalance:
+                Debug.Log("SpezialAttakUnBalance");
+                break;
+            case GameState.SpezialAttakDelTalk:
+                Debug.Log("SpezialAttakDelTalk");
+                HandleSpezialAttakDelTalk();
+                break;
+            case GameState.SpezialAttakDel:
+                Debug.Log("SpezialAttakDel");
+                HandleSpezialAttakDel();
+                break;
+            case GameState.Lose:
+                Debug.Log("Lose");
+                break;
+            case GameState.Win:
+                Debug.Log("Win");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+        }
+
+        OnGameStateChanged?.Invoke(newState); //ManageCameraMovementOnGameStateChanged, ManageAVLOperationsOnGameStateChanged
+    }
+
+    public async void HandleRollChallangeTalk()
+    {
+        await gameController.StartRollChallengeTalk();
+        UpdateGameState(GameState.AddPhase);
+    }
+
+    private void HandleAddPhase()
+    {
+        gameController.StartAddPhase();
+    }
+
+    public void HandleAddPhaseEnd()
+    {
+        bool isAccomplished = gameController.EndAddphase();
+        if (isAccomplished)
+        {
+            UpdateGameState(GameState.DamageOnEnemy);
+        }
+        else
+        {
+            UpdateGameState(GameState.DamageOnPlayer);
+        }
+    }
+    private async void HandleDamageOnEnemy()
+    {
+        await gameController.DamageEnemy();
+        if (gameController.HealthCheck() == 1)
+        {
+            UpdateGameState(GameState.Win);
+        };
+
+        UpdateGameState(GameState.SpezialAttakDelTalk);
+    }
+
+    private async void HandleDamageOnPlayer()
+    {
+        await gameController.DamagePlayer();
+        if (gameController.HealthCheck() == -1)
+        {
+            UpdateGameState(GameState.Lose);
+        };
+
+        switch (prevGameState)
+        {
+            case GameState.AddPhase:
+                gameController.resetTree();
+                UpdateGameState(GameState.RollChallengeTalk);
+                break;
+            case GameState.SpezialAttakDel:
+                throw new NotImplementedException();
+                //gameController.showRightChoiseAfterDeletion();
+                //UpdateGameState(GameState.RollChallengeTalk);
+                //break;
+            case GameState.SpezialAttakUnBalance:
+                throw new NotImplementedException();
+                //break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(prevGameState), prevGameState, null);
+        }
+    }
+
+    private void HandleSpezialAttakDelTalk()
+    {
+        gameController.StartSpezialAttakDelTalk();
+        UpdateGameState(GameState.SpezialAttakDel);
+    }
+
+    private void HandleSpezialAttakDel() {
+        gameController.StartSpezialAttakDel();
+    }
+
+    public void HandleSpezialAttakDelEnd()
+    {
+        gameController.EndSpezialAttak();
+    }
+
+}
+
+public enum GameState
+{
+    StartMenu,
+    RollChallengeTalk, //sideView, rolls Amount of Balls to add, generate Balls in Bowl
+    AddPhase, // topView add, balance balls
+    DamageOnPlayer,
+    DamageOnEnemy,
+    SpezialAttakUnbalanceTalk, // sideView, Animation Grip
+    SpezialAttakUnBalance, // topView balance
+    SpezialAttakDelTalk, //sideView, Animation Tableshake
+    SpezialAttakDel, // topView, choose Ball
+    Lose,
+    Win
+}

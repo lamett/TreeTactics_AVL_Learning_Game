@@ -3,18 +3,20 @@ using UnityEngine.Events;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
     TreeManager treeManager;
 
     private GameObject mainCamera;
-    private GameObject player;
-    private GameObject enemy;
+    private HealthScript player;
+    private HealthScript enemy;
+    private TMP_Text dummyText;
     public GameObject nodePrefab;
     public UnityEvent<int> updateTreeBalance;
 
-    public UnityEvent addPhaseEnd;
+    public UnityEvent EndAddPhaseEvent;
     public UnityEvent<float> addPhaseTimeUpdate;
     public UnityEvent specialPhaseEnd;
     public UnityEvent<float> specialPhaseTimeUpdate;
@@ -26,153 +28,203 @@ public class GameController : MonoBehaviour
     public int enemyStartHealth = 5;
     public int amountBalls = 6;
     int leftNodesToAdd = 0;
-    public int currentRound = 1;
 
     private List<GameObject> balls;
     Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
 
     // Start is called before the first frame update
+    
+    void Awake()
+    {
+        GameManager.OnGameStateChanged += ManageAVLOperationsOnGameStateChanged;
+    }
+    void OnDestroy()
+    {
+        GameManager.OnGameStateChanged -= ManageAVLOperationsOnGameStateChanged;
+    }
     void Start()
     {
         treeManager = new TreeManager(nodePrefab, updateTreeBalance, commandHistory);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        player = GameObject.FindGameObjectWithTag("Player");
-        enemy = GameObject.FindGameObjectWithTag("Enemy");
-        player.GetComponent<HealthScript>().setHealth(playerStartHealth);
-        enemy.GetComponent<HealthScript>().setHealth(enemyStartHealth);
-        addPhaseTimer = new Timer(this, addPhaseEnd, addPhaseTimeUpdate);
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthScript>();
+        enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<HealthScript>();
+        player.setHealth(playerStartHealth);
+        enemy.setHealth(enemyStartHealth);
+        addPhaseTimer = new Timer(this, EndAddPhaseEvent, addPhaseTimeUpdate);
         specialPhaseTimer = new Timer(this, specialPhaseEnd, specialPhaseTimeUpdate);
         balls = new List<GameObject>();
+        dummyText = GameObject.FindGameObjectWithTag("DummyText").GetComponent<TMP_Text>();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void ManageAVLOperationsOnGameStateChanged(GameState gameState)
     {
-
+        if (balls != null) {
+            switch (gameState)
+            {
+                case GameState.AddPhase:
+                    enableBallsClickDelPhase(false);
+                    enableBallsClickAdd(true);
+                    enableBallsClickOperation(true);
+                    break;
+                case GameState.SpezialAttakUnBalance:
+                    enableBallsClickOperation(true);
+                    break;
+                case GameState.SpezialAttakDel:
+                    enableBallsClickDelPhase(true);
+                    break;
+                default:
+                    enableBallsClickAdd(false);
+                    enableBallsClickOperation(false);
+                    enableBallsClickDelPhase(false);
+                    break;
+            }
+        }
     }
 
-    void chooseAmountBalls()
+    public void chooseAmountBalls()
     {
         var rnd = new System.Random();
         amountBalls = rnd.Next(2, 6);
     }
 
-    bool dealDamage()
+    //Handle Phases
+    async public Task StartRollChallengeTalk()
     {
-        if (leftNodesToAdd > 0 || !treeManager.isBalanced())
-        {
-            player.GetComponent<HealthScript>().reduceHealth();
-            checkHealth();
-            return true;
-        }
-        else
-        {
-            enemy.GetComponent<HealthScript>().reduceHealth();
-            checkHealth();
-            return false;
-        }
+        chooseAmountBalls();
+        setDummyText("Add " + amountBalls + " Nodes");
+        //ScreenAnimation
+        await SpawnBallsAsync();
     }
 
-    void checkHealth()
+    public void StartAddPhase()
     {
-        if (player.GetComponent<HealthScript>().Health <= 0)
-        {
-            gameOver("You Lose");
-        }
-        if (enemy.GetComponent<HealthScript>().Health <= 0)
-        {
-            gameOver("You win");
-        }
+        treeManager.backUpTree();
+        addPhaseTimer.startTimer(amountBalls * 10, 0.2f);
+        commandHistory.Clear(); // kann eigentlich auch zum Event OnGameStateChanged hinzugefügt werden
     }
 
-    //#########-Methoden GameLoop-#################
-    public void endAddphase()
+    //returns if Challenge was accomplished or not
+    public bool EndAddphase()
     {
-        currentRound++;
         addPhaseTimer.stopTimer();
-        disableBallsClick();
-        mainCamera.GetComponent<KameraMovement>().MoveToSideView();
         leftNodesToAdd = balls.Count;
         clearBowl();
         commandHistory.Clear();
-        if (!dealDamage())
-        {
-            Debug.Log("starte special Attack");
-            specialAttack();
-        }
-        else
-        {
-            treeManager.destroyTree();
-            treeManager.rebuildTree();
-            enableBallsClickAddPhase();
-            startAddPhase();
-        }
+
+        if (leftNodesToAdd > 0 || !treeManager.isBalanced()){ return false; }
+        else { return true; }
     }
 
-    async public void startAddPhase()
+    public async Task DamageEnemy()
     {
-        treeManager.backUpTree(); //hier soll der back up tree gespeichert werden...methode ist im momment noch leer
-        chooseAmountBalls();
-        await SpawnBallsAsync();
-        mainCamera.GetComponent<KameraMovement>().MoveToTopView();
-        enableBallsClickAddPhase();
-        addPhaseTimer.startTimer(amountBalls * 10, 0.2f);
-        commandHistory.Clear();
+        enemy.reduceHealth();
+        setDummyText("Damage on Enemy. Remaining Health:" + enemy.Health);
+        await Task.Delay(2000);
+    }
+    public async Task DamagePlayer()
+    {
+        player.reduceHealth();
+        setDummyText("Damage on Player. Remaining Health:" + player.Health);
+        await Task.Delay(2000);
     }
 
-    public void specialAttack()
+    public int HealthCheck()
     {
-        if (currentRound % 2 == 0)
+        if (enemy.isDead())
         {
-            startSpecialAttackDelete();
+            return 1;
         }
-        else
+        else if (player.isDead())
         {
-            specialAttackUnbalance(); //noch leer
-            Debug.Log("SpecialAttak Unbalance, add phase kann erneut gestartet werden");
+            return -1;
         }
+        else { return 0; }
     }
 
-    public async void startSpecialAttackDelete()
+    public void resetTree()
     {
-        enableBallsClickDelPhase(true);
-        //mainCamera.GetComponent<KameraMovement>().MoveToTopView(); //bugfix
-        await Task.Delay(300);
+        treeManager.destroyTree();
+        treeManager.rebuildTree();
+    }
+
+    public void StartSpezialAttakDelTalk()
+    {
         treeManager.markDeletion(treeManager.findNodeToDelete());//treemanager.delete() // jetzt soll vom computer ein knoten gel�scht werden
-        specialPhaseTimer.startTimer(20, 0.2f); //actuell ist das noch ein bug -> siehe hacknplan
+        //Animation
     }
 
-    public void endSpecialAttackDeletion(bool gotDeletionRight)
+    public void StartSpezialAttakDel()
     {
-        bool isBalanced = treeManager.isBalanced();
+        specialPhaseTimer.startTimer(30, 0.2f);
+    }
+
+    public void EndSpezialAttak()
+    {
         specialPhaseTimer.stopTimer();
-        disableBallsClick();
-        if (gotDeletionRight && !isBalanced)
-        {
-            //noch mal in die addphase aber ohne kugeln in der sch�ssel und ohne timer
-
-        }
-        if (gotDeletionRight && isBalanced)
-        {
-            //zurUck zur default stage
-        }
-        if (!gotDeletionRight)
-        {
-            //correktur
-            //damage
-            //defaultstage
-        }
     }
+    //async public void startAddPhase()
+    //{
+    //    treeManager.backUpTree(); //hier soll der back up tree gespeichert werden...methode ist im momment noch leer
+    //    chooseAmountBalls();
+    //    await SpawnBallsAsync();
+    //    mainCamera.GetComponent<KameraMovement>().MoveToTopView();
+    //    enableBallsClickAddPhase();
+    //    addPhaseTimer.startTimer(amountBalls * 10, 0.2f);
+    //    commandHistory.Clear();
+    //}
 
-    public void specialAttackUnbalance()
-    {
-        //
-    }
+    //public void specialAttack()
+    //{
+    //    if (currentRound % 2 == 0)
+    //    {
+    //        startSpecialAttackDelete();
+    //    }
+    //    else
+    //    {
+    //        specialAttackUnbalance(); //noch leer
+    //        Debug.Log("SpecialAttak Unbalance, add phase kann erneut gestartet werden");
+    //    }
+    //}
 
-    public void gameOver(string msg)
-    {
-        Debug.Log(msg);
-    }
+    //public async void startSpecialAttackDelete()
+    //{
+    //    enableBallsClickDelPhase(true);
+    //    //mainCamera.GetComponent<KameraMovement>().MoveToTopView(); //bugfix
+    //    await Task.Delay(300);
+    //    treeManager.markDeletion(treeManager.findNodeToDelete());//treemanager.delete() // jetzt soll vom computer ein knoten gel�scht werden
+    //    specialPhaseTimer.startTimer(20, 0.2f); //actuell ist das noch ein bug -> siehe hacknplan
+    //}
+
+    //public void endSpecialAttackDeletion(bool gotDeletionRight)
+    //{
+    //    bool isBalanced = treeManager.isBalanced();
+    //    specialPhaseTimer.stopTimer();
+    //    disableBallsClick();
+    //    if (gotDeletionRight && !isBalanced)
+    //    {
+    //        //noch mal in die addphase aber ohne kugeln in der sch�ssel und ohne timer
+
+    //    }
+    //    if (gotDeletionRight && isBalanced)
+    //    {
+    //        //zurUck zur default stage
+    //    }
+    //    if (!gotDeletionRight)
+    //    {
+    //        //correktur
+    //        //damage
+    //        //defaultstage
+    //    }
+    //}
+
+    //public void specialAttackUnbalance()
+    //{
+    //    //
+    //}
+
+    //public void gameOver(string msg)
+    //{
+    //    Debug.Log(msg);
+    //}
     //#############################################
 
     private async Task SpawnBallsAsync()
@@ -209,20 +261,6 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    public void disableBallsClick()
-    {
-        enableBallsClickAdd(false);
-        enableBallsClickOperation(false);
-        enableBallsClickDelPhase(false);
-    }
-
-    public void enableBallsClickAddPhase()
-    {
-        enableBallsClickDelPhase(false);
-        enableBallsClickAdd(true);
-        enableBallsClickOperation(true);
-    }
-
     private void enableBallsClickDelPhase(bool activate)
     {
         foreach (GameObject ball in treeManager.getTreeAsGOArray())
@@ -234,15 +272,18 @@ public class GameController : MonoBehaviour
     //controlls all Balls in Bowl
     private void enableBallsClickAdd(bool activate)
     {
-        foreach (GameObject ball in balls)
+        if (balls.Count != 0)
         {
+            foreach (GameObject ball in balls)
+            {
             ball.GetComponent<AVLOperations>().setIsAddable(activate);
             ball.GetComponent<AVLOperations>().setIsOperatable(false);
+            }
         }
     }
 
     //controlls all balls in Tree
-    private void enableBallsClickOperation(bool activate)
+    public void enableBallsClickOperation(bool activate)
     {
         foreach (GameObject ball in treeManager.getTreeAsGOArray())
         {
@@ -293,7 +334,8 @@ public class GameController : MonoBehaviour
                 commandHistory.Pop();
                 amountBalls = 1;
                 await SpawnBallsAsync();
-                enableBallsClickAddPhase();
+                enableBallsClickAdd(true);
+                enableBallsClickOperation(true);
                 break;
             case TreeManager.Commands.Delete:
                 treeManager.addObject(treeManager.instantiateBallForBowl(), command.Item2);
@@ -307,7 +349,7 @@ public class GameController : MonoBehaviour
     {
         chooseAmountBalls();
         await SpawnBallsAsync();
-        enableBallsClickAddPhase();
+        enableBallsClickAdd(true);
     }
 
     public void randomRot()
@@ -323,5 +365,10 @@ public class GameController : MonoBehaviour
     {
         treeManager.destroyTree();
         treeManager.rebuildTree();
+    }
+
+    private void setDummyText(string text)
+    {
+         dummyText.text = text;
     }
 }

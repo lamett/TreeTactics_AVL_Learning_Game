@@ -16,4 +16,13 @@ public class HealthScript : MonoBehaviour
     {
         Health = value;
     }
+
+    public bool isDead()
+    {
+        if (Health <= 0)
+        {
+            return true;
+        }
+        return false;
+    }
 }

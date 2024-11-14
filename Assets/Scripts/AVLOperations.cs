@@ -9,6 +9,7 @@ public class AVLOperations : MonoBehaviour
     public bool isAddable;
     public bool isChoosableForDel;
     // Start is called before the first frame update
+
     void Start()
     {
         gameController = FindObjectOfType<GameController>();
@@ -66,8 +67,9 @@ public class AVLOperations : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0))
             {
+                Debug.Log("choice for Del");
                 //hier muss methode so geschrieben werden dass gotDeltionRight und isBalanced mit �bergeben werden k�nnen
-                gameController.endSpecialAttackDeletion(gameController.chooseDeletion(avlNode.ID));
+                //gameController.endSpecialAttackDeletion(gameController.chooseDeletion(avlNode.ID));
             }
         }
 
@@ -78,7 +80,7 @@ public class AVLOperations : MonoBehaviour
                 if (gameController.addFromBowl(gameObject))
                 {
                     gameObject.transform.rotation = Quaternion.identity;
-                    gameController.enableBallsClickAddPhase();
+                    gameController.enableBallsClickOperation(true);
                     GetComponent<AVLNode>().showID();
                     GetComponent<AVLNode>().showBF();
                 }
