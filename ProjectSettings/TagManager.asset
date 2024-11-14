@@ -3,12 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Bowl
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Hearts
   - Water
   - UI
   - 

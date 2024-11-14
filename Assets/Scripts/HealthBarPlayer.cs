@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-
-public class HealthBarEnemy : MonoBehaviour
+public class HealthBarPlayer : MonoBehaviour
 {
     public GameController controller;
     public HealthScript healthScript;
@@ -23,11 +22,11 @@ public class HealthBarEnemy : MonoBehaviour
     {
         ClearHeart();
 
-        int heartsToMake =(int) controller.enemyStartHealth;
+        int heartsToMake =(int) controller.playerStartHealth;
         for (int i = 0; i < heartsToMake; i++)
         {
             CreateEmptyHeart();
-            
+
         }
 
         for (int i = 0; i < hearts.Count; i++)
