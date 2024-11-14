@@ -24,11 +24,11 @@ public class KameraMovement : MonoBehaviour
 
     void Awake()
     {
-        GameManager.OnGameStateChanged += ManageCameraMovementOnGameStateChanged;
+        //GameManager.OnGameStateChanged += ManageCameraMovementOnGameStateChanged;
     }
     void OnDestroy()
     {
-        GameManager.OnGameStateChanged -= ManageCameraMovementOnGameStateChanged;
+        //GameManager.OnGameStateChanged -= ManageCameraMovementOnGameStateChanged;
     }
 
     void Start()
@@ -88,7 +88,6 @@ public class KameraMovement : MonoBehaviour
                 Debug.Log("Start to move to TopView");
                 MoveToTopView();
                 viewState = ViewState.TopView;
-                Debug.Log(viewState);
             }
         }
         else
@@ -99,7 +98,6 @@ public class KameraMovement : MonoBehaviour
                 Debug.Log("Start to move to SideView");
                 MoveToSideView();
                 viewState = ViewState.SideView;
-                Debug.Log(viewState);
             }
         }
     }

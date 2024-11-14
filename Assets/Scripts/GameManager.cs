@@ -20,13 +20,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-        UpdateGameState(GameState.StartMenu); //needs to be set to StartMenu in the future
+        UpdateGameState(GameState.StartMenu);
     }
 
     public void UpdateGameState(GameState newState)
     {
         prevGameState = gameState;
         gameState = newState;
+
+       
+
         switch (newState)
         {
             case GameState.StartMenu:
