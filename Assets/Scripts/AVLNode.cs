@@ -21,6 +21,10 @@ public class AVLNode : MonoBehaviour
     TextMeshPro balanceFactorObject;
     new MeshRenderer renderer;
 
+    bool markLeftEdge = false;
+    bool markRightEdge = false;
+    public float heightFactor;
+
     private void Awake()
     {
         renderer = GetComponent<MeshRenderer>();
@@ -76,11 +80,17 @@ public class AVLNode : MonoBehaviour
         {
             var leftEdgeObject = Instantiate(edge);
             leftEdge = leftEdgeObject.GetComponent<Edge>();
+            if(markLeftEdge){
+                markInsert(true);
+            }
         }
         if (rightEdge == null && right != null)
         {
             var rightEdgeObject = Instantiate(edge);
             rightEdge = rightEdgeObject.GetComponent<Edge>();
+            if(markRightEdge){
+                markInsert(false);
+            }
         }
     }
 
@@ -146,19 +156,38 @@ public class AVLNode : MonoBehaviour
     //Visability of ID and Balancefaktor
     public void showID()
     {
-        this.transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(0).gameObject.SetActive(true);
     }
     public void hideID()
     {
-        this.transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
     public void showBF()
     {
-        this.transform.GetChild(1).gameObject.SetActive(true);
+        transform.GetChild(1).gameObject.SetActive(true);
     }
     public void hideBF()
     {
-        this.transform.GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(false);
     }
 
+    
+    public void markInsert(bool isLeft){
+        var timeForEdgeMarking = -transform.position.z / heightFactor / 5;
+        if(isLeft){
+            if(leftEdge == null){
+                markLeftEdge = true;
+                return;
+            }
+            markLeftEdge = false;
+            leftEdge.markInsert(timeForEdgeMarking);
+        } else{
+            if(rightEdge == null){
+                markRightEdge = true;
+                return;
+            }
+            markRightEdge = false;
+            rightEdge.markInsert(timeForEdgeMarking);
+        }
+    }
 }

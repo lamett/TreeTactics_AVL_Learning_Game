@@ -202,14 +202,17 @@ class AVLTree
         {
             size++;
             commandHistory.Push(new Tuple<TreeManager.Commands, int>(TreeManager.Commands.Insert, newNode.ID));
+            newNode.heightFactor = posFactorHeight;
             return newNode;
         }
         if (newNode.ID < node.ID)
         {
+            node.markInsert(true);
             node.left = insert(node.left, newNode);
         }
         else if (newNode.ID > node.ID)
         {
+            node.markInsert(false);
             node.right = insert(node.right, newNode);
         }
 
