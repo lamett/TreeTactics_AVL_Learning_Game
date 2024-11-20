@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     public int amountBalls = 6;
     int leftNodesToAdd = 0;
     private List<GameObject> balls;
+    [SerializeField] private RotationButtons rotationButtonsPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -114,6 +115,11 @@ public class GameController : MonoBehaviour
         balls.Clear();
     }
 
+    public void OpenRotationPanel(AVLOperations operations)
+    {
+        rotationButtonsPanel.gameObject.SetActive(true);
+        rotationButtonsPanel.SetNode(operations);
+    }
     public bool addFromBowl(GameObject ball)
     {
         int ID = treeManager.calculateID();
