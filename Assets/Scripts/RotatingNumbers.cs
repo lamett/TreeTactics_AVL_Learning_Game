@@ -28,27 +28,30 @@ public class RotatingNumbers : MonoBehaviour
     private IEnumerator Rotate()
     {
         rowStopped = false;
-        timeInterval = 0.04f;
+        timeInterval = 0.051f;
 
 
         for (int i = 0; i < 30; i++)
         {
-            if (transform.position.y <= -3f)
-                transform.position = new Vector3(transform.position.x, 8f, 7.4f);
+            if (transform.position.y <= -2.6f)
+                transform.position = new Vector3(transform.position.x, 7.6f, 7.4f);
 
-           transform.position = new Vector3(transform.position.x, transform.position.y - 0.4f, 7.4f);
+           transform.position = new Vector3(transform.position.x, transform.position.y - 0.51f, 7.4f);
 
             yield return new WaitForSeconds(timeInterval);
         }
 
         randomValue = Random.Range(60, 100);
 
-        switch (randomValue % 3)
+        switch (randomValue % 4)
         {
             case 1:
-                randomValue += 2; 
+                randomValue += 3; 
                 break;
             case 2:
+                randomValue += 2;
+                break;
+            case 3: 
                 randomValue += 1;
                 break;
         }
@@ -56,19 +59,19 @@ public class RotatingNumbers : MonoBehaviour
 
         for (int i = 0;i < randomValue;i++)
         {
-            if(transform.position.y <= -3f) 
-                transform.position = new Vector3(transform.position.x, 8f, 7.4f);
+            if(transform.position.y <= -2.6f) 
+                transform.position = new Vector3(transform.position.x, 7.6f, 7.4f);
             
-            transform.position = new Vector3(transform.position.x, transform.position.y - 0.4f, 7.4f);
+            transform.position = new Vector3(transform.position.x, transform.position.y - 0.51f, 7.4f);
 
             
-            if (i > Mathf.RoundToInt(randomValue * 0.08f))
+            if (i > Mathf.RoundToInt(randomValue * 0.051f))
                 timeInterval = 0.05f;
-            if (i > Mathf.RoundToInt(randomValue * 0.16f))
+            if (i > Mathf.RoundToInt(randomValue * 0.102f))
                 timeInterval = 0.1f;
-            if (i > Mathf.RoundToInt(randomValue * 0.24f))
+            if (i > Mathf.RoundToInt(randomValue * 0.153f))
                 timeInterval = 0.15f;
-            if (i > Mathf.RoundToInt(randomValue * 0.3f))
+            if (i > Mathf.RoundToInt(randomValue * 0.204f))
                 timeInterval = 0.2f;
             
 
