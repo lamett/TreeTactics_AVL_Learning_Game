@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,6 +30,7 @@ public class TreeManager
     {
         Green,
         Gray,
+        Pink
     }
 
     public TreeManager(GameObject nodePrefab, UnityEvent<int> updateTreeBalance, Stack<Tuple<Commands, int>> commandHistory)
@@ -271,7 +273,62 @@ public class TreeManager
         }
         return false;
     }
-     public int findNodeToDelete(){
+
+    public void resetGapFillers()
+    {
+        AVLNode[] nodes = baum.traverse();
+        if (nodes != null)
+        {
+            foreach (AVLNode node in nodes)
+            {
+                if (node != null)
+                {
+                    node.isGapFiller = false;
+                }
+            }
+        }
+    }
+
+    public void markGapFillers()
+    {
+        AVLNode[] nodes = baum.findChoiceforChooseDeletion();
+        if (nodes != null)
+        {
+            foreach (AVLNode node in nodes)
+            {
+                if(node != null)
+                {
+                    node.isGapFiller = true;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("No GapFillers found");
+        }
+    }
+
+    public void colorGapFillers()
+    {
+        AVLNode[] nodes = baum.traverse();
+        if (nodes != null)
+        {
+            foreach (AVLNode node in nodes)
+            {
+                if (node.GetComponent<AVLNode>().isGapFiller)
+                {
+                    node.setMaterial(NodeMaterial.Green);
+                }
+                else
+                {
+                    node.setMaterial(NodeMaterial.Pink);
+                }
+                
+            }
+        }
+    }
+
+    public int findNodeToDelete(){
         var rnd = new System.Random();
         var nodes = baum.traverse().ToList().OrderBy(item => rnd.Next()).ToList();
         var result = baum.root;

@@ -2,6 +2,7 @@
 //https://www.programiz.com/dsa/avl-tree
 using System;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 class AVLTree
@@ -258,6 +259,13 @@ class AVLTree
         return false;
     }
 
+    public AVLNode[] findChoiceforChooseDeletion()
+    {
+        var leftNeighbor = findSmallerNeighbor(markedDeletion);
+        var rightNeighbor = findHigherNeighbor(markedDeletion);
+        AVLNode[] list = {leftNeighbor, rightNeighbor};
+        return list;
+    }
     //standard löschen, in abhängigkeit linker oder rechter nachbar
     //mit update der Node daten
     private AVLNode delete(AVLNode node, int ID, bool left)
@@ -448,6 +456,14 @@ class AVLTree
             setMaterial(node.left, material);
             node.setMaterial(material);
             setMaterial(node.right, material);
+        }
+    }
+
+    public void setSingleNodeMaterial(AVLNode node, TreeManager.NodeMaterial material)
+    {
+        if (node != null)
+        {
+            node.setMaterial(material);
         }
     }
 

@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class AVLOperations : MonoBehaviour
@@ -30,7 +31,7 @@ public class AVLOperations : MonoBehaviour
 
     public void setIsChoosableForDel(bool isOperatable)
     {
-        this.isChoosableForDel = isOperatable;
+        this.isChoosableForDel= isOperatable;
     }
 
     void OnMouseOver()
@@ -67,9 +68,15 @@ public class AVLOperations : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("choice for Del");
-                //hier muss methode so geschrieben werden dass gotDeltionRight und isBalanced mit �bergeben werden k�nnen
-                //gameController.endSpecialAttackDeletion(gameController.chooseDeletion(avlNode.ID));
+                if (avlNode.isGapFiller)
+                {
+                    gameController.chooseDeletion(avlNode.ID); // deletes node, fill gap, calculate new positions, color
+                    gameController.EndSpezialAttakDel(); //stops timer and go to balance phase
+                }
+                else
+                {
+                    gameController.RerunSpezialAttakDel();
+                }
             }
         }
 
@@ -81,8 +88,8 @@ public class AVLOperations : MonoBehaviour
                 {
                     gameObject.transform.rotation = Quaternion.identity;
                     gameController.enableBallsClickOperation(true);
-                    GetComponent<AVLNode>().showID();
-                    GetComponent<AVLNode>().showBF();
+                    avlNode.showID();
+                    avlNode.showBF();
                 }
 
             }

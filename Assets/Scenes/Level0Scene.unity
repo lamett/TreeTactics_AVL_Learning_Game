@@ -1878,10 +1878,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e9054b722e40944857404a1408473e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationAngle: 70
-  moveDistance: 13
-  moveUpDistance: 16
-  moveDuration: 0.9
   viewState: 0
 --- !u!95 &963194230
 Animator:
@@ -1975,6 +1971,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ChangeToDamageOnPlayerEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 30687022}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: ChangeToDamageOnPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ChangeToBalanceEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 30687022}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: ChangeToBalance
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   addPhaseTimeUpdate:
     m_PersistentCalls:
       m_Calls:
@@ -1990,9 +2016,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  specialPhaseEnd:
-    m_PersistentCalls:
-      m_Calls: []
   specialPhaseTimeUpdate:
     m_PersistentCalls:
       m_Calls:
@@ -2010,7 +2033,7 @@ MonoBehaviour:
         m_CallState: 2
   playerStartHealth: 3
   enemyStartHealth: 5
-  amountBalls: 6
+  amountBalls: 10
 --- !u!4 &1034459915
 Transform:
   m_ObjectHideFlags: 0

@@ -14,19 +14,22 @@ public class GameController : MonoBehaviour
     private HealthScript enemy;
     private TMP_Text dummyText;
     public GameObject nodePrefab;
+    private Button endButton;
     public UnityEvent<int> updateTreeBalance;
 
     public UnityEvent EndAddPhaseEvent;
+    public UnityEvent ChangeToDamageOnPlayerEvent;
+    public UnityEvent ChangeToRollChallengeTalk;
     public UnityEvent<float> addPhaseTimeUpdate;
-    public UnityEvent specialPhaseEnd;
-    public UnityEvent<float> specialPhaseTimeUpdate;
+    //public UnityEvent EndSpezialPhaseByTimer;
+    //public UnityEvent<float> specialPhaseTimeUpdate;
 
     Timer addPhaseTimer;
-    Timer specialPhaseTimer;
+    //Timer specialPhaseTimer;
 
     public int playerStartHealth = 3;
     public int enemyStartHealth = 5;
-    public int amountBalls = 6;
+    public int amountBalls = 0;
     int leftNodesToAdd = 0;
 
     private List<GameObject> balls;
@@ -51,9 +54,11 @@ public class GameController : MonoBehaviour
         player.setHealth(playerStartHealth);
         enemy.setHealth(enemyStartHealth);
         addPhaseTimer = new Timer(this, EndAddPhaseEvent, addPhaseTimeUpdate);
-        specialPhaseTimer = new Timer(this, specialPhaseEnd, specialPhaseTimeUpdate);
+        //specialPhaseTimer = new Timer(this, EndSpezialPhaseByTimer, specialPhaseTimeUpdate);
         balls = new List<GameObject>();
         dummyText = GameObject.FindGameObjectWithTag("DummyText").GetComponent<TMP_Text>();
+        endButton = GameObject.FindGameObjectWithTag("EndButton").GetComponent<Button>();
+        endButton.hide();
     }
     private void ManageAVLOperationsOnGameStateChanged(GameState gameState)
     {
@@ -67,6 +72,7 @@ public class GameController : MonoBehaviour
                     break;
                 case GameState.SpezialAttakUnBalance:
                     enableBallsClickOperation(true);
+                    enableBallsClickDelPhase(false);
                     break;
                 case GameState.SpezialAttakDel:
                     enableBallsClickDelPhase(true);
@@ -83,7 +89,7 @@ public class GameController : MonoBehaviour
     public void chooseAmountBalls()
     {
         var rnd = new System.Random();
-        amountBalls = rnd.Next(2, 6);
+        amountBalls = rnd.Next(4, 8);
     }
 
     //Handle Phases
@@ -97,6 +103,7 @@ public class GameController : MonoBehaviour
 
     public void StartAddPhase()
     {
+        endButton.show();
         treeManager.backUpTree();
         addPhaseTimer.startTimer(amountBalls * 10, 0.2f);
         commandHistory.Clear(); // kann eigentlich auch zum Event OnGameStateChanged hinzugefügt werden
@@ -146,21 +153,39 @@ public class GameController : MonoBehaviour
         treeManager.rebuildTree();
     }
 
-    public void StartSpezialAttakDelTalk()
+    public async Task StartSpezialAttakDelTalk()
     {
-        treeManager.markDeletion(treeManager.findNodeToDelete());//treemanager.delete() // jetzt soll vom computer ein knoten gel�scht werden
+        treeManager.markDeletion(treeManager.findNodeToDelete()); //makes random Node small
+        treeManager.markGapFillers(); //sets higher and smaller neighbourgh to isGapFiller = true
+        setDummyText("Knoten gelöscht, wähle einen Knoten um das Loch zu füllen");
+        await Task.Delay(1000);
         //Animation
     }
 
     public void StartSpezialAttakDel()
     {
-        specialPhaseTimer.startTimer(30, 0.2f);
+        //specialPhaseTimer.startTimer(30, 0.2f);
     }
 
-    public void EndSpezialAttak()
+    public void EndSpezialAttakDel()
     {
-        specialPhaseTimer.stopTimer();
+        //specialPhaseTimer.stopTimer();
+        Debug.Log("end delAttak");
+        treeManager.resetGapFillers();
+        Debug.Log(treeManager.isBalanced());
+        
+        ChangeToRollChallengeTalk.Invoke();
+        
+        
     }
+
+    public void RerunSpezialAttakDel()
+    {
+        treeManager.colorGapFillers();
+        ChangeToDamageOnPlayerEvent.Invoke();
+    }
+
+
     //async public void startAddPhase()
     //{
     //    treeManager.backUpTree(); //hier soll der back up tree gespeichert werden...methode ist im momment noch leer

@@ -15,6 +15,7 @@ public class AVLNode : MonoBehaviour
 
     public Material green;
     public Material gray;
+    public Material pink;
     public GameObject edge;
     Edge leftEdge = null;
     Edge rightEdge = null;
@@ -25,6 +26,7 @@ public class AVLNode : MonoBehaviour
     bool markRightEdge = false;
     public float heightFactor;
 
+    public bool isGapFiller = false;
     private void Awake()
     {
         renderer = GetComponent<MeshRenderer>();
@@ -148,6 +150,9 @@ public class AVLNode : MonoBehaviour
                 break;
             case TreeManager.NodeMaterial.Gray:
                 newMaterial = gray;
+                break;
+            case TreeManager.NodeMaterial.Pink:
+                newMaterial = pink;
                 break;
         }
         renderer.material = newMaterial;

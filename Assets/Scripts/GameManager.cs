@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -107,9 +108,12 @@ public class GameManager : MonoBehaviour
         if (gameController.HealthCheck() == 1)
         {
             UpdateGameState(GameState.Win);
-        };
-
-        UpdateGameState(GameState.SpezialAttakDelTalk);
+        }
+        else 
+        {
+            UpdateGameState(GameState.SpezialAttakDelTalk); 
+        }
+        
     }
 
     private async void HandleDamageOnPlayer()
@@ -118,42 +122,55 @@ public class GameManager : MonoBehaviour
         if (gameController.HealthCheck() == -1)
         {
             UpdateGameState(GameState.Lose);
-        };
-
-        switch (prevGameState)
-        {
-            case GameState.AddPhase:
-                gameController.resetTree();
-                UpdateGameState(GameState.RollChallengeTalk);
-                break;
-            case GameState.SpezialAttakDel:
-                throw new NotImplementedException();
-                //gameController.showRightChoiseAfterDeletion();
-                //UpdateGameState(GameState.RollChallengeTalk);
-                //break;
-            case GameState.SpezialAttakUnBalance:
-                throw new NotImplementedException();
-                //break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(prevGameState), prevGameState, null);
         }
+        else
+        {
+            switch (prevGameState)
+            {
+                case GameState.AddPhase:
+                    gameController.resetTree();
+                    UpdateGameState(GameState.RollChallengeTalk);
+                    break;
+                case GameState.SpezialAttakDel:
+                    UpdateGameState(GameState.SpezialAttakDel);
+                    HandleSpezialAttakDel();
+                    break;
+                case GameState.SpezialAttakUnBalance:
+                    throw new NotImplementedException();
+                    //break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(prevGameState), prevGameState, null);
+            }
+        }
+        
     }
 
-    private void HandleSpezialAttakDelTalk()
+    private async void HandleSpezialAttakDelTalk()
     {
-        gameController.StartSpezialAttakDelTalk();
+        await gameController.StartSpezialAttakDelTalk();
         UpdateGameState(GameState.SpezialAttakDel);
     }
 
-    private void HandleSpezialAttakDel() {
+    private void HandleSpezialAttakDel() 
+    { 
         gameController.StartSpezialAttakDel();
     }
 
     public void HandleSpezialAttakDelEnd()
     {
-        gameController.EndSpezialAttak();
+
     }
 
+
+    public void ChangeToDamageOnPlayer()
+    {
+        UpdateGameState(GameState.DamageOnPlayer);
+    }
+
+    public void ChangeToRollChallengeTalk()
+    {
+        UpdateGameState(GameState.RollChallengeTalk);
+    }
 }
 
 public enum GameState
