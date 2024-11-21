@@ -178,7 +178,7 @@ MonoBehaviour:
   textComponent: {fileID: 1471158831}
   lines:
   - Hallo mein Lieber Freund
-  - So Treffen wir uns Wieder
+  - So treffen wir uns wieder
   - Auf ein spannendes Spiel
   textSpeed: 0.1
 --- !u!114 &24475692
