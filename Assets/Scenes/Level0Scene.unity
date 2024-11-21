@@ -1582,6 +1582,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df496ad63279f2f45af461248e31dbe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panel: {fileID: 692016015}
+  canvas: {fileID: 936074711}
+  panelOffset: {x: 0, y: 150, z: 0}
 --- !u!1 &747393044
 GameObject:
   m_ObjectHideFlags: 0
