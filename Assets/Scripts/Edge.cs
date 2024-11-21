@@ -6,13 +6,17 @@ public class Edge : MonoBehaviour
     public Material standardMaterial;
     public Material alternativMaterial;
     new MeshRenderer renderer;
+    SpriteRenderer spriteRenderer;
     public Vector3 headPos;
     public Vector3 tailPos;
     public float markingDuration = 1f;
 
-    void Awake(){
+    void Awake()
+    {
         renderer = GetComponent<MeshRenderer>();
         renderer.material = standardMaterial;
+        spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        spriteRenderer.enabled = false;
     }
 
     void Update()
@@ -21,11 +25,14 @@ public class Edge : MonoBehaviour
         {
             transform.position = (headPos + tailPos) / 2;
             transform.rotation = Quaternion.LookRotation((headPos - tailPos).normalized) * Quaternion.Euler(90, 0, 0);
-            transform.localScale = new Vector3(transform.localScale.x, ((headPos - tailPos).magnitude / 2) - 0.5f, transform.localScale.z);
+            var scale = ((headPos - tailPos).magnitude / 2) - 0.5f;
+            transform.localScale = new Vector3(transform.localScale.x, scale, transform.localScale.z);
+            transform.GetChild(0).transform.localScale = new Vector3(10, 1 / scale, 10);
         }
     }
 
-    public void markInsert(float startSecond){
+    public void markInsert(float startSecond)
+    {
         StartCoroutine(changeMaterial(startSecond));
     }
 
@@ -33,7 +40,8 @@ public class Edge : MonoBehaviour
     {
         float time = 0;
         float duration = startTime + markingDuration;
-        while(time < startTime){
+        while (time < startTime)
+        {
             time += Time.deltaTime;
             yield return null;
         }
@@ -45,5 +53,20 @@ public class Edge : MonoBehaviour
             yield return null;
         }
         renderer.material = standardMaterial;
+    }
+
+    public void showArrow(bool flipped)
+    {
+        spriteRenderer.enabled = true;
+        if (flipped)
+        {
+            transform.GetChild(0).transform.localEulerAngles = new Vector3(180, 0, 0);
+        }
+    }
+
+    public void hideArrow()
+    {
+        transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, 0);
+        spriteRenderer.enabled = false;
     }
 }

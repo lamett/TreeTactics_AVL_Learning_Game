@@ -31,7 +31,7 @@ public class AVLOperations : MonoBehaviour
 
     public void setIsChoosableForDel(bool isOperatable)
     {
-        this.isChoosableForDel= isOperatable;
+        this.isChoosableForDel = isOperatable;
     }
 
     void OnMouseOver()
@@ -99,7 +99,7 @@ public class AVLOperations : MonoBehaviour
     {
         if (isOperationsEnabled)
         {
-            gameObject.GetComponent<AVLNode>().showHint(true, null);
+            gameObject.GetComponent<AVLNode>().showHint(true);
         }
     }
 
