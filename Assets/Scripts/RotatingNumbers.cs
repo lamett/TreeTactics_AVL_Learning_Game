@@ -23,7 +23,7 @@ public class RotatingNumbers : MonoBehaviour
 
     public void StartRotating()
     {
-        
+        diceNumber = 0;
         StartCoroutine("Rotate");
     }
 
@@ -100,15 +100,11 @@ public class RotatingNumbers : MonoBehaviour
     }
     public async Task WaitRotating()
     {
-        do
-        {
-
-        }while(diceNumber == 0);
-
-        await Task.Delay(100);
+        await Task.Delay(12000);
+    }
         
 
-    }
+    
         
     
 
