@@ -467,6 +467,8 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: f8cf449cbc1adef47bbc237764bd1f41, type: 2}
   gray: {fileID: 2100000, guid: 7fe184943010ea04b8dc2442ce896cbe, type: 2}
   edge: {fileID: 1265570874083313452, guid: 151f9502e00664147a115bed4c3ffb61, type: 3}
+  arrow: {fileID: 3772079089929263808, guid: ad4f2bade9d84dc4fa16cb417ca19520, type: 3}
+  heightFactor: 0
 --- !u!114 &1050869989290586397
 MonoBehaviour:
   m_ObjectHideFlags: 0
