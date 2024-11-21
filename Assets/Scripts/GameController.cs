@@ -34,6 +34,7 @@ public class GameController : MonoBehaviour
 
     private List<GameObject> balls;
     Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
+    [SerializeField] private RotationButtons rotationButtonsPanel;
 
     // Start is called before the first frame update
     
@@ -274,6 +275,11 @@ public class GameController : MonoBehaviour
         balls.Clear();
     }
 
+    public void OpenRotationPanel(AVLOperations operations)
+    {
+        rotationButtonsPanel.gameObject.SetActive(true);
+        rotationButtonsPanel.SetNode(operations);
+    }
     public bool addFromBowl(GameObject ball)
     {
         int ID = treeManager.calculateID();

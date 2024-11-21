@@ -40,11 +40,7 @@ public class AVLOperations : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                gameController.leftRotation(avlNode.ID);
-            }
-            if (Input.GetMouseButtonDown(1))
-            {
-                gameController.rightRotation(avlNode.ID);
+                gameController.OpenRotationPanel(this);
             }
             if (Input.GetKeyDown(KeyCode.B))
             {
@@ -106,5 +102,13 @@ public class AVLOperations : MonoBehaviour
     void OnMouseExit()
     {
         gameObject.GetComponent<AVLNode>().hideHint();
+    }
+    public void RotateLeft()
+    {
+        gameController.leftRotation(avlNode.ID);
+    }
+    public void RotateRight()
+    {
+        gameController.rightRotation(avlNode.ID);
     }
 }
