@@ -17,6 +17,8 @@ public class AVLNode : MonoBehaviour
     public Material gray;
     public Material pink;
     public GameObject edge;
+    public GameObject arrow;
+    GameObject hintArrow;
     Edge leftEdge = null;
     Edge rightEdge = null;
     TextMeshPro balanceFactorObject;
@@ -82,7 +84,8 @@ public class AVLNode : MonoBehaviour
         {
             var leftEdgeObject = Instantiate(edge);
             leftEdge = leftEdgeObject.GetComponent<Edge>();
-            if(markLeftEdge){
+            if (markLeftEdge)
+            {
                 markInsert(true);
             }
         }
@@ -90,7 +93,8 @@ public class AVLNode : MonoBehaviour
         {
             var rightEdgeObject = Instantiate(edge);
             rightEdge = rightEdgeObject.GetComponent<Edge>();
-            if(markRightEdge){
+            if (markRightEdge)
+            {
                 markInsert(false);
             }
         }
@@ -176,23 +180,94 @@ public class AVLNode : MonoBehaviour
         transform.GetChild(1).gameObject.SetActive(false);
     }
 
-    
-    public void markInsert(bool isLeft){
+
+    public void markInsert(bool isLeft)
+    {
         var timeForEdgeMarking = -transform.position.z / heightFactor / 5;
-        if(isLeft){
-            if(leftEdge == null){
+        if (isLeft)
+        {
+            if (leftEdge == null)
+            {
                 markLeftEdge = true;
                 return;
             }
             markLeftEdge = false;
             leftEdge.markInsert(timeForEdgeMarking);
-        } else{
-            if(rightEdge == null){
+        }
+        else
+        {
+            if (rightEdge == null)
+            {
                 markRightEdge = true;
                 return;
             }
             markRightEdge = false;
             rightEdge.markInsert(timeForEdgeMarking);
         }
+    }
+
+    public void showHint(bool isLeft, Vector3? reference)
+    {
+        //if (reference == null && left == null && right == null) return;
+        if ((reference == null && isLeft && right == null) || (reference == null && !isLeft && left == null)) return;
+        hintArrow = Instantiate(arrow);
+        hintArrow.transform.SetParent(gameObject.transform);
+        hintArrow.transform.position = transform.position + new Vector3(0, -0.4f, 0);
+        Vector3 rot;
+        if (reference == null)
+        {
+            if (isLeft)
+            {
+                if (left == null)
+                {
+                    rot = new Vector3(0, 163, 0);
+                }
+                else
+                {
+                    var dir = left.transform.position + new Vector3(0, 0, 0.6f) - transform.position;
+                    float angle = Mathf.Atan2(dir.z, dir.x) * -Mathf.Rad2Deg;
+                    rot = new Vector3(0, angle, 0);
+                }
+                hintArrow.transform.eulerAngles = rot;
+                right?.showHint(true, transform.position);
+            }
+            else
+            {
+                if (right == null)
+                {
+                    rot = new Vector3(180, 17, 0);
+                }
+                else
+                {
+                    var dir = right.transform.position + new Vector3(0, 0, 0.6f) - transform.position;
+                    float angle = Mathf.Atan2(dir.z, dir.x) * -Mathf.Rad2Deg;
+                    rot = new Vector3(180, angle, 0);
+                }
+                hintArrow.transform.eulerAngles = rot;
+                left?.showHint(false, transform.position);
+            }
+        }
+        else
+        {
+            if (isLeft)
+            {
+                var dir = (Vector3)reference + new Vector3(0.6f, 0, 0) - transform.position;
+                float angle = Mathf.Atan2(dir.z, dir.x) * -Mathf.Rad2Deg;
+                rot = new Vector3(0, angle, 0);
+            }
+            else
+            {
+                var dir = (Vector3)reference - new Vector3(0.6f, 0, 0) - transform.position;
+                float angle = Mathf.Atan2(dir.z, dir.x) * -Mathf.Rad2Deg;
+                rot = new Vector3(180, angle, 0);
+            }
+            hintArrow.transform.eulerAngles = rot;
+        }
+    }
+    public void hideHint()
+    {
+        Destroy(hintArrow);
+        left?.hideHint();
+        right?.hideHint();
     }
 }

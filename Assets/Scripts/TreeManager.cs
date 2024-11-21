@@ -217,6 +217,7 @@ public class TreeManager
         baum.leftRot(ID);
         baum.calculatePosition();
         colorTree();
+        baum.root.hideHint();
     }
 
     public void rightRotation(int ID)
@@ -224,6 +225,7 @@ public class TreeManager
         baum.rightRot(ID);
         baum.calculatePosition();
         colorTree();
+        baum.root.hideHint();
     }
 
     public bool isBalanced()
@@ -332,14 +334,16 @@ public class TreeManager
         var rnd = new System.Random();
         var nodes = baum.traverse().ToList().OrderBy(item => rnd.Next()).ToList();
         var result = baum.root;
-        foreach(var node in nodes){
-            if(node.left != null && node.right !=null){
+        foreach (var node in nodes)
+        {
+            if (node.left != null && node.right != null)
+            {
                 result = node;
                 break;
             }
         }
         return result.ID;
-     }
+    }
 
     public async void rotateRandom(int countRotation)
     {

@@ -95,4 +95,16 @@ public class AVLOperations : MonoBehaviour
             }
         }
     }
+    void OnMouseEnter()
+    {
+        if (isOperationsEnabled)
+        {
+            gameObject.GetComponent<AVLNode>().showHint(true, null);
+        }
+    }
+
+    void OnMouseExit()
+    {
+        gameObject.GetComponent<AVLNode>().hideHint();
+    }
 }
