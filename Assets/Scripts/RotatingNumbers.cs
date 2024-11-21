@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class RotatingNumbers : MonoBehaviour
 {
@@ -9,69 +10,68 @@ public class RotatingNumbers : MonoBehaviour
     private float timeInterval;
 
     public bool rowStopped;
-    public string stoppedRow;
+    public int diceNumber;
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
         rowStopped = true;
-        StartRotating();
+        /*StartRotating();*/
     }
 
     public void StartRotating()
     {
-        stoppedRow = "";
+        
         StartCoroutine("Rotate");
     }
 
     private IEnumerator Rotate()
     {
         rowStopped = false;
-        timeInterval = 0.051f;
+        timeInterval = 0.06f;
 
 
         for (int i = 0; i < 30; i++)
         {
-            if (transform.position.y <= -2.6f)
-                transform.position = new Vector3(transform.position.x, 7.6f, 7.4f);
+            if (transform.localPosition.y <= -3f)
+                transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
 
-           transform.position = new Vector3(transform.position.x, transform.position.y - 0.51f, 7.4f);
+           transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.6f, 0);
 
             yield return new WaitForSeconds(timeInterval);
         }
 
-        randomValue = Random.Range(60, 100);
+        randomValue = Random.Range(20, 50);
 
-        switch (randomValue % 4)
+        switch (randomValue % 2)
         {
             case 1:
-                randomValue += 3; 
+                randomValue += 1; 
                 break;
-            case 2:
-                randomValue += 2;
-                break;
-            case 3: 
+            /*case 2:
                 randomValue += 1;
-                break;
+                break;*/
+            
         }
         
 
         for (int i = 0;i < randomValue;i++)
         {
-            if(transform.position.y <= -2.6f) 
-                transform.position = new Vector3(transform.position.x, 7.6f, 7.4f);
+            if(transform.localPosition.y <= -3f) 
+                transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
             
-            transform.position = new Vector3(transform.position.x, transform.position.y - 0.51f, 7.4f);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.6f,0);
 
             
-            if (i > Mathf.RoundToInt(randomValue * 0.051f))
+            if (i > Mathf.RoundToInt(randomValue * 0.04f))
                 timeInterval = 0.05f;
-            if (i > Mathf.RoundToInt(randomValue * 0.102f))
+            if (i > Mathf.RoundToInt(randomValue * 0.08f))
                 timeInterval = 0.1f;
-            if (i > Mathf.RoundToInt(randomValue * 0.153f))
+            if (i > Mathf.RoundToInt(randomValue * 0.12f))
                 timeInterval = 0.15f;
-            if (i > Mathf.RoundToInt(randomValue * 0.204f))
+            if (i > Mathf.RoundToInt(randomValue * 0.15f))
                 timeInterval = 0.2f;
             
 
@@ -79,25 +79,38 @@ public class RotatingNumbers : MonoBehaviour
         }
         
 
-        if (transform.position.y == -3f)
-            stoppedRow = "1";
-        else if (transform.position.y == -1.8f)
-            stoppedRow = "2";
-        else if (transform.position.y == -0.6f)
-            stoppedRow = "3";
-        else if (transform.position.y == 0.6f)
-            stoppedRow = "4";
-        else if (transform.position.y == 1.8f)
-            stoppedRow = "5";
-        else if (transform.position.y == 3f)
-            stoppedRow = "6";
-        else if (transform.position.y == 4.2f)
-            stoppedRow = "1";
+        if (transform.localPosition.y == -3f)
+            diceNumber = 1;
+        else if (transform.localPosition.y == -1.8f)
+            diceNumber = 2;
+        else if (transform.localPosition.y == -0.6f)
+            diceNumber = 3;
+        else if (transform.localPosition.y == 0.6f)
+            diceNumber = 4;
+        else if (transform.localPosition.y == 1.8f)
+            diceNumber = 5;
+        else if (transform.localPosition.y == 3f)
+            diceNumber = 6;
+        else if (transform.localPosition.y == 4.2f)
+            diceNumber = 1;
 
         rowStopped = true;
+
+        
     }
+    public async Task WaitRotating()
+    {
+        do
+        {
 
+        }while(diceNumber == 0);
 
+        await Task.Delay(100);
+        
+
+    }
+        
+    
 
 
 

@@ -24,9 +24,10 @@ public class GameController : MonoBehaviour
 
     public int playerStartHealth = 3;
     public int enemyStartHealth = 5;
-    public int amountBalls = 6;
+    public int amountBalls;
     int leftNodesToAdd = 0;
     public int currentRound = 1;
+    public RotatingNumbers rotatingNumbers;
 
     private List<GameObject> balls;
     Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
@@ -43,6 +44,7 @@ public class GameController : MonoBehaviour
         addPhaseTimer = new Timer(this, addPhaseEnd, addPhaseTimeUpdate);
         specialPhaseTimer = new Timer(this, specialPhaseEnd, specialPhaseTimeUpdate);
         balls = new List<GameObject>();
+        
     }
 
     // Update is called once per frame
@@ -53,8 +55,9 @@ public class GameController : MonoBehaviour
 
     void chooseAmountBalls()
     {
-        var rnd = new System.Random();
-        amountBalls = rnd.Next(2, 6);
+        amountBalls = rotatingNumbers.diceNumber;
+       /* var rnd = new System.Random();
+        amountBalls = rnd.Next(2, 6);*/
     }
 
     bool dealDamage()
@@ -112,6 +115,8 @@ public class GameController : MonoBehaviour
     async public void startAddPhase()
     {
         treeManager.backUpTree(); //hier soll der back up tree gespeichert werden...methode ist im momment noch leer
+        rotatingNumbers.StartRotating();
+        await rotatingNumbers.WaitRotating();
         chooseAmountBalls();
         await SpawnBallsAsync();
         mainCamera.GetComponent<KameraMovement>().MoveToTopView();
