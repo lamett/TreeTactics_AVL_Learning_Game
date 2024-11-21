@@ -91,22 +91,12 @@ public class AVLOperations : MonoBehaviour
             }
         }
     }
-    void OnMouseEnter()
-    {
-        if (isOperationsEnabled)
-        {
-            gameObject.GetComponent<AVLNode>().showHint(true);
-        }
-    }
 
-    void OnMouseExit()
-    {
-        gameObject.GetComponent<AVLNode>().hideHint();
-    }
     public void RotateLeft()
     {
         gameController.leftRotation(avlNode.ID);
     }
+    
     public void RotateRight()
     {
         gameController.rightRotation(avlNode.ID);

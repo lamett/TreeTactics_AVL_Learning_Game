@@ -79,5 +79,17 @@ public class RotationButtons : MonoBehaviour
         );
         panel.GetComponent<RectTransform>().anchoredPosition = canvasPosition;
     }
+
+    public void leftHint(){
+        currentNode.GetComponent<AVLNode>().showHint(true);
+    }
+    
+    public void rightHint(){
+        currentNode.GetComponent<AVLNode>().showHint(false);
+    }
+
+    public void hideHint(){
+        currentNode.GetComponent<AVLNode>().hideHint();
+    }
 }
 
