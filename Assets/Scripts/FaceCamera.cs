@@ -18,12 +18,14 @@ public class FaceCamera : MonoBehaviour
     {
         var pos = mainCamera.transform.position;
         if(mainCamera.transform.position.y > 6){
-            pos += new Vector3(0,20,-20);
+            transform.GetChild(0).transform.eulerAngles = new Vector3(85,0,0);
+            transform.GetChild(1).transform.eulerAngles = new Vector3(85,0,0);
+        }else{
+            transform.GetChild(0).transform.LookAt(pos);
+            transform.GetChild(0).transform.Rotate(0,180,0);
+            transform.GetChild(1).transform.LookAt(pos);
+            transform.GetChild(1).transform.Rotate(0,180,0);
         }
-        transform.GetChild(0).transform.LookAt(pos);
-        transform.GetChild(0).transform.Rotate(0,180,0);
-        transform.GetChild(1).transform.LookAt(pos);
-        transform.GetChild(1).transform.Rotate(0,180,0);
     }
  
 }
