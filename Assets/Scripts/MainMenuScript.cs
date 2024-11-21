@@ -27,12 +27,12 @@ public class MainMenuScript : MonoBehaviour
 
     public void OpenOptions()
     {
-        OptionsWindow.active = true;
+        OptionsWindow.SetActive(true);
     }
 
     public void CloseOptions()
     {
-        OptionsWindow.active = false;
+        OptionsWindow.SetActive(false);
     }
     public void ChangeVolume()
     {
