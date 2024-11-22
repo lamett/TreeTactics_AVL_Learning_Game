@@ -83,6 +83,7 @@ public class TreeManager
         {
             addObject(instantiateBallForBowl(), ID);
         }
+        showAllBF();
     }
 
     public GameObject instantiateBallForBowl()
@@ -432,11 +433,11 @@ public class TreeManager
         return result;
     }
 
-    public void showAllBF(bool showAllBF)
+    public void showAllBF()
     {
         var nodes = baum.traverse();
 
-        if (showAllBF)
+        if (Settings.ShowBalanceFactor)
         {
             foreach (var node in nodes)
             {

@@ -376,9 +376,9 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void showAllBF(bool showAllBF)
+    public void showAllBF()
     {
-        treeManager.showAllBF(showAllBF);
+        treeManager.showAllBF();
     }
 
     //#####-Methode zu Test zwecken-#############

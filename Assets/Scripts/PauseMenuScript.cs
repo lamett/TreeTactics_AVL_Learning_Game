@@ -27,7 +27,7 @@ public class PauseMenuScript : MonoBehaviour
         optionsMenuUI.SetActive(false);
         Time.timeScale = 1f;
         Settings.GameIsPaused = false;
-        gameController.GetComponent<GameController>().showAllBF(Settings.ShowBalanceFactor);
+        gameController.GetComponent<GameController>().showAllBF();
     }
 
     void pause()
