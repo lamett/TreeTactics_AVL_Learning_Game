@@ -298,7 +298,7 @@ public class TreeManager
         {
             foreach (AVLNode node in nodes)
             {
-                if(node != null)
+                if (node != null)
                 {
                     node.isGapFiller = true;
                 }
@@ -325,12 +325,13 @@ public class TreeManager
                 {
                     node.setMaterial(NodeMaterial.Pink);
                 }
-                
+
             }
         }
     }
 
-    public int findNodeToDelete(){
+    public int findNodeToDelete()
+    {
         var rnd = new System.Random();
         var nodes = baum.traverse().ToList().OrderBy(item => rnd.Next()).ToList();
         var result = baum.root;
@@ -429,5 +430,25 @@ public class TreeManager
             result |= await balanceTree(node.right, balanceFactor);
         }
         return result;
+    }
+
+    public void showAllBF(bool showAllBF)
+    {
+        var nodes = baum.traverse();
+
+        if (showAllBF)
+        {
+            foreach (var node in nodes)
+            {
+                node.showBF();
+            }
+        }
+        else
+        {
+            foreach (var node in nodes)
+            {
+                node.hideBF();
+            }
+        }
     }
 }

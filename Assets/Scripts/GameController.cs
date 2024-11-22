@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private RotationButtons rotationButtonsPanel;
 
     // Start is called before the first frame update
-    
+
     void Awake()
     {
         GameManager.OnGameStateChanged += ManageAVLOperationsOnGameStateChanged;
@@ -63,7 +63,8 @@ public class GameController : MonoBehaviour
     }
     private void ManageAVLOperationsOnGameStateChanged(GameState gameState)
     {
-        if (balls != null) {
+        if (balls != null)
+        {
             switch (gameState)
             {
                 case GameState.AddPhase:
@@ -118,7 +119,7 @@ public class GameController : MonoBehaviour
         clearBowl();
         commandHistory.Clear();
 
-        if (leftNodesToAdd > 0 || !treeManager.isBalanced()){ return false; }
+        if (leftNodesToAdd > 0 || !treeManager.isBalanced()) { return false; }
         else { return true; }
     }
 
@@ -174,10 +175,10 @@ public class GameController : MonoBehaviour
         Debug.Log("end delAttak");
         treeManager.resetGapFillers();
         Debug.Log(treeManager.isBalanced());
-        
+
         ChangeToRollChallengeTalk.Invoke();
-        
-        
+
+
     }
 
     public void RerunSpezialAttakDel()
@@ -307,8 +308,8 @@ public class GameController : MonoBehaviour
         {
             foreach (GameObject ball in balls)
             {
-            ball.GetComponent<AVLOperations>().setIsAddable(activate);
-            ball.GetComponent<AVLOperations>().setIsOperatable(false);
+                ball.GetComponent<AVLOperations>().setIsAddable(activate);
+                ball.GetComponent<AVLOperations>().setIsOperatable(false);
             }
         }
     }
@@ -375,6 +376,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void showAllBF(bool showAllBF)
+    {
+        treeManager.showAllBF(showAllBF);
+    }
+
     //#####-Methode zu Test zwecken-#############
     async public void addFromButton()
     {
@@ -400,6 +406,6 @@ public class GameController : MonoBehaviour
 
     private void setDummyText(string text)
     {
-         dummyText.text = text;
+        dummyText.text = text;
     }
 }

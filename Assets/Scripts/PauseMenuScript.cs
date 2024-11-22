@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenuScript : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public GameObject optionsMenuUI;
+    public GameObject gameController;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -25,8 +24,10 @@ public class PauseMenuScript : MonoBehaviour
     public void resume()
     {
         pauseMenuUI.SetActive(false);
+        optionsMenuUI.SetActive(false);
         Time.timeScale = 1f;
         Settings.GameIsPaused = false;
+        gameController.GetComponent<GameController>().showAllBF(Settings.ShowBalanceFactor);
     }
 
     void pause()
@@ -44,6 +45,6 @@ public class PauseMenuScript : MonoBehaviour
 
     public void loadOptions()
     {
-        Debug.Log("Optionen laden");
+        optionsMenuUI.SetActive(true);
     }
 }

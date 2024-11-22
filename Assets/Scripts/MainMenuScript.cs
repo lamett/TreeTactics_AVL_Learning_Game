@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
 public class MainMenuScript : MonoBehaviour
 {
 
     public GameObject OptionsWindow;
 
-    public Slider VolumeSlider;
-
-    private void Start()
+    void Awake()
     {
-        VolumeSlider.onValueChanged.AddListener(delegate {ChangeVolume(); });
+        //gets called once in the beginning
+        if (!Settings.DidItRun)
+        {
+            Settings.ShowBalanceFactor = true;
+            Settings.ShowArrowHint = true;
+
+            Settings.DidItRun = true;
+        }
     }
 
     public void StartGame()
@@ -34,10 +37,4 @@ public class MainMenuScript : MonoBehaviour
     {
         OptionsWindow.SetActive(false);
     }
-    public void ChangeVolume()
-    {
-        AudioListener.volume = VolumeSlider.value;
-        
-    }
-
 }

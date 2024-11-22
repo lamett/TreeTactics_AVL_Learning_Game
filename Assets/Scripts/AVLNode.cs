@@ -173,7 +173,10 @@ public class AVLNode : MonoBehaviour
     }
     public void showBF()
     {
-        transform.GetChild(1).gameObject.SetActive(true);
+        if (Settings.ShowBalanceFactor)
+        {
+            transform.GetChild(1).gameObject.SetActive(true);
+        }
     }
     public void hideBF()
     {
@@ -208,6 +211,7 @@ public class AVLNode : MonoBehaviour
 
     public void showHint(bool isLeft)
     {
+        if (!Settings.ShowArrowHint) return;
         if ((isLeft && right == null) || (!isLeft && left == null)) return;
         if (isLeft)
         {
