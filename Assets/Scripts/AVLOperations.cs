@@ -1,7 +1,8 @@
 using UnityEditor.Experimental.GraphView;
+using UnityEngine.EventSystems;
 using UnityEngine;
 
-public class AVLOperations : MonoBehaviour
+public class AVLOperations : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     GameController gameController;
     AVLNode avlNode;
@@ -9,7 +10,12 @@ public class AVLOperations : MonoBehaviour
     public bool isOperationsEnabled;
     public bool isAddable;
     public bool isChoosableForDel;
-    // Start is called before the first frame update
+
+    private Vector3 mouseStartPosition;
+    private Vector3 mouseEndPosition;
+    private bool isDragging = false;
+
+    private Rotation prevRotation = Rotation.None;
 
     void Start()
     {
@@ -17,6 +23,33 @@ public class AVLOperations : MonoBehaviour
         avlNode = GetComponent<AVLNode>();
         isOperationsEnabled = false;
         isAddable = false;
+    }
+
+
+    void Update()
+    {
+        if (isDragging)
+        {
+            Rotation rotation = DetectDragDirection();
+
+            if (rotation != prevRotation)
+            {
+                Debug.Log(rotation);
+                switch (rotation)
+                {
+                    case Rotation.Right:
+                        avlNode.showHint(false); //show rightrotation hint
+                        break;
+                    case Rotation.Left:
+                        avlNode.showHint(true); //show leftrotation hint
+                        break;
+                    case Rotation.None:
+                        avlNode.hideHint();
+                        break;
+                }
+                prevRotation = rotation;
+            }
+        }
     }
 
     public void setIsAddable(bool isAddable)
@@ -34,27 +67,85 @@ public class AVLOperations : MonoBehaviour
         this.isChoosableForDel = isOperatable;
     }
 
-    void OnMouseOver()
+    public void OnPointerDown(PointerEventData eventData)
     {
         if (isOperationsEnabled)
         {
-            if (Input.GetMouseButtonDown(0))
+            mouseStartPosition = Input.mousePosition;
+            isDragging = true;
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (isOperationsEnabled)
+        {
+            if (isDragging)
             {
-                gameController.OpenRotationPanel(this);
-            }
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                gameController.balance();
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                gameController.randomRot();
-            }
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                gameController.killTree();
+                Rotation rotation = DetectDragDirection();
+                switch (rotation)
+                {
+                    case Rotation.Right:
+                        gameController.rightRotation(avlNode.ID);
+                        break;
+                    case Rotation.Left:
+                        gameController.leftRotation(avlNode.ID);
+                        break;
+                    case Rotation.None:
+                        Debug.Log("No Rotation detected");
+                        break;
+                }
+                isDragging = false;
             }
         }
+    }
+
+    private Rotation DetectDragDirection()
+    {
+        float dragDistanceX = Input.mousePosition.x - mouseStartPosition.x;
+
+        float dragThreshold = 10f;
+        if (Mathf.Abs(dragDistanceX) > dragThreshold)
+        {
+            if (dragDistanceX > 0)
+            {
+                return Rotation.Right;
+                //gameController.rightRotation(avlNode.ID);
+            }
+            else
+            {
+                return Rotation.Left;
+                //gameController.leftRotation(avlNode.ID);
+            }
+        }
+        else
+        {
+            return Rotation.None;
+        }
+    }
+
+    void OnMouseOver()
+    {
+        //if (isOperationsEnabled)
+        //{
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+                //gameController.OpenRotationPanel(this);
+
+        //    }
+        //    if (Input.GetKeyDown(KeyCode.B))
+        //    {
+        //        gameController.balance();
+        //    }
+        //    if (Input.GetKeyDown(KeyCode.R))
+        //    {
+        //        gameController.randomRot();
+        //    }
+        //    if (Input.GetKeyDown(KeyCode.K))
+        //    {
+        //        gameController.killTree();
+        //    }
+        //}
 
         if (isChoosableForDel)
         {
@@ -101,4 +192,10 @@ public class AVLOperations : MonoBehaviour
     {
         gameController.rightRotation(avlNode.ID);
     }
+}
+public enum Rotation
+{
+    None,
+    Right,
+    Left
 }
