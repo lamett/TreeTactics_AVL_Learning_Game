@@ -6,10 +6,15 @@ public class HealthScript : MonoBehaviour
 {
 
     public int Health;
+    public EnemyHealthBar enemyHealthBar;
+    public PlayerHealthBar playerHealthBar;
 
     public void reduceHealth()
     {
         Health -= 1;
+        enemyHealthBar.DrawHearts();
+        playerHealthBar.DrawHearts();
+       
     }
 
     public void setHealth(int value)
