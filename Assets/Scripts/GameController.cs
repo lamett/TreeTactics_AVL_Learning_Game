@@ -28,10 +28,10 @@ public class GameController : MonoBehaviour
     //Timer specialPhaseTimer;
 
     public int playerStartHealth = 3;
-    public int enemyStartHealth = 5;
+    public int enemyStartHealth = 3;
     public int amountBalls = 0;
     int leftNodesToAdd = 0;
-    public RotatingNumbers rotatingNumbers;
+    public NewRotating rotating;
 
     private List<GameObject> balls;
     Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
@@ -91,7 +91,7 @@ public class GameController : MonoBehaviour
 
     public void chooseAmountBalls()
     {
-        amountBalls = rotatingNumbers.diceNumber;
+        amountBalls = rotating.diceNumber;
         /*var rnd = new System.Random();
         amountBalls = rnd.Next(4, 8);
         */
@@ -100,8 +100,8 @@ public class GameController : MonoBehaviour
     //Handle Phases
     async public Task StartRollChallengeTalk()
     {
-        rotatingNumbers.StartRotating(); // Startet rotieren der Nummern
-        await rotatingNumbers.WaitRotating();// wartet bis fertig gerollt (bis jetzt nur 12s)
+        rotating.GenerateRotation(); // Startet rotieren der Nummern
+        await rotating.WaitRotating();// wartet bis fertig gerollt (bis jetzt nur 12s)
         chooseAmountBalls();
         setDummyText("Add " + amountBalls + " Nodes");
         //ScreenAnimation
@@ -132,6 +132,7 @@ public class GameController : MonoBehaviour
     {
         enemy.reduceHealth();
         setDummyText("Damage on Enemy. Remaining Health:" + enemy.Health);
+        rotating.rotatingNumber += 1;
         await Task.Delay(2000);
     }
     public async Task DamagePlayer()

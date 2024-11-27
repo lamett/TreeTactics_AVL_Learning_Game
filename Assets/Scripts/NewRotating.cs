@@ -1,0 +1,225 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Threading.Tasks;
+
+public class NewRotating : MonoBehaviour
+{ 
+    
+    
+    private float timeInterval;
+
+    public bool rowStopped;
+    public int diceNumber;
+    public int rotatingNumber;  
+
+// Start is called before the first frame update
+        void Start()
+    {
+        rotatingNumber = 1;
+        rowStopped = true;
+    }
+    
+   
+    public void GenerateRotation()
+    {
+        if (rotatingNumber == 4)
+        {
+            rotatingNumber = 1;
+        }
+        else if (rotatingNumber == 1)
+        {
+            diceNumber = Random.Range(4, 8);
+            StartRotating();
+        }
+        else if (rotatingNumber == 2)
+        {
+            diceNumber = Random.Range(5, 9);
+            StartRotating();
+        }
+        else if (rotatingNumber == 3)
+        {
+            diceNumber  = Random.Range(6, 10);
+            StartRotating();
+        }
+    }
+
+    public void StartRotating()
+    {
+        StartCoroutine("Rotate");
+    }
+
+    private IEnumerator Rotate()
+    {
+        rowStopped = false;
+        timeInterval = 0.03f;
+        transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+
+        for (int i = 0; i < 40; i++)
+        {
+            if (transform.localPosition.y <= -3f)
+                transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+
+            yield return new WaitForSeconds(timeInterval);
+        }
+
+        if (diceNumber == 4)
+        {
+            for (int i = 0; i < 59; i++)
+            {
+                if (transform.localPosition.y <= -3f)
+                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+
+
+                if (i > Mathf.RoundToInt(59 * 0.04f))
+                    timeInterval = 0.05f;
+                if (i > Mathf.RoundToInt(59 * 0.08f))
+                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(59 * 0.12f))
+                    timeInterval = 0.15f;
+                if (i > Mathf.RoundToInt(59 * 0.15f))
+                    timeInterval = 0.2f;
+
+
+                yield return new WaitForSeconds(timeInterval);
+            }
+        }
+
+        else if (diceNumber == 5)
+        {
+            for (int i = 0; i < 55; i++)
+            {
+                if (transform.localPosition.y <= -3f)
+                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+
+
+                if (i > Mathf.RoundToInt(55 * 0.04f))
+                    timeInterval = 0.05f;
+                if (i > Mathf.RoundToInt(55 * 0.08f))
+                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(55 * 0.12f))
+                    timeInterval = 0.15f;
+                if (i > Mathf.RoundToInt(55 * 0.15f))
+                    timeInterval = 0.2f;
+
+
+                yield return new WaitForSeconds(timeInterval);
+            }
+
+        }
+
+        else if (diceNumber == 6)
+        {
+            for (int i = 0; i < 51; i++)
+            {
+                if (transform.localPosition.y <= -3f)
+                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+
+
+                if (i > Mathf.RoundToInt(51 * 0.04f))
+                    timeInterval = 0.05f;
+                if (i > Mathf.RoundToInt(51 * 0.08f))
+                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(51 * 0.12f))
+                    timeInterval = 0.15f;
+                if (i > Mathf.RoundToInt(51 * 0.15f))
+                    timeInterval = 0.2f;
+
+
+                yield return new WaitForSeconds(timeInterval);
+            }
+
+        }
+
+        else if (diceNumber == 7)
+        {
+            for (int i = 0; i < 47; i++)
+            {
+                if (transform.localPosition.y <= -3f)
+                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+
+
+                if (i > Mathf.RoundToInt(47 * 0.04f))
+                    timeInterval = 0.05f;
+                if (i > Mathf.RoundToInt(47 * 0.08f))
+                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(47 * 0.12f))
+                    timeInterval = 0.15f;
+                if (i > Mathf.RoundToInt(47 * 0.15f))
+                    timeInterval = 0.2f;
+
+
+                yield return new WaitForSeconds(timeInterval);
+            }
+
+        }
+
+        else if (diceNumber == 8)
+        {
+            for (int i = 0; i < 43; i++)
+            {
+                if (transform.localPosition.y <= -3f)
+                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+
+
+                if (i > Mathf.RoundToInt(43 * 0.04f))
+                    timeInterval = 0.05f;
+                if (i > Mathf.RoundToInt(43 * 0.08f))
+                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(43 * 0.12f))
+                    timeInterval = 0.15f;
+                if (i > Mathf.RoundToInt(43 * 0.15f))
+                    timeInterval = 0.2f;
+
+
+                yield return new WaitForSeconds(timeInterval);
+            }
+
+        }
+
+        else if (diceNumber == 9)
+        {
+            for (int i = 0; i < 39; i++)
+            {
+                if (transform.localPosition.y <= -3f)
+                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+
+
+                if (i > Mathf.RoundToInt(39 * 0.04f))
+                    timeInterval = 0.05f;
+                if (i > Mathf.RoundToInt(39 * 0.08f))
+                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(39 * 0.12f))
+                    timeInterval = 0.15f;
+                if (i > Mathf.RoundToInt(39 * 0.15f))
+                    timeInterval = 0.2f;
+
+
+                yield return new WaitForSeconds(timeInterval);
+            }
+
+        }
+
+        rowStopped = true;
+
+    }
+    
+    public async Task WaitRotating()
+    {
+        await Task.Delay(12000);
+    }
+}
