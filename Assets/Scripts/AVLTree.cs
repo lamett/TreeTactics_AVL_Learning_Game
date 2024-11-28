@@ -13,6 +13,8 @@ class AVLTree
     public float posFactorWidth = 0.8f;
     public float posFactorHeight = 1.2f;
 
+    float zOffset = 2.3f;
+
     public AVLNode markedDeletion { get; private set; }
 
 
@@ -421,7 +423,7 @@ class AVLTree
         }
         for (int i = 0; i < allNodes.Length; i++)
         {
-            allNodes[i].updatePosition(new Vector3((i - rootIndex) * posFactorWidth, 0f, -allNodes[i].depth * posFactorHeight));
+            allNodes[i].updatePosition(new Vector3((i - rootIndex) * posFactorWidth, 0f, (-allNodes[i].depth * posFactorHeight) + zOffset));
         }
     }
 
