@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -54,9 +55,11 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.SpezialAttakUnbalanceTalk:
                 Debug.Log("SpezialAttakUnbalanceTalk");
+                HandleSpezialAttakUnbalanceTalk();
                 break;
             case GameState.SpezialAttakUnBalance:
                 Debug.Log("SpezialAttakUnBalance");
+                HandleSpezialAttakUnbalance();
                 break;
             case GameState.SpezialAttakDelTalk:
                 Debug.Log("SpezialAttakDelTalk");
@@ -68,8 +71,10 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Lose:
                 Debug.Log("Lose");
+                HandleLose();
                 break;
             case GameState.Win:
+                HandleWin();
                 Debug.Log("Win");
                 break;
             default:
@@ -107,7 +112,7 @@ public class GameManager : MonoBehaviour
         await gameController.DamageEnemy();
         if (gameController.HealthCheck() == 1)
         {
-            UpdateGameState(GameState.Win);
+            UpdateGameState(GameState.SpezialAttakUnbalanceTalk);
         }
         else 
         {
@@ -156,11 +161,29 @@ public class GameManager : MonoBehaviour
         gameController.StartSpezialAttakDel();
     }
 
-    public void HandleSpezialAttakDelEnd()
+    public async void HandleSpezialAttakUnbalanceTalk()
     {
-
+        await gameController.StartSpezialAttakUnbalanceTalk();
+        UpdateGameState(GameState.SpezialAttakUnBalance);
     }
 
+    private async void HandleSpezialAttakUnbalance()
+    {
+        await gameController.StartSpezialAttakUnbalance();
+        UpdateGameState(GameState.Win);
+    }
+
+    private async void HandleWin()
+    {
+        await gameController.StartWin();
+        SceneManager.LoadScene("StartMenu");
+    }
+
+    private async void HandleLose()
+    {
+        await gameController.StartLose();
+        SceneManager.LoadScene("StartMenu");
+    }
 
     public void ChangeToDamageOnPlayer()
     {
@@ -170,6 +193,11 @@ public class GameManager : MonoBehaviour
     public void ChangeToRollChallengeTalk()
     {
         UpdateGameState(GameState.RollChallengeTalk);
+    }
+
+    public void ChangeToLose()
+    {
+        UpdateGameState(GameState.Lose);
     }
 }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using TMPro;
+using UnityEditor;
 
 public class GameController : MonoBehaviour
 {
@@ -21,11 +22,11 @@ public class GameController : MonoBehaviour
     public UnityEvent ChangeToDamageOnPlayerEvent;
     public UnityEvent ChangeToRollChallengeTalk;
     public UnityEvent<float> addPhaseTimeUpdate;
-    //public UnityEvent EndSpezialPhaseByTimer;
-    //public UnityEvent<float> specialPhaseTimeUpdate;
+    public UnityEvent EndSpezialPhaseByTimer;
+    public UnityEvent<float> specialPhaseTimeUpdate;
 
     Timer addPhaseTimer;
-    //Timer specialPhaseTimer;
+    Timer specialPhaseTimer;
 
     public int playerStartHealth = 3;
     public int enemyStartHealth = 3;
@@ -56,7 +57,7 @@ public class GameController : MonoBehaviour
         player.setHealth(playerStartHealth);
         enemy.setHealth(enemyStartHealth);
         addPhaseTimer = new Timer(this, EndAddPhaseEvent, addPhaseTimeUpdate);
-        //specialPhaseTimer = new Timer(this, EndSpezialPhaseByTimer, specialPhaseTimeUpdate);
+        specialPhaseTimer = new Timer(this, EndSpezialPhaseByTimer, specialPhaseTimeUpdate);
         balls = new List<GameObject>();
         dummyText = GameObject.FindGameObjectWithTag("DummyText").GetComponent<TMP_Text>();
         endButton = GameObject.FindGameObjectWithTag("EndButton").GetComponent<Button>();
@@ -183,8 +184,6 @@ public class GameController : MonoBehaviour
         Debug.Log(treeManager.isBalanced());
 
         ChangeToRollChallengeTalk.Invoke();
-
-
     }
 
     public void RerunSpezialAttakDel()
@@ -193,7 +192,41 @@ public class GameController : MonoBehaviour
         ChangeToDamageOnPlayerEvent.Invoke();
     }
 
+    public async Task StartSpezialAttakUnbalanceTalk()
+    {
+        setDummyText("Du hast mich noch nicht besiegt!");
+        await Task.Delay(500);
+        enemy.GetComponent<Animator>().SetTrigger("JumpOnTable"); //triggers shake and RandomRot as animation event
+        await Task.Delay(4000);
+    }
 
+
+    public async Task StartSpezialAttakUnbalance()
+    {
+        specialPhaseTimer.startTimer(20, 0.2f);
+        while (!treeManager.isBalanced())
+        {
+            await Task.Yield(); // Continue checking each frame
+        }
+        await Task.Delay(1000);
+    }
+
+    public async Task StartWin()
+    {
+        await Task.Delay(500);
+        enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
+        await Task.Delay(2000);
+        setDummyText("Ich habe dir nichts mehr beizubringen. Gut gemacht.");
+        await Task.Delay(1000);
+    }
+
+    public async Task StartLose()
+    {
+        await Task.Delay(500);
+        enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
+        setDummyText("Komm später nochmal wieder");
+        await Task.Delay(1000);
+    }
     //async public void startAddPhase()
     //{
     //    treeManager.backUpTree(); //hier soll der back up tree gespeichert werden...methode ist im momment noch leer
@@ -259,6 +292,17 @@ public class GameController : MonoBehaviour
     //    Debug.Log(msg);
     //}
     //#############################################
+
+    public void randomRot()
+    {
+        int i = 0;
+        while (treeManager.isBalanced() && i < 10)
+        {
+            treeManager.rotateRandom(10);
+            i++;
+        }
+        
+    }
 
     private async Task SpawnBallsAsync()
     {
@@ -395,10 +439,7 @@ public class GameController : MonoBehaviour
         enableBallsClickAdd(true);
     }
 
-    public void randomRot()
-    {
-        treeManager.rotateRandom(10);
-    }
+    
     public void balance()
     {
         treeManager.balanceTreeCompletly();

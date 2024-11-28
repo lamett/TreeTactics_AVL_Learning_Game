@@ -362,7 +362,7 @@ public class TreeManager
             {
                 rightRotation(ID);
             }
-            await Task.Delay(300);
+            await Task.Delay(10);
         }
         baum.calculatePosition();
     }

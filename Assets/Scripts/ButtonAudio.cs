@@ -7,17 +7,17 @@ public class ButtonAudio : MonoBehaviour
     [SerializeField]
     string srcTag;
 
-    AudioSource audio;
+    AudioSource audioSrc;
     // Start is called before the first frame update
     void Start()
     {
-        audio = GameObject.FindGameObjectWithTag(srcTag).GetComponent<AudioSource>();
-        Debug.Log(audio);
+        audioSrc = GameObject.FindGameObjectWithTag(srcTag).GetComponent<AudioSource>();
+        Debug.Log(audioSrc);
         
     }
     
     public void OnChanged()
     {
-        audio.Play();
+        audioSrc.Play();
     }
 }
