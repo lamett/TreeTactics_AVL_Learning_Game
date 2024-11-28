@@ -248,15 +248,18 @@ public class TreeManager
         updateTreeBalance.Invoke(balance);
     }
 
-    public void markDeletion(int ID)
+    public AVLNode markDeletion(int ID)
     {
+        AVLNode node = null;
         var correct = baum.markDeletion(ID);
         if (baum.markedDeletion != null && correct)
         {
             possibleNumbers.Add(ID);
             shuffle();
+            node = baum.find(ID);
         }
         baum.calculatePosition();
+        return node;
     }
 
     public bool chooseDeletion(int ID)

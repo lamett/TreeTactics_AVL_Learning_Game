@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using TMPro;
+using Unity.Burst.Intrinsics;
 
 public class GameController : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class GameController : MonoBehaviour
 
     Timer addPhaseTimer;
     //Timer specialPhaseTimer;
+
+    public ArmMoverButtonBehaviour arm;
 
     public int playerStartHealth = 3;
     public int enemyStartHealth = 3;
@@ -163,7 +166,8 @@ public class GameController : MonoBehaviour
 
     public async Task StartSpezialAttakDelTalk()
     {
-        treeManager.markDeletion(treeManager.findNodeToDelete()); //makes random Node small
+        var node = treeManager.markDeletion(treeManager.findNodeToDelete()); //makes random Node small
+        arm.MoveArm(node.gameObject.transform.position);
         treeManager.markGapFillers(); //sets higher and smaller neighbourgh to isGapFiller = true
         setDummyText("Knoten gelöscht, wähle einen Knoten um das Loch zu füllen");
         await Task.Delay(1000);
