@@ -54,15 +54,34 @@ public class TextBoxScript : MonoBehaviour
 
     void NextLine()
     {
-        if (index < lines.Length - 1)
+        if (index < 3)
         {
             index++;
             textComponent.text = string.Empty;
             StartCoroutine(TypeLine());
         }
+        else if(index == 3)
+        {
+
+        }
         else
         {
             gameObject.SetActive(false);
         }
+    }
+    void StartDialogue2()
+    {
+        index = 3;
+        StartCoroutine(TypeLine2());
+    }
+    IEnumerator TypeLine2()
+    {
+        foreach (char c in lines[index].ToCharArray())
+        {
+            textComponent.text += c;
+            yield return new WaitForSeconds(textSpeed);
+        }
+
+       
     }
 }
