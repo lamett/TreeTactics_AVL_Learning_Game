@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
 
 public class KameraMovement : MonoBehaviour
 {
     public ViewState viewState;
     private Animator animator;
+    public Animator animatorScreen;
 
     void Awake()
     {
@@ -46,11 +44,13 @@ public class KameraMovement : MonoBehaviour
     public void MoveToTopView()
     {
         animator.SetTrigger("ToTopView");
+        animatorScreen.SetTrigger("ToTop");
     }
 
     public void MoveToSideView()
     {
         animator.SetTrigger("ToSideView");
+        animatorScreen.SetTrigger("ToSide");
     }
 }
 public enum ViewState
