@@ -1,78 +1,73 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ArmMoverButtonBehaviour : MonoBehaviour
 {
+    public Transform Mover; // Der Mover, der das IK-Target steuert
+    public Transform Arm; // Der Arm mit Animator
+    public GameObject prefab; // Prefab, das gespawnt wird
 
-    private Vector3 ballPosition = new Vector3(-3, 0, -3);
-    private Vector3 restPosition = new Vector3(3,0,0);
-    Animator my_Animator;
-    public GameObject prefab;
-    public Transform Mover;
-    public Transform Arm;
-    
+    private Vector3 ballPosition = new Vector3(-3, 0, -3); // Zielposition
+    private Vector3 restPosition = new Vector3(5, 0, 0); // Ruheposition des Movers
+    private Animator my_Animator; // Animator des Arms
+    private GameObject spawnedPrefab; // Referenz zum gespannten Prefab
 
-   
-    // Start is called before the first frame update
     void Start()
     {
-        my_Animator = Arm.GetComponent<Animator>();
-        StartCoroutine(LerpPosition(restPosition, 1f));
+        my_Animator = Arm.GetComponent<Animator>(); // Animator speziell für den Arm
+        Mover.position = restPosition; // Initialisiere den Mover an der Ruheposition
     }
 
-    // Update is called once per frame
-    void Update()
+    public void MoveArm()
     {
-       
+        // Starte die Bewegungs- und Animationssequenz
+        StartCoroutine(MoveThenWaitSecondsThenReturn(ballPosition, restPosition, 2f));
+    }
+
+    IEnumerator MoveThenWaitSecondsThenReturn(Vector3 targetPosition, Vector3 restPosition, float waitTime)
+    {
+        float duration = 1f;
+
+        // 1. Bewege Mover zur Zielposition
+        yield return StartCoroutine(LerpPosition(targetPosition, duration));
+
+        // 2. Spiele die "Grab"-Animation ab
+        my_Animator.SetTrigger("Grab");
+        yield return new WaitForSeconds(1f); // Warte, bis die Animation abgeschlossen ist
+
+        // 3. Spawne das Prefab an der Position des Movers
+        spawnedPrefab = Instantiate(prefab, Mover.position, Quaternion.identity);
+        spawnedPrefab.transform.SetParent(Mover);
+        spawnedPrefab.transform.localPosition = Vector3.zero;
+
+        // 4. Warte an der Position
+        yield return new WaitForSeconds(waitTime);
+
+        // 5. Bewege Mover zurück zur Ruheposition
+        yield return StartCoroutine(LerpPosition(restPosition, duration));
+
+        // 6. Spiele die "Destroy"-Animation ab
+        my_Animator.SetTrigger("Destroy");
+        yield return new WaitForSeconds(1.5f); // Warte, bis die Animation abgeschlossen ist
+
+        // 7. Zerstöre das Prefab
+        if (spawnedPrefab != null)
+        {
+            Destroy(spawnedPrefab);
+        }
     }
 
     IEnumerator LerpPosition(Vector3 newPosition, float duration)
     {
         float time = 0;
-        Vector3 startPosition = transform.position;
+        Vector3 startPosition = Mover.position;
 
         while (time < duration)
         {
-            transform.position = Vector3.Lerp(startPosition, newPosition, time / duration);
+            Mover.position = Vector3.Lerp(startPosition, newPosition, time / duration);
             time += Time.deltaTime;
             yield return null;
         }
-        transform.position = newPosition;
-
+        Mover.position = newPosition;
     }
-
-
-    IEnumerator MoveThenWaitSecondsThenReturn(Vector3 targetposition, Vector3 restPosition, float seconds)
-    {
-        float duration = 1f;
-        yield return StartCoroutine(LerpPosition(targetposition, duration));
-  
-        my_Animator.SetTrigger("Grab");
-        
-        GameObject spawnedPrefab = Instantiate(prefab, targetposition, Quaternion.identity);
-        spawnedPrefab.transform.SetParent(Mover);  // Das Prefab wird zum Kind des Mover-Objekts
-        spawnedPrefab.transform.localPosition = Vector3.zero;
-
-        yield return new WaitForSeconds(seconds);
-
-        //Gehe zurück an Position mit Node
-
-        yield return StartCoroutine(LerpPosition(restPosition, duration));
-        my_Animator.SetTrigger("Destroy");
-
-        yield return new WaitForSeconds(1);
-        Destroy(spawnedPrefab);
-        
-       
-    }
-
-    public void MoveArm()
-    {
-        ballPosition += new Vector3(0, 0, -1);
-
-        StartCoroutine(MoveThenWaitSecondsThenReturn(ballPosition, restPosition, 2f));
-
-    }
-
 }
