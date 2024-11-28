@@ -52,7 +52,7 @@ public class NewRotating : MonoBehaviour
     private IEnumerator Rotate()
     {
         rowStopped = false;
-        timeInterval = 0.03f;
+        timeInterval = 0.02f;
         transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
 
         for (int i = 0; i < 40; i++)
@@ -76,13 +76,13 @@ public class NewRotating : MonoBehaviour
 
 
                 if (i > Mathf.RoundToInt(59 * 0.04f))
-                    timeInterval = 0.05f;
+                    timeInterval = 0.03f;
                 if (i > Mathf.RoundToInt(59 * 0.08f))
-                    timeInterval = 0.1f;
+                    timeInterval = 0.05f;
                 if (i > Mathf.RoundToInt(59 * 0.12f))
-                    timeInterval = 0.15f;
+                    timeInterval = 0.07f;
                 if (i > Mathf.RoundToInt(59 * 0.15f))
-                    timeInterval = 0.2f;
+                    timeInterval = 0.1f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -100,13 +100,13 @@ public class NewRotating : MonoBehaviour
 
 
                 if (i > Mathf.RoundToInt(55 * 0.04f))
-                    timeInterval = 0.05f;
+                    timeInterval = 0.03f;
                 if (i > Mathf.RoundToInt(55 * 0.08f))
-                    timeInterval = 0.1f;
+                    timeInterval = 0.05f;
                 if (i > Mathf.RoundToInt(55 * 0.12f))
-                    timeInterval = 0.15f;
+                    timeInterval = 0.07f;
                 if (i > Mathf.RoundToInt(55 * 0.15f))
-                    timeInterval = 0.2f;
+                    timeInterval = 0.1f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -125,13 +125,13 @@ public class NewRotating : MonoBehaviour
 
 
                 if (i > Mathf.RoundToInt(51 * 0.04f))
-                    timeInterval = 0.05f;
+                    timeInterval = 0.03f;
                 if (i > Mathf.RoundToInt(51 * 0.08f))
-                    timeInterval = 0.1f;
+                    timeInterval = 0.05f;
                 if (i > Mathf.RoundToInt(51 * 0.12f))
-                    timeInterval = 0.15f;
+                    timeInterval = 0.07f;
                 if (i > Mathf.RoundToInt(51 * 0.15f))
-                    timeInterval = 0.2f;
+                    timeInterval = 0.1f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -150,13 +150,13 @@ public class NewRotating : MonoBehaviour
 
 
                 if (i > Mathf.RoundToInt(47 * 0.04f))
-                    timeInterval = 0.05f;
+                    timeInterval = 0.03f;
                 if (i > Mathf.RoundToInt(47 * 0.08f))
-                    timeInterval = 0.1f;
+                    timeInterval = 0.05f;
                 if (i > Mathf.RoundToInt(47 * 0.12f))
-                    timeInterval = 0.15f;
+                    timeInterval = 0.07f;
                 if (i > Mathf.RoundToInt(47 * 0.15f))
-                    timeInterval = 0.2f;
+                    timeInterval = 0.1f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -175,13 +175,13 @@ public class NewRotating : MonoBehaviour
 
 
                 if (i > Mathf.RoundToInt(43 * 0.04f))
-                    timeInterval = 0.05f;
+                    timeInterval = 0.03f;
                 if (i > Mathf.RoundToInt(43 * 0.08f))
-                    timeInterval = 0.1f;
+                    timeInterval = 0.05f;
                 if (i > Mathf.RoundToInt(43 * 0.12f))
-                    timeInterval = 0.15f;
+                    timeInterval = 0.07f;
                 if (i > Mathf.RoundToInt(43 * 0.15f))
-                    timeInterval = 0.2f;
+                    timeInterval = 0.1f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -200,13 +200,13 @@ public class NewRotating : MonoBehaviour
 
 
                 if (i > Mathf.RoundToInt(39 * 0.04f))
-                    timeInterval = 0.05f;
+                    timeInterval = 0.03f;
                 if (i > Mathf.RoundToInt(39 * 0.08f))
-                    timeInterval = 0.1f;
+                    timeInterval = 0.05f;
                 if (i > Mathf.RoundToInt(39 * 0.12f))
-                    timeInterval = 0.15f;
+                    timeInterval = 0.07f;
                 if (i > Mathf.RoundToInt(39 * 0.15f))
-                    timeInterval = 0.2f;
+                    timeInterval = 0.1f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -215,11 +215,11 @@ public class NewRotating : MonoBehaviour
         }
 
         rowStopped = true;
-
+        
     }
     
     public async Task WaitRotating()
     {
-        await Task.Delay(12000);
+        await Task.Delay((9-rotatingNumber)*1000);
     }
 }
