@@ -8,7 +8,7 @@ public class TextBoxScript : MonoBehaviour
     public TextMeshProUGUI textComponent;
     public string[] lines;
     public float textSpeed;
-    private int index;
+    public int index;
 
 
     // Start is called before the first frame update
@@ -36,7 +36,7 @@ public class TextBoxScript : MonoBehaviour
 
     }
 
-    void StartDialogue()
+    public void StartDialogue()
     {
         index = 0;
         StartCoroutine(TypeLine());
@@ -54,34 +54,26 @@ public class TextBoxScript : MonoBehaviour
 
     void NextLine()
     {
-        if (index < 3)
+        if (index < 2)
         {
             index++;
             textComponent.text = string.Empty;
             StartCoroutine(TypeLine());
         }
-        else if(index == 3)
+        else if (index == 3)
         {
-
+            index++;
+            textComponent.text = string.Empty;
+            StartCoroutine(TypeLine());
         }
-        else
+       else
         {
             gameObject.SetActive(false);
         }
     }
-    void StartDialogue2()
+    public void StartDialogue1()
     {
-        index = 3;
-        StartCoroutine(TypeLine2());
-    }
-    IEnumerator TypeLine2()
-    {
-        foreach (char c in lines[index].ToCharArray())
-        {
-            textComponent.text += c;
-            yield return new WaitForSeconds(textSpeed);
-        }
-
-       
+        index = 4;
+        StartCoroutine(TypeLine());
     }
 }
