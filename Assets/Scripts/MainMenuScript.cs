@@ -13,7 +13,7 @@ public class MainMenuScript : MonoBehaviour
         {
             Settings.ShowBalanceFactor = true;
             Settings.ShowArrowHint = true;
-
+            Settings.Volume = 0.5f;
             Settings.DidItRun = true;
         }
     }
