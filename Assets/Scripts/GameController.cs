@@ -167,7 +167,7 @@ public class GameController : MonoBehaviour
     public async Task StartSpezialAttakDelTalk()
     {
         var node = treeManager.markDeletion(treeManager.findNodeToDelete()); //makes random Node small
-        arm.MoveArm(node.gameObject.transform.position);
+        //arm.MoveArm(node);
         treeManager.markGapFillers(); //sets higher and smaller neighbourgh to isGapFiller = true
         setDummyText("Knoten gelöscht, wähle einen Knoten um das Loch zu füllen");
         await Task.Delay(1000);

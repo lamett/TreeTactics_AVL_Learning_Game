@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ArmMoverButtonBehaviour : MonoBehaviour
 {
-    public Vector3 restPosition = new Vector3(3, 0, 3);
+    public Vector3 restPosition;
     //Vector3 restPosition = new Vector3(3.2887f, -0.772f, 4.561f);
-    Animator my_Animator;
+    //Animator my_Animator;
     public GameObject prefab;
     public Transform Arm;
-
-
+    public Transform Container;
+    public GameObject testNode;
 
     // Start is called before the first frame update
     void Start()
     {
-        my_Animator = Arm.GetComponent<Animator>();
-        StartCoroutine(LerpPosition(restPosition, 1f));
+        //my_Animator = Arm.GetComponent<Animator>();
+        //StartCoroutine(LerpPosition(restPosition, 1f));
     }
 
     IEnumerator LerpPosition(Vector3 newPosition, float duration)
@@ -42,10 +43,11 @@ public class ArmMoverButtonBehaviour : MonoBehaviour
         float duration = 1f;
         yield return StartCoroutine(LerpPosition(targetposition, duration));
 
-        my_Animator.SetTrigger("Grab");
+        //my_Animator.SetTrigger("Grab");
 
+        testNode.SetActive(false);
         GameObject spawnedPrefab = Instantiate(prefab, targetposition, Quaternion.identity);
-        spawnedPrefab.transform.SetParent(gameObject.transform);  // Das Prefab wird zum Kind des Mover-Objekts
+        spawnedPrefab.transform.SetParent(Container);  // Das Prefab wird zum Kind des Mover-Objekts
         spawnedPrefab.transform.localPosition = Vector3.zero;
         spawnedPrefab.GetComponent<Rigidbody>().isKinematic = true;
 
@@ -54,7 +56,7 @@ public class ArmMoverButtonBehaviour : MonoBehaviour
         //Gehe zur�ck an Position mit Node
 
         yield return StartCoroutine(LerpPosition(restPosition, duration));
-        my_Animator.SetTrigger("Destroy");
+        //my_Animator.SetTrigger("Destroy");
 
         yield return new WaitForSeconds(1);
         Destroy(spawnedPrefab);
@@ -62,13 +64,15 @@ public class ArmMoverButtonBehaviour : MonoBehaviour
 
     }
 
-    public void MoveArm(Vector3 ballPosition)
+    public void MoveArm(GameObject node)
     {
-        StartCoroutine(MoveThenWaitSecondsThenReturn(ballPosition, restPosition, 2f));
+        restPosition = transform.position;
+        Vector3 targetPosition = node.transform.Find("GripPoint").transform.position; ;
+        StartCoroutine(MoveThenWaitSecondsThenReturn(targetPosition, restPosition, 2f));
     }
 
     public void MoveArmTest(){
-        MoveArm(new Vector3(-3, 0, -3));
+        MoveArm(testNode);
     }
 
 }
