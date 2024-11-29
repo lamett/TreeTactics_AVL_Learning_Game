@@ -1,6 +1,7 @@
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AVLOperations : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -23,6 +24,7 @@ public class AVLOperations : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         avlNode = GetComponent<AVLNode>();
         isOperationsEnabled = false;
         isAddable = false;
+        gameObject.GetComponent<Outline>().enabled = false;
     }
 
 
@@ -69,6 +71,7 @@ public class AVLOperations : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        gameObject.GetComponent<Outline>().enabled = true;
         if (isOperationsEnabled)
         {
             mouseStartPosition = Input.mousePosition;
@@ -78,6 +81,7 @@ public class AVLOperations : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        gameObject.GetComponent<Outline>().enabled = false;
         if (isOperationsEnabled)
         {
             if (isDragging)
