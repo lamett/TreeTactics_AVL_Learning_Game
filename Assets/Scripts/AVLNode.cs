@@ -133,8 +133,8 @@ public class AVLNode : MonoBehaviour
         isDeleted = true;
         Debug.Log(ID.ToString() + " als gelöscht markiert: " + isDeleted.ToString());
         //TODO hier muss die bessere veränderung für eine Gelöschte node rein
-        transform.localScale *= 0.5f;
-        renderer.enabled = false;
+        //transform.localScale *= 0.5f;
+        //renderer.enabled = false;
     }
 
     public void delete()

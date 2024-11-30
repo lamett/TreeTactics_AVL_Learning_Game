@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
     public int amountBalls = 0;
     int leftNodesToAdd = 0;
     public NewRotating rotating;
+    public ArmBehaviour Arm;
 
     private List<GameObject> balls;
     Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
@@ -164,10 +165,13 @@ public class GameController : MonoBehaviour
 
     public async Task StartSpezialAttakDelTalk()
     {
-        treeManager.markDeletion(treeManager.findNodeToDelete()); //makes random Node small
-        treeManager.markGapFillers(); //sets higher and smaller neighbourgh to isGapFiller = true
+        await Task.Delay(1800);
+        var node = treeManager.findNodeToDelete();
+        Arm.DestroyNode(treeManager.findNode(node).gameObject);
         setDummyText("Knoten gelöscht, wähle einen Knoten um das Loch zu füllen");
         await Task.Delay(1000);
+        treeManager.markDeletion(node); //makes random Node small
+        treeManager.markGapFillers(); //sets higher and smaller neighbourgh to isGapFiller = true
         //Animation
     }
 

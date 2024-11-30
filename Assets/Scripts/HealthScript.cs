@@ -5,6 +5,7 @@ public class HealthScript : MonoBehaviour
 
     public int Health;
     public FigureHolderScript FigureHolder;
+    public ArmBehaviour Arm;
 
     public void reduceHealth()
     {

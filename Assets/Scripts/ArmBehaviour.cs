@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ArmBehaviour : MonoBehaviour
@@ -8,7 +7,6 @@ public class ArmBehaviour : MonoBehaviour
     public Transform restPosition;
     public Transform targetPosition;
 
-    public Transform Mover;
     public Transform Arm;
     Animator anim;
 
@@ -21,7 +19,6 @@ public class ArmBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       testNode = Instantiate(prefab, targetPosition.position, Quaternion.identity);
        anim = Arm.GetComponent<Animator>();
        StartCoroutine(LerpPosition(restPosition.position, 1f));
     }
@@ -35,15 +32,17 @@ public class ArmBehaviour : MonoBehaviour
     IEnumerator LerpPosition(Vector3 newPosition, float duration)
     {
         float time = 0;
-        Vector3 startPosition = Mover.transform.position;
+        Vector3 startPosition = transform.position;
+        Vector3 bowPosition = newPosition + Vector3.up * 10;
 
         while (time < duration)
         {
-            Mover.transform.position = Vector3.Lerp(startPosition, newPosition, time / duration);
+            var tempPos = Vector3.Lerp(startPosition, bowPosition, time / duration);
+            transform.position = Vector3.Lerp(tempPos, newPosition, time / duration);
             time += Time.deltaTime;
             yield return null;
         }
-        Mover.transform.position = newPosition;
+        transform.position = newPosition;
     }
 
 
@@ -63,10 +62,12 @@ public class ArmBehaviour : MonoBehaviour
         yield return new WaitForSeconds(speed);
 
         GameObject spawnedPrefab = Instantiate(prefab, targetPos, Quaternion.identity);
-        spawnedPrefab.transform.SetParent(Mover);
+        spawnedPrefab.transform.SetParent(gameObject.transform);
         spawnedPrefab.transform.localPosition = Vector3.zero;
-        Debug.Log("Zerstöre Node");
-        Destroy(node);
+        spawnedPrefab.GetComponent<Rigidbody>().isKinematic = true;
+        node.SetActive(false);
+        Debug.Log("Zerstï¿½re Node");
+        //Destroy(node);
 
         Vector3 restPos = restPosition.position;
         yield return StartCoroutine(MoveToPositionPlayAnim(restPos, "ClawDestroy"));
@@ -75,8 +76,32 @@ public class ArmBehaviour : MonoBehaviour
 
     }
 
-    public void TestMovement()
+    public void DestroyNode(GameObject node)
     {
-        StartCoroutine(MoveArmThenDestroy(testNode));
+        StartCoroutine(MoveArmThenDestroy(node));
+    }
+
+    IEnumerator MoveArmThenSnap(GameObject node)
+    {
+        Vector3 targetPos = node.transform.position + new Vector3(-2.5f,0,1);
+
+        yield return StartCoroutine(MoveToPositionPlayAnim(targetPos, "ClawSnap"));
+        yield return new WaitForSeconds(0.883f);
+
+        var rb = node.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.AddForce(new Vector3(1000, 200, 0));
+
+        yield return new WaitForSeconds(0.5f);
+
+        Vector3 restPos = restPosition.position;
+        yield return StartCoroutine(LerpPosition(restPos, 1f));
+        yield return new WaitForSeconds(0.53f);
+        Destroy(node);
+    }
+
+    public void SnapFigure(GameObject node)
+    {
+        StartCoroutine(MoveArmThenSnap(node));
     }
 }

@@ -16,7 +16,7 @@ public class showTreeBalance : MonoBehaviour
     {
         var balance = Mathf.Clamp(balanceFactor, 0, 20);
         
-        var pos = new Vector2(rt.offsetMax.x, 0.33f + balance * 0.05f);
+        var pos = new Vector2(rt.offsetMax.x, balance * 0.05f);
         rt.offsetMax = pos;
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, balance *0.1f);
 

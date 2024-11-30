@@ -452,4 +452,8 @@ public class TreeManager
             }
         }
     }
+
+    public AVLNode findNode(int ID){
+        return baum.find(ID);
+    }
 }
