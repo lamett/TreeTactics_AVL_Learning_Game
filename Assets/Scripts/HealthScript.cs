@@ -1,25 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthScript : MonoBehaviour
 {
 
     public int Health;
-    public EnemyHealthBar enemyHealthBar;
-    public PlayerHealthBar playerHealthBar;
+    public FigureHolderScript FigureHolder;
 
     public void reduceHealth()
     {
         Health -= 1;
-        enemyHealthBar.DrawHearts();
-        playerHealthBar.DrawHearts();
-       
+        FigureHolder.remove();
     }
 
     public void setHealth(int value)
     {
         Health = value;
+        FigureHolder.init(value);
     }
 
     public bool isDead()
