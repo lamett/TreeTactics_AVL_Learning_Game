@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +16,10 @@ public class showTreeBalance : MonoBehaviour
     {
         var balance = Mathf.Clamp(balanceFactor, 0, 20);
         
-        var pos = new Vector2(rt.offsetMax.x, -(650 - (balance * 20)));
+        var pos = new Vector2(rt.offsetMax.x, 0.33f + balance * 0.05f);
         rt.offsetMax = pos;
+        rt.sizeDelta = new Vector2(rt.sizeDelta.x, balance *0.1f);
+
 
         var color = Color.HSVToRGB(Mathf.Lerp(0.21f,0, balance/10f),1,1);
         //Color.Lerp(new Color(190,255,0), Color.red, (balance-1)/10f);
