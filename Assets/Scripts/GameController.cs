@@ -24,9 +24,12 @@ public class GameController : MonoBehaviour
     public UnityEvent<float> addPhaseTimeUpdate;
     public UnityEvent EndSpezialPhaseByTimer;
     public UnityEvent<float> specialPhaseTimeUpdate;
+    public UnityEvent EndDelAttackByTimer;
+    public UnityEvent<float> delAttackTimeUpdate;
 
     Timer addPhaseTimer;
     Timer specialPhaseTimer;
+    Timer delAttackTimer;
 
     public int playerStartHealth = 3;
     public int enemyStartHealth = 3;
@@ -59,6 +62,7 @@ public class GameController : MonoBehaviour
         enemy.setHealth(enemyStartHealth);
         addPhaseTimer = new Timer(this, EndAddPhaseEvent, addPhaseTimeUpdate);
         specialPhaseTimer = new Timer(this, EndSpezialPhaseByTimer, specialPhaseTimeUpdate);
+        delAttackTimer = new Timer(this, EndDelAttackByTimer, delAttackTimeUpdate);
         balls = new List<GameObject>();
         dummyText = GameObject.FindGameObjectWithTag("DummyText").GetComponent<TMP_Text>();
         endButton = GameObject.FindGameObjectWithTag("EndButton").GetComponent<Button>();
@@ -170,6 +174,7 @@ public class GameController : MonoBehaviour
         Arm.DestroyNode(treeManager.findNode(node).gameObject);
         setDummyText("Knoten gelöscht, wähle einen Knoten um das Loch zu füllen");
         await Task.Delay(1000);
+        delAttackTimer.startTimer(treeManager.Count() * 1, 0.2f);
         treeManager.markDeletion(node); //makes random Node small
         treeManager.markGapFillers(); //sets higher and smaller neighbourgh to isGapFiller = true
         //Animation
@@ -182,7 +187,7 @@ public class GameController : MonoBehaviour
 
     public void EndSpezialAttakDel()
     {
-        //specialPhaseTimer.stopTimer();
+        delAttackTimer.stopTimer();
         Debug.Log("end delAttak");
         treeManager.resetGapFillers();
         Debug.Log(treeManager.isBalanced());
@@ -192,6 +197,8 @@ public class GameController : MonoBehaviour
 
     public void RerunSpezialAttakDel()
     {
+        delAttackTimer.stopTimer();
+        delAttackTimer.startTimer(treeManager.Count() * 1, 0.2f);
         treeManager.colorGapFillers();
         ChangeToDamageOnPlayerEvent.Invoke();
     }
@@ -217,6 +224,7 @@ public class GameController : MonoBehaviour
 
     public async Task StartWin()
     {
+        specialPhaseTimer.stopTimer();
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
         await Task.Delay(2000);
@@ -226,6 +234,7 @@ public class GameController : MonoBehaviour
 
     public async Task StartLose()
     {
+        specialPhaseTimer.stopTimer();
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
         setDummyText("Komm später nochmal wieder");
@@ -305,7 +314,7 @@ public class GameController : MonoBehaviour
             treeManager.rotateRandom(10);
             i++;
         }
-        
+
     }
 
     private async Task SpawnBallsAsync()
@@ -443,7 +452,7 @@ public class GameController : MonoBehaviour
         enableBallsClickAdd(true);
     }
 
-    
+
     public void balance()
     {
         treeManager.balanceTreeCompletly();

@@ -453,7 +453,13 @@ public class TreeManager
         }
     }
 
-    public AVLNode findNode(int ID){
+    public AVLNode findNode(int ID)
+    {
         return baum.find(ID);
+    }
+
+    public int Count()
+    {
+        return baum.size;
     }
 }
