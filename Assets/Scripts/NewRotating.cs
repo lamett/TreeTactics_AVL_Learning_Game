@@ -220,6 +220,6 @@ public class NewRotating : MonoBehaviour
     
     public async Task WaitRotating()
     {
-        await Task.Delay((9-rotatingNumber)*1000);
+        await Task.Delay((8-rotatingNumber)*1000);
     }
 }

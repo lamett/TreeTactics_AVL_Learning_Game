@@ -24,7 +24,7 @@ public class EnemyHurtText : MonoBehaviour
         {
             if (textComponent.text == lines[index])
             {
-                NextLine();
+                gameObject.SetActive(false);
             }
             else
             {
@@ -39,7 +39,7 @@ public class EnemyHurtText : MonoBehaviour
     {
         gameObject.SetActive(true);
         textComponent.text = string.Empty;
-        index = 0;
+        index = Random.Range(0, lines.Length); 
         StartCoroutine(TypeLine());
     }
 
@@ -51,19 +51,5 @@ public class EnemyHurtText : MonoBehaviour
             yield return new WaitForSeconds(textSpeed);
         }
 
-    }
-
-    void NextLine()
-    {
-        if (index < lines.Length - 1)
-        {
-            index++;
-            textComponent.text = string.Empty;
-            StartCoroutine(TypeLine());
-        }
-        else
-        {
-            gameObject.SetActive(false);
-        }
     }
 }

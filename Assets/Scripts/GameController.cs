@@ -108,9 +108,9 @@ public class GameController : MonoBehaviour
     //Handle Phases
     async public Task StartRollChallengeTalk()
     {
-        rotationTextScript.StartDialogue();
         rotating.GenerateRotation(); // Startet rotieren der Nummern
         await rotating.WaitRotating();// wartet bis fertig gerollt (bis jetzt nur 12s)
+        rotationTextScript.StartDialogue();
         chooseAmountBalls();
         setDummyText("Add " + amountBalls + " Nodes");
         //ScreenAnimation

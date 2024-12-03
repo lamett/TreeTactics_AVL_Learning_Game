@@ -24,22 +24,26 @@ public class CheckText : MonoBehaviour
         {
             if (textComponent.text == lines[index])
             {
-                NextLine();
+                //NextLine();
+                gameObject.SetActive(false);
+
             }
             else
             {
                 StopAllCoroutines();
                 textComponent.text = lines[index];
-            }
-        }
-
+                
+            } 
+            
     }
+        }
+       
 
     public void StartDialogue()
     {
         gameObject.SetActive(true);
         textComponent.text = string.Empty;
-        index = 0;
+        index = Random.Range(0, lines.Length);
         StartCoroutine(TypeLine());
     }
 
@@ -53,7 +57,9 @@ public class CheckText : MonoBehaviour
 
     }
 
-    void NextLine()
+
+
+   /* void NextLine()
     {
         if (index < lines.Length - 1)
         {
@@ -65,5 +71,5 @@ public class CheckText : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-    }
+    }*/
 }
