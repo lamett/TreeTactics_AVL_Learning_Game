@@ -32,6 +32,14 @@ public class GameController : MonoBehaviour
     public int amountBalls = 0;
     int leftNodesToAdd = 0;
     public NewRotating rotating;
+    public RotationTextScript rotationTextScript;
+    public EnemyHurtText enemyHurtText;
+    public PlayerHurtText playerHurtText;  
+    public SpecialAttackText specialAttackText;
+    public CheckText checkText;
+    public EnemyWinText enemyWinText;
+    public PlayerWinText playerWinText; 
+
 
     private List<GameObject> balls;
     Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
@@ -100,6 +108,7 @@ public class GameController : MonoBehaviour
     //Handle Phases
     async public Task StartRollChallengeTalk()
     {
+        rotationTextScript.StartDialogue();
         rotating.GenerateRotation(); // Startet rotieren der Nummern
         await rotating.WaitRotating();// wartet bis fertig gerollt (bis jetzt nur 12s)
         chooseAmountBalls();
@@ -119,6 +128,7 @@ public class GameController : MonoBehaviour
     //returns if Challenge was accomplished or not
     public bool EndAddphase()
     {
+        checkText.StartDialogue();
         addPhaseTimer.stopTimer();
         leftNodesToAdd = balls.Count;
         clearBowl();
@@ -130,6 +140,7 @@ public class GameController : MonoBehaviour
 
     public async Task DamageEnemy()
     {
+        enemyHurtText.StartDialogue();
         enemy.reduceHealth();
         setDummyText("Damage on Enemy. Remaining Health:" + enemy.Health);
         rotating.rotatingNumber += 1;
@@ -137,6 +148,7 @@ public class GameController : MonoBehaviour
     }
     public async Task DamagePlayer()
     {
+        playerHurtText.StartDialogue();
         player.reduceHealth();
         setDummyText("Damage on Player. Remaining Health:" + player.Health);
         await Task.Delay(2000);
@@ -146,10 +158,12 @@ public class GameController : MonoBehaviour
     {
         if (enemy.isDead())
         {
+            playerWinText.StartDialogue();
             return 1;
         }
         else if (player.isDead())
         {
+            enemyWinText.StartDialogue();   
             return -1;
         }
         else { return 0; }
@@ -163,6 +177,7 @@ public class GameController : MonoBehaviour
 
     public async Task StartSpezialAttakDelTalk()
     {
+        specialAttackText.StartDialogue();
         treeManager.markDeletion(treeManager.findNodeToDelete()); //makes random Node small
         treeManager.markGapFillers(); //sets higher and smaller neighbourgh to isGapFiller = true
         setDummyText("Knoten gelöscht, wähle einen Knoten um das Loch zu füllen");

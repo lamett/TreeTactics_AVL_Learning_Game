@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class TextBoxScript : MonoBehaviour
+public class RotationTextScript : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
     public string[] lines;
@@ -14,8 +14,7 @@ public class TextBoxScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        textComponent.text = string.Empty;
-        StartDialogue();
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -38,6 +37,8 @@ public class TextBoxScript : MonoBehaviour
 
     public void StartDialogue()
     {
+        gameObject.SetActive(true);
+        textComponent.text = string.Empty;
         index = 0;
         StartCoroutine(TypeLine());
     }
@@ -54,26 +55,15 @@ public class TextBoxScript : MonoBehaviour
 
     void NextLine()
     {
-        if (index < 2)
+        if (index < lines.Length - 1)
         {
             index++;
             textComponent.text = string.Empty;
             StartCoroutine(TypeLine());
         }
-        else if (index == 3)
-        {
-            index++;
-            textComponent.text = string.Empty;
-            StartCoroutine(TypeLine());
-        }
-       else
+        else
         {
             gameObject.SetActive(false);
         }
-    }
-    public void StartDialogue1()
-    {
-        index = 4;
-        StartCoroutine(TypeLine());
     }
 }
