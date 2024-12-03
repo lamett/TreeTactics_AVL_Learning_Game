@@ -504,6 +504,7 @@ MonoBehaviour:
   textComponent: {fileID: 2089674696}
   lines:
   - Mal schaun die du damit zurecht kommst!
+  - So einfach mache ich es dir nicht!
   textSpeed: 0.1
   index: 0
 --- !u!1 &91585623
@@ -5780,7 +5781,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1965523214}
   lines:
-  - Mal schaun wie viele Kugeln es diesmal werden!
+  - Da kommen die Kugeln, das Spiel geht los.
+  - "Hier sind die Kugeln, die Zeit l\xE4uft ab jetzt!"
   textSpeed: 0.1
   index: 0
 --- !u!1 &1167047173
@@ -5975,7 +5977,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1623861981}
   lines:
-  - Na dann schauen wir mal
+  - Na dann schauen wir mal.
+  - Ob das so stimmt ?
   textSpeed: 0.1
   index: 0
 --- !u!224 &1179158931
@@ -8057,8 +8060,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1313161354}
   lines:
-  - Nicht schlecht,
-  - Aber ich bin noch nicht besiegt
+  - Nicht schlecht, aber ich bin noch nicht besiegt
+  - Du lernst schnell.
+  - Du hast den dreh raus.
   textSpeed: 0.1
   index: 0
 --- !u!114 &1817507051
