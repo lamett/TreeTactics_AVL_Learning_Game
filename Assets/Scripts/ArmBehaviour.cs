@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class ArmBehaviour : MonoBehaviour
 {
+    [SerializeField] VisualEffect effect;
 
     public Transform restPosition;
     public Transform targetPosition;
@@ -88,6 +90,7 @@ public class ArmBehaviour : MonoBehaviour
         yield return StartCoroutine(MoveToPositionPlayAnim(restPos, "ClawDestroy"));
         yield return new WaitForSeconds(0.53f);
         Destroy(spawnedPrefab);
+        effect.Play();
 
     }
 
