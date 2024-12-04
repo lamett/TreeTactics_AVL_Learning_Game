@@ -7997,7 +7997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1470801200}
   lines:
-  - "Gut gespielt, dieses Mal geh\xF6rt dir der Sieg!"
+  - "Gut gespielt, dieses Mal geh\xF6rt der Sieg dir!"
   - "Sieht so aus, als w\xFCrdest du als Sieger hervorgehen!"
   textSpeed: 0.1
   index: 0
