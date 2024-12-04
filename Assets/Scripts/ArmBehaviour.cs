@@ -29,7 +29,7 @@ public class ArmBehaviour : MonoBehaviour
         
     }
 
-    IEnumerator LerpPosition(Vector3 newPosition, float duration)
+    IEnumerator LerpJumpPosition(Vector3 newPosition, float duration)
     {
         float time = 0;
         Vector3 startPosition = transform.position;
@@ -45,11 +45,26 @@ public class ArmBehaviour : MonoBehaviour
         transform.position = newPosition;
     }
 
+    IEnumerator LerpPosition(Vector3 newPosition, float duration)
+    {
+        float time = 0;
+        Vector3 startPosition = transform.position;
+
+        while (time < duration)
+        {
+            transform.position = Vector3.Lerp(startPosition, newPosition, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = newPosition;
+
+    }
+
 
     IEnumerator MoveToPositionPlayAnim(Vector3 pos, string trigger)
     {
-        Debug.Log("Gehe zur Node");
-        yield return StartCoroutine(LerpPosition(pos, 1f));
+        //Debug.Log("Gehe zur Node");
+        yield return StartCoroutine(LerpJumpPosition(pos, 1f));
         anim.SetTrigger(trigger);       
     }
 
@@ -66,7 +81,7 @@ public class ArmBehaviour : MonoBehaviour
         spawnedPrefab.transform.localPosition = Vector3.zero;
         spawnedPrefab.GetComponent<Rigidbody>().isKinematic = true;
         node.SetActive(false);
-        Debug.Log("Zerst�re Node");
+        //Debug.Log("Zerst�re Node");
         //Destroy(node);
 
         Vector3 restPos = restPosition.position;
