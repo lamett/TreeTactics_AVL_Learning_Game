@@ -71,9 +71,9 @@ public class GameController : MonoBehaviour
         specialPhaseTimer = new Timer(this, EndSpezialPhaseByTimer, specialPhaseTimeUpdate);
         //delAttackTimer = new Timer(this, EndDelAttackByTimer, delAttackTimeUpdate);
         balls = new List<GameObject>();
-        dummyText = GameObject.FindGameObjectWithTag("DummyText").GetComponent<TMP_Text>();
-        endButton = GameObject.FindGameObjectWithTag("EndButton").GetComponent<Button>();
-        endButton.hide();
+        //dummyText = GameObject.FindGameObjectWithTag("DummyText").GetComponent<TMP_Text>();
+        //endButton = GameObject.FindGameObjectWithTag("EndButton").GetComponent<Button>();
+        //endButton.hide();
     }
     private void ManageAVLOperationsOnGameStateChanged(GameState gameState)
     {
@@ -117,7 +117,7 @@ public class GameController : MonoBehaviour
         await rotating.WaitRotating();// wartet bis fertig gerollt (bis jetzt nur 12s)
         rotatingText.StartDialogue();
         chooseAmountBalls();
-        setDummyText("Add " + amountBalls + " Nodes");
+        //setDummyText("Add " + amountBalls + " Nodes");
         //ScreenAnimation
         await SpawnBallsAsync();
     }
@@ -125,7 +125,7 @@ public class GameController : MonoBehaviour
     public void StartAddPhase()
     {
 
-        endButton.show();
+        //endButton.show();
         treeManager.backUpTree();
         addPhaseTimer.startTimer(amountBalls * 10, 0.2f);
         commandHistory.Clear(); // kann eigentlich auch zum Event OnGameStateChanged hinzugefügt werden
@@ -134,7 +134,7 @@ public class GameController : MonoBehaviour
     //returns if Challenge was accomplished or not
     public bool EndAddphase()
     {
-        checkText.StartDialogue();
+        //checkText.StartDialogue();
         addPhaseTimer.stopTimer();
         leftNodesToAdd = balls.Count;
         clearBowl();
@@ -148,7 +148,7 @@ public class GameController : MonoBehaviour
     {
         enemyDamageText.StartDialogue();
         enemy.reduceHealth();
-        setDummyText("Damage on Enemy. Remaining Health:" + enemy.Health);
+        //setDummyText("Damage on Enemy. Remaining Health:" + enemy.Health);
         rotating.rotatingNumber += 1;
         await Task.Delay(2000);
     }
@@ -156,7 +156,7 @@ public class GameController : MonoBehaviour
     {
         playerDamageText.StartDialogue();
         player.reduceHealth();
-        setDummyText("Damage on Player. Remaining Health:" + player.Health);
+        //setDummyText("Damage on Player. Remaining Health:" + player.Health);
         await Task.Delay(2000);
     }
 
@@ -187,7 +187,7 @@ public class GameController : MonoBehaviour
         specialAttackText.StartDialogue();  
         var node = treeManager.findNodeToDelete();
         Arm.DestroyNode(treeManager.findNode(node).gameObject);
-        setDummyText("Knoten gelöscht, wähle einen Knoten um das Loch zu füllen");
+        //setDummyText("Knoten gelöscht, wähle einen Knoten um das Loch zu füllen");
         await Task.Delay(1000);
         //delAttackTimer.startTimer(treeManager.Count() * 1, 0.2f);
         treeManager.markDeletion(node); //makes random Node small
@@ -220,7 +220,7 @@ public class GameController : MonoBehaviour
 
     public async Task StartSpezialAttakUnbalanceTalk()
     {
-        setDummyText("Du hast mich noch nicht besiegt!");
+        //setDummyText("Du hast mich noch nicht besiegt!");
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOnTable"); //triggers shake and RandomRot as animation event
         await Task.Delay(4000);
@@ -243,7 +243,7 @@ public class GameController : MonoBehaviour
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
         await Task.Delay(2000);
-        setDummyText("Ich habe dir nichts mehr beizubringen. Gut gemacht.");
+        //setDummyText("Ich habe dir nichts mehr beizubringen. Gut gemacht.");
         await Task.Delay(1000);
     }
 
@@ -252,7 +252,7 @@ public class GameController : MonoBehaviour
         specialPhaseTimer.stopTimer();
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
-        setDummyText("Komm später nochmal wieder");
+        //setDummyText("Komm später nochmal wieder");
         await Task.Delay(1000);
     }
     //async public void startAddPhase()
@@ -479,8 +479,8 @@ public class GameController : MonoBehaviour
         treeManager.rebuildTree();
     }
 
-    private void setDummyText(string text)
+    /*private void setDummyText(string text)
     {
         dummyText.text = text;
-    }
+    }*/
 }
