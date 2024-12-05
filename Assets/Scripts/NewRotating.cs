@@ -52,37 +52,37 @@ public class NewRotating : MonoBehaviour
     private IEnumerator Rotate()
     {
         rowStopped = false;
-        timeInterval = 0.02f;
+        timeInterval = 0.005f;
         transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
 
-        for (int i = 0; i < 40; i++)
+        for (int i = 0; i < 160; i++)
         {
-            if (transform.localPosition.y <= -3f)
+            if (transform.localPosition.y <= -5.7f)
                 transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
 
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
 
             yield return new WaitForSeconds(timeInterval);
         }
 
         if (diceNumber == 4)
         {
-            for (int i = 0; i < 59; i++)
+            for (int i = 0; i < 140; i++)
             {
-                if (transform.localPosition.y <= -3f)
+                if (transform.localPosition.y <= -5.7f)
                     transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
 
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
 
 
                 if (i > Mathf.RoundToInt(59 * 0.04f))
-                    timeInterval = 0.03f;
+                    timeInterval = 0.0065f;
                 if (i > Mathf.RoundToInt(59 * 0.08f))
-                    timeInterval = 0.05f;
+                    timeInterval = 0.0085f;
                 if (i > Mathf.RoundToInt(59 * 0.12f))
-                    timeInterval = 0.07f;
+                    timeInterval = 0.01f;
                 if (i > Mathf.RoundToInt(59 * 0.15f))
-                    timeInterval = 0.1f;
+                    timeInterval = 0.015f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -91,22 +91,22 @@ public class NewRotating : MonoBehaviour
 
         else if (diceNumber == 5)
         {
-            for (int i = 0; i < 55; i++)
+            for (int i = 0; i < 123; i++)
             {
-                if (transform.localPosition.y <= -3f)
+                if (transform.localPosition.y <= -5.7f)
                     transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
 
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
 
 
-                if (i > Mathf.RoundToInt(55 * 0.04f))
-                    timeInterval = 0.03f;
-                if (i > Mathf.RoundToInt(55 * 0.08f))
-                    timeInterval = 0.05f;
-                if (i > Mathf.RoundToInt(55 * 0.12f))
-                    timeInterval = 0.07f;
-                if (i > Mathf.RoundToInt(55 * 0.15f))
-                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(59 * 0.04f))
+                    timeInterval = 0.0065f;
+                if (i > Mathf.RoundToInt(59 * 0.08f))
+                    timeInterval = 0.0085f;
+                if (i > Mathf.RoundToInt(59 * 0.12f))
+                    timeInterval = 0.01f;
+                if (i > Mathf.RoundToInt(59 * 0.15f))
+                    timeInterval = 0.015f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -116,22 +116,22 @@ public class NewRotating : MonoBehaviour
 
         else if (diceNumber == 6)
         {
-            for (int i = 0; i < 51; i++)
+            for (int i = 0; i < 106; i++)
             {
-                if (transform.localPosition.y <= -3f)
+                if (transform.localPosition.y <= -5.7f)
                     transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
 
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
 
 
-                if (i > Mathf.RoundToInt(51 * 0.04f))
-                    timeInterval = 0.03f;
-                if (i > Mathf.RoundToInt(51 * 0.08f))
-                    timeInterval = 0.05f;
-                if (i > Mathf.RoundToInt(51 * 0.12f))
-                    timeInterval = 0.07f;
-                if (i > Mathf.RoundToInt(51 * 0.15f))
-                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(59 * 0.04f))
+                    timeInterval = 0.0065f;
+                if (i > Mathf.RoundToInt(59 * 0.08f))
+                    timeInterval = 0.0085f;
+                if (i > Mathf.RoundToInt(59 * 0.12f))
+                    timeInterval = 0.01f;
+                if (i > Mathf.RoundToInt(59 * 0.15f))
+                    timeInterval = 0.015f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -141,22 +141,22 @@ public class NewRotating : MonoBehaviour
 
         else if (diceNumber == 7)
         {
-            for (int i = 0; i < 47; i++)
+            for (int i = 0; i < 89; i++)
             {
-                if (transform.localPosition.y <= -3f)
+                if (transform.localPosition.y <= -5.7f)
                     transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
 
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
 
 
-                if (i > Mathf.RoundToInt(47 * 0.04f))
-                    timeInterval = 0.03f;
-                if (i > Mathf.RoundToInt(47 * 0.08f))
-                    timeInterval = 0.05f;
-                if (i > Mathf.RoundToInt(47 * 0.12f))
-                    timeInterval = 0.07f;
-                if (i > Mathf.RoundToInt(47 * 0.15f))
-                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(59 * 0.04f))
+                    timeInterval = 0.0065f;
+                if (i > Mathf.RoundToInt(59 * 0.08f))
+                    timeInterval = 0.0085f;
+                if (i > Mathf.RoundToInt(59 * 0.12f))
+                    timeInterval = 0.01f;
+                if (i > Mathf.RoundToInt(59 * 0.15f))
+                    timeInterval = 0.015f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -166,22 +166,22 @@ public class NewRotating : MonoBehaviour
 
         else if (diceNumber == 8)
         {
-            for (int i = 0; i < 43; i++)
+            for (int i = 0; i < 72; i++)
             {
-                if (transform.localPosition.y <= -3f)
+                if (transform.localPosition.y <= -5.7f)
                     transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
 
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
 
 
-                if (i > Mathf.RoundToInt(43 * 0.04f))
-                    timeInterval = 0.03f;
-                if (i > Mathf.RoundToInt(43 * 0.08f))
-                    timeInterval = 0.05f;
-                if (i > Mathf.RoundToInt(43 * 0.12f))
-                    timeInterval = 0.07f;
-                if (i > Mathf.RoundToInt(43 * 0.15f))
-                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(59 * 0.04f))
+                    timeInterval = 0.0065f;
+                if (i > Mathf.RoundToInt(59 * 0.08f))
+                    timeInterval = 0.0085f;
+                if (i > Mathf.RoundToInt(59 * 0.12f))
+                    timeInterval = 0.01f;
+                if (i > Mathf.RoundToInt(59 * 0.15f))
+                    timeInterval = 0.015f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -191,22 +191,22 @@ public class NewRotating : MonoBehaviour
 
         else if (diceNumber == 9)
         {
-            for (int i = 0; i < 39; i++)
+            for (int i = 0; i < 55; i++)
             {
-                if (transform.localPosition.y <= -3f)
+                if (transform.localPosition.y <= -5.7f)
                     transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
 
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.3f, 0);
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
 
 
-                if (i > Mathf.RoundToInt(39 * 0.04f))
-                    timeInterval = 0.03f;
-                if (i > Mathf.RoundToInt(39 * 0.08f))
-                    timeInterval = 0.05f;
-                if (i > Mathf.RoundToInt(39 * 0.12f))
-                    timeInterval = 0.07f;
-                if (i > Mathf.RoundToInt(39 * 0.15f))
-                    timeInterval = 0.1f;
+                if (i > Mathf.RoundToInt(59 * 0.04f))
+                    timeInterval = 0.0065f;
+                if (i > Mathf.RoundToInt(59 * 0.08f))
+                    timeInterval = 0.0085f;
+                if (i > Mathf.RoundToInt(59 * 0.12f))
+                    timeInterval = 0.01f;
+                if (i > Mathf.RoundToInt(59 * 0.15f))
+                    timeInterval = 0.015f;
 
 
                 yield return new WaitForSeconds(timeInterval);
@@ -220,6 +220,6 @@ public class NewRotating : MonoBehaviour
     
     public async Task WaitRotating()
     {
-        await Task.Delay((9-rotatingNumber)*1000);
+        await Task.Delay((8-rotatingNumber)*1000);
     }
 }
