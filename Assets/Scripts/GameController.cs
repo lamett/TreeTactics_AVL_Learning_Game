@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
     public TextBox rotatingText;
     public TextBox checkText;
     public TextBox specialAttackText;
+    AudioManager audioManager;
 
     private List<GameObject> balls;
     Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
@@ -53,6 +54,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         GameManager.OnGameStateChanged += ManageAVLOperationsOnGameStateChanged;
     }
     void OnDestroy()
@@ -126,14 +128,17 @@ public class GameController : MonoBehaviour
     {
 
         //endButton.show();
+        
         treeManager.backUpTree();
         addPhaseTimer.startTimer(amountBalls * 10, 0.2f);
+        audioManager.StartTimer();
         commandHistory.Clear(); // kann eigentlich auch zum Event OnGameStateChanged hinzugefügt werden
     }
 
     //returns if Challenge was accomplished or not
     public bool EndAddphase()
     {
+        audioManager.StopTimer();
         //checkText.StartDialogue();
         addPhaseTimer.stopTimer();
         leftNodesToAdd = balls.Count;
@@ -146,6 +151,7 @@ public class GameController : MonoBehaviour
 
     public async Task DamageEnemy()
     {
+        audioManager.PlaySFX(audioManager.EnemyTakesDamage);
         enemyDamageText.StartDialogue();
         enemy.reduceHealth();
         //setDummyText("Damage on Enemy. Remaining Health:" + enemy.Health);
@@ -154,6 +160,7 @@ public class GameController : MonoBehaviour
     }
     public async Task DamagePlayer()
     {
+        audioManager.PlaySFX(audioManager.PlayerTakesDamage);
         playerDamageText.StartDialogue();
         player.reduceHealth();
         //setDummyText("Damage on Player. Remaining Health:" + player.Health);

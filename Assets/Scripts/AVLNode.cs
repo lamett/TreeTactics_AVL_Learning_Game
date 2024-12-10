@@ -23,6 +23,7 @@ public class AVLNode : MonoBehaviour
     Edge rightEdge = null;
     TextMeshPro balanceFactorObject;
     new MeshRenderer renderer;
+    
 
     bool markLeftEdge = false;
     bool markRightEdge = false;
@@ -31,6 +32,7 @@ public class AVLNode : MonoBehaviour
     public bool isGapFiller = false;
     private void Awake()
     {
+       
         renderer = GetComponent<MeshRenderer>();
         renderer.material = gray;
         balanceFactorObject = transform.GetChild(1).GetComponent<TextMeshPro>();
@@ -38,6 +40,7 @@ public class AVLNode : MonoBehaviour
 
     private void Update()
     {
+        
         updateEdge();
     }
 
@@ -106,11 +109,13 @@ public class AVLNode : MonoBehaviour
         //gibt die aktuellen Positionen an die Edges weiter
         if (leftEdge != null && left != null)
         {
+            
             leftEdge.headPos = transform.position;
             leftEdge.tailPos = left.transform.position;
         }
         if (rightEdge != null && right != null)
         {
+            
             rightEdge.headPos = transform.position;
             rightEdge.tailPos = right.transform.position;
         }
