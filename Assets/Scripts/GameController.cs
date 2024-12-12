@@ -49,6 +49,11 @@ public class GameController : MonoBehaviour
     public TextBox specialAttackText;
     public TextBoxGeneric genericText;
 
+    public GameObject platine;
+    public GameObject UndoButtonObject;
+    public GameObject EndButtonObject;
+    public GameObject TimerObject;
+
     private List<GameObject> balls;
     Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
     [SerializeField] private RotationButtons rotationButtonsPanel;
@@ -276,6 +281,7 @@ public class GameController : MonoBehaviour
     public async Task Tutorial()
     {
         Settings.isTutorial = true;
+        rotating.gameObject.SetActive(false);
         await genericText.PrintOnScreen("Willkommen! Du möchtest also mein Spiel lernen.", 1.5f);
         await genericText.PrintOnScreen("Du bekommst Kugeln, die musst du hinzufügen.");
         chooseAmountBalls(4);
@@ -331,15 +337,17 @@ public class GameController : MonoBehaviour
         }
         Utils.StopPulsing();
         await genericText.PrintOnScreen("Sehr gut, nun beende deinen Zug");
-        // show endButton
+        Utils.StartPulsing(EndButtonObject);
         while (!endbuttonClicked)
         {
             await Task.Delay(100);
         }
+        Utils.StopPulsing();
         endbuttonClicked = false;
         commandHistory.Clear();
-        await genericText.PrintOnScreen("Du hast diese Runde gewonnen also ziehe ich mir ein Leben ab", 1.5f);
+        await genericText.PrintOnScreen("Du hast diese Runde gewonnen also ziehe ich mir ein Leben ab");
         enemy.reduceHealth();
+        await Task.Delay(2000);
         await genericText.PrintOnScreen("Da du so gut warst, hab ich eine kleine Challange für dich", 1.5f);
 
         var node = treeManager.findNodeToDelete();
@@ -383,21 +391,27 @@ public class GameController : MonoBehaviour
         }
         Utils.StopPulsing();
 
+        Utils.StartPulsing(platine.GetComponent<showTreeBalance>().LEDs());
         await genericText.PrintOnScreen("Hier kannst du erkennen, wie unbalanciert dein Baum ist", 3);
-        //          show balancgrad
+        Utils.StopPulsing();
         await genericText.PrintOnScreen("Du kannst natürlich auch deinen Zug Rückgängig machen.");
-        // show Undo
+        Utils.StartPulsing(UndoButtonObject);
         while (!undoButtonClicked)
         {
             await Task.Delay(100);
         }
+        enableBallsClickOperation(false);
+        Utils.StopPulsing();
+        Utils.StartPulsing(TimerObject);
         await genericText.PrintOnScreen("Übrigends gibt es auch eine Zeitlimit");
-        addPhaseTimer.startTimer(1, 0.2f);
+        addPhaseTimer.startTimer(1.5f, 0.2f);
         //TODO start TimerSound
         await Task.Delay(3000);
+        Utils.StopPulsing();
+        addPhaseTimer.stopTimer();
         player.reduceHealth();
         resetTree();
-        await genericText.PrintOnScreen("Ich war gemein, ich wollte dir nur zeigen, du startest immer mit deinem vorherigem Baum neu");
+        await genericText.PrintOnScreen("Ich war gemein, ich wollte dir nur zeigen, du startest immer mit deinem vorherigem Baum neu", 2.5f);
 
         await genericText.PrintOnScreen("Übe noch so viel du möchtest ohne Zeidruck. Beende die Übung einfach mit dem Knopf");
         endbuttonClicked = false;
@@ -407,11 +421,13 @@ public class GameController : MonoBehaviour
         treeManager.backUpTree();
         commandHistory.Clear();
         enableBallsClickAdd(true);
+        Utils.StartPulsing(EndButtonObject);
 
         while (!endbuttonClicked)
         {
             await Task.Delay(100);
         }
+        Utils.StopPulsing();
         endbuttonClicked = false;
         Settings.isTutorial = false;
         SceneManager.LoadScene("StartMenu");
