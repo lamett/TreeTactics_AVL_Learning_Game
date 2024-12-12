@@ -462,4 +462,9 @@ public class TreeManager
     {
         return baum.size;
     }
+
+    public AVLNode getRoot()
+    {
+        return baum.root;
+    }
 }

@@ -44,6 +44,6 @@ public class Timer
     public void stopTimer()
     {
         running = false;
-        timerUpdate.Invoke(1);
+        timerUpdate.Invoke(-1);
     }
 }

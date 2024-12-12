@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,8 +18,15 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-        UpdateGameState(GameState.StartMenu);
+        if (Settings.isTutorial)
+        {
+            StartTutorial();
+        }
+        else
+        {
+            gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            UpdateGameState(GameState.StartMenu);
+        }
     }
 
     public void UpdateGameState(GameState newState)
@@ -30,7 +34,7 @@ public class GameManager : MonoBehaviour
         prevGameState = gameState;
         gameState = newState;
 
-       
+
 
         switch (newState)
         {
@@ -97,6 +101,11 @@ public class GameManager : MonoBehaviour
 
     public void HandleAddPhaseEnd()
     {
+        if (Settings.isTutorial)
+        {
+            gameController.endbuttonClicked = true;
+            return;
+        }
         bool isAccomplished = gameController.EndAddphase();
         if (isAccomplished)
         {
@@ -114,11 +123,11 @@ public class GameManager : MonoBehaviour
         {
             UpdateGameState(GameState.SpezialAttakUnbalanceTalk);
         }
-        else 
+        else
         {
-            UpdateGameState(GameState.SpezialAttakDelTalk); 
+            UpdateGameState(GameState.SpezialAttakDelTalk);
         }
-        
+
     }
 
     private async void HandleDamageOnPlayer()
@@ -142,12 +151,12 @@ public class GameManager : MonoBehaviour
                     break;
                 case GameState.SpezialAttakUnBalance:
                     throw new NotImplementedException();
-                    //break;
+                //break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(prevGameState), prevGameState, null);
             }
         }
-        
+
     }
 
     private async void HandleSpezialAttakDelTalk()
@@ -156,8 +165,8 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.SpezialAttakDel);
     }
 
-    private void HandleSpezialAttakDel() 
-    { 
+    private void HandleSpezialAttakDel()
+    {
         gameController.StartSpezialAttakDel();
     }
 
@@ -198,6 +207,11 @@ public class GameManager : MonoBehaviour
     public void ChangeToLose()
     {
         UpdateGameState(GameState.Lose);
+    }
+
+    public async void StartTutorial()
+    {
+        await gameController.Tutorial();
     }
 }
 
