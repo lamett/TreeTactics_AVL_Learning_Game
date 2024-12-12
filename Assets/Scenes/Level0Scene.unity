@@ -1234,7 +1234,7 @@ MonoBehaviour:
   EnemyWriting: {fileID: 8300000, guid: bb4708c3030689e478989e665db0d06f, type: 3}
   EnemyTakesDamage: {fileID: 8300000, guid: 88c3a36e554ebbf49a0a4003c2ebe2b8, type: 3}
   PlayerTakesDamage: {fileID: 8300000, guid: 0899aab7ed4c3084689bbe5d50b2fd6f, type: 3}
-  OrbsMoving: {fileID: 8300000, guid: 54d315d5c4f683a409f22f4320a23dc1, type: 3}
+  OrbsMoving: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
   OrbsFallInBowl: {fileID: 8300000, guid: 0be3789a104bdd0458d486dcb09c50fb, type: 3}
   OrbDestoryed: {fileID: 8300000, guid: 6ef35e947c440404d968630dc1acc61d, type: 3}
   TimerSounds: {fileID: 8300000, guid: c5e2a73ad4706440f93bf05df0b465fe, type: 3}
