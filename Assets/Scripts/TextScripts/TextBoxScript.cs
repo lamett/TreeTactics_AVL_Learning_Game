@@ -36,8 +36,16 @@ public class TextBoxScript : MonoBehaviour
 
     }
 
+    public void WriteOH()
+    {
+        Debug.Log("xxx");
+        index = 0;
+        StartCoroutine(TypeLine());
+    }
+
     void StartDialogue()
     {
+        Debug.Log("xxx");
         index = 0;
         StartCoroutine(TypeLine());
     }
