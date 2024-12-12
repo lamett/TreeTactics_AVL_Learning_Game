@@ -159,10 +159,17 @@ public class AVLOperations : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
             }
             if (Input.GetMouseButtonDown(0))
             {
+                if (Settings.isTutorial)
+                {
+                    gameController.endDelTutorial = true;
+                }
                 if (avlNode.isGapFiller)
                 {
                     gameController.chooseDeletion(avlNode.ID); // deletes node, fill gap, calculate new positions, color
-                    gameController.EndSpezialAttakDel(); //stops timer and go to balance phase
+                    if (!Settings.isTutorial)
+                    {
+                        gameController.EndSpezialAttakDel(); //stops timer and go to balance phase
+                    }
                 }
                 else
                 {
@@ -178,7 +185,14 @@ public class AVLOperations : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
                 if (gameController.addFromBowl(gameObject))
                 {
                     gameObject.transform.rotation = Quaternion.identity;
-                    gameController.enableBallsClickOperation(true);
+                    if (Settings.isTutorial && !gameController.isEndOfTutorial)
+                    {
+                        setIsAddable(false);
+                    }
+                    else
+                    {
+                        gameController.enableBallsClickOperation(true);
+                    }
                     avlNode.showID();
                     avlNode.showBF();
                 }
@@ -191,7 +205,7 @@ public class AVLOperations : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         gameController.leftRotation(avlNode.ID);
     }
-    
+
     public void RotateRight()
     {
         gameController.rightRotation(avlNode.ID);
