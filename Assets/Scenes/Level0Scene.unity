@@ -1736,8 +1736,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boneShape: 1
-  drawBones: 1
-  drawTripods: 1
+  drawBones: 0
+  drawTripods: 0
   boneSize: 1
   tripodSize: 5
   boneColor: {r: 0, g: 0, b: 1, a: 0.5}
@@ -4540,7 +4540,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485c58e9e9478124db24dbba0272f1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Figur: {fileID: 5520756453027194613, guid: cae044315422e6c48ba1a12ac69b378a, type: 3}
+  Figur1: {fileID: 2660788002631415530, guid: 040791f69acdbbe42849393e26374f34, type: 3}
+  Figur2: {fileID: 6303356227833382817, guid: c899931a08d73b7498c614217643151b, type: 3}
+  Figur3: {fileID: 8056686634539521925, guid: fbc49e5f26a0b164f8cb58a3b0c9d344, type: 3}
   Arm: {fileID: 1029910019}
 --- !u!4 &742929738
 Transform:
@@ -4986,6 +4988,8 @@ MonoBehaviour:
   m_RigLayers:
   - m_Rig: {fileID: 0}
     m_Active: 1
+  - m_Rig: {fileID: 0}
+    m_Active: 1
   m_Effectors: []
 --- !u!95 &764101819
 Animator:
@@ -5020,7 +5024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boneShape: 1
-  drawBones: 1
+  drawBones: 0
   drawTripods: 0
   boneSize: 1
   tripodSize: 2.58
@@ -7221,7 +7225,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236919693}
   m_LocalRotation: {x: -0, y: -0.9925265, z: 0.12202982, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.308}
+  m_LocalPosition: {x: 0, y: 0, z: 0.3281}
   m_LocalScale: {x: 0.00024561593, y: 0.0002848403, z: 0.17845854}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7232,7 +7236,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 14.019, y: -180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.764}
+  m_AnchoredPosition: {x: 0, y: 0.7981}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1236919695
@@ -7346,7 +7350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485c58e9e9478124db24dbba0272f1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Figur: {fileID: 5520756453027194613, guid: 9349b26c99ad9474d9d9c9354eb3ae13, type: 3}
+  Figur1: {fileID: 504932631285186269, guid: c4cedb1b8e84afe448685e7ab0abc5c4, type: 3}
+  Figur2: {fileID: 504932631285186269, guid: df62efbcfa365df4da270c21a0c33b7f, type: 3}
+  Figur3: {fileID: 504932631285186269, guid: 63ffc6d1396f3cb48ac1e9b3d11ea2d0, type: 3}
   Arm: {fileID: 1029910019}
 --- !u!4 &1238394911
 Transform:
