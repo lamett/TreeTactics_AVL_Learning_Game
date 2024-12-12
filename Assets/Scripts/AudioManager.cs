@@ -26,6 +26,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip WaterTap;
     public AudioClip Rustle;
     public AudioClip CameraMoving;
+    public AudioClip EndBossMusic;
 
 
 
@@ -61,5 +62,12 @@ public class AudioManager : MonoBehaviour
     {
         timerSource.clip = TimerSounds;
         timerSource.Stop();
+    }
+
+    public void StartBossMusic()
+    {
+        musicSource.Stop();
+        musicSource.clip = EndBossMusic;
+        musicSource.Play();
     }
 }

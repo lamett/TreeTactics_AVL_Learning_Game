@@ -20,7 +20,9 @@ public class TextBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.SetActive(false);
+        textComponent.text = string.Empty;
+        index = 0;
+        StartDialogue();    
     }
 
     // Update is called once per frame
@@ -49,7 +51,7 @@ public class TextBox : MonoBehaviour
         gameObject.SetActive(true);
         
         textComponent.text = string.Empty;
-        index = Random.Range(0, lines.Length);
+       
         StartCoroutine(TypeLine());
     }
 

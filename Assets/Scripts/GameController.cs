@@ -37,13 +37,8 @@ public class GameController : MonoBehaviour
     int leftNodesToAdd = 0;
     public NewRotating rotating;
     public ArmBehaviour Arm;
-    public TextBox enemyDamageText;
-    public TextBox enemyWinText;
-    public TextBox playerWinText;
-    public TextBox playerDamageText;
-    public TextBox rotatingText;
-    public TextBox checkText;
-    public TextBox specialAttackText;
+    public TextBox textBox;
+    
     AudioManager audioManager;
 
     private List<GameObject> balls;
@@ -117,7 +112,8 @@ public class GameController : MonoBehaviour
     {
         rotating.GenerateRotation(); // Startet rotieren der Nummern
         await rotating.WaitRotating();// wartet bis fertig gerollt (bis jetzt nur 12s)
-        rotatingText.StartDialogue();
+        textBox.index = UnityEngine.Random.Range(3,5);
+        textBox.StartDialogue();
         chooseAmountBalls();
         //setDummyText("Add " + amountBalls + " Nodes");
         //ScreenAnimation
@@ -139,7 +135,6 @@ public class GameController : MonoBehaviour
     public bool EndAddphase()
     {
         audioManager.StopTimer();
-        //checkText.StartDialogue();
         addPhaseTimer.stopTimer();
         leftNodesToAdd = balls.Count;
         clearBowl();
@@ -152,7 +147,8 @@ public class GameController : MonoBehaviour
     public async Task DamageEnemy()
     {
         audioManager.PlaySFX(audioManager.EnemyTakesDamage);
-        enemyDamageText.StartDialogue();
+        textBox.index = UnityEngine.Random.Range(9, 11);
+        textBox.StartDialogue();
         enemy.reduceHealth();
         //setDummyText("Damage on Enemy. Remaining Health:" + enemy.Health);
         rotating.rotatingNumber += 1;
@@ -161,7 +157,8 @@ public class GameController : MonoBehaviour
     public async Task DamagePlayer()
     {
         audioManager.PlaySFX(audioManager.PlayerTakesDamage);
-        playerDamageText.StartDialogue();
+        textBox.index = UnityEngine.Random.Range(11, 13);
+        textBox.StartDialogue();
         player.reduceHealth();
         //setDummyText("Damage on Player. Remaining Health:" + player.Health);
         await Task.Delay(2000);
@@ -171,12 +168,14 @@ public class GameController : MonoBehaviour
     {
         if (enemy.isDead())
         {
-            playerWinText.StartDialogue();
+            textBox.index = UnityEngine.Random.Range(7, 9);
+            textBox.StartDialogue();
             return 1;
         }
         else if (player.isDead())
         {
-            enemyWinText.StartDialogue();
+            textBox.index = UnityEngine.Random.Range(5, 7);
+            textBox.StartDialogue();
             return -1;
         }
         else { return 0; }
@@ -191,15 +190,20 @@ public class GameController : MonoBehaviour
     public async Task StartSpezialAttakDelTalk()
     {
         await Task.Delay(1800);
-        specialAttackText.StartDialogue();  
+        textBox.index = UnityEngine.Random.Range(13, 15);
+        textBox.StartDialogue();  
         var node = treeManager.findNodeToDelete();
         Arm.DestroyNode(treeManager.findNode(node).gameObject);
         //setDummyText("Knoten gelöscht, wähle einen Knoten um das Loch zu füllen");
         await Task.Delay(1000);
+        
         //delAttackTimer.startTimer(treeManager.Count() * 1, 0.2f);
         treeManager.markDeletion(node); //makes random Node small
         treeManager.markGapFillers(); //sets higher and smaller neighbourgh to isGapFiller = true
         //Animation
+        await Task.Delay(3500);
+        audioManager.PlaySFX(audioManager.OrbDestoryed);
+
     }
 
     public void StartSpezialAttakDel()
@@ -230,12 +234,15 @@ public class GameController : MonoBehaviour
         //setDummyText("Du hast mich noch nicht besiegt!");
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOnTable"); //triggers shake and RandomRot as animation event
+        audioManager.StartBossMusic();
         await Task.Delay(4000);
+        
     }
 
 
     public async Task StartSpezialAttakUnbalance()
     {
+        audioManager.StartTimer();
         specialPhaseTimer.startTimer(20, 0.2f);
         while (!treeManager.isBalanced())
         {
@@ -246,6 +253,7 @@ public class GameController : MonoBehaviour
 
     public async Task StartWin()
     {
+        audioManager.StopTimer();
         specialPhaseTimer.stopTimer();
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
@@ -256,6 +264,7 @@ public class GameController : MonoBehaviour
 
     public async Task StartLose()
     {
+        audioManager.StopTimer();
         specialPhaseTimer.stopTimer();
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
@@ -411,11 +420,13 @@ public class GameController : MonoBehaviour
 
     public void leftRotation(int ID)
     {
+        audioManager.PlaySFX(audioManager.OrbsMoving);
         treeManager.leftRotation(ID);
     }
 
     public void rightRotation(int ID)
     {
+        audioManager.PlaySFX(audioManager.OrbsMoving);
         treeManager.rightRotation(ID);
     }
 
@@ -441,10 +452,12 @@ public class GameController : MonoBehaviour
             case TreeManager.Commands.RotateLeft:
                 treeManager.rightRotation(command.Item2);
                 commandHistory.Pop();
+                audioManager.PlaySFX(audioManager.OrbsMoving);
                 break;
             case TreeManager.Commands.RotateRight:
                 treeManager.leftRotation(command.Item2);
                 commandHistory.Pop();
+                audioManager.PlaySFX(audioManager.OrbsMoving);
                 break;
             case TreeManager.Commands.Insert:
                 treeManager.markDeletion(command.Item2);

@@ -5,9 +5,11 @@ public class showTreeBalance : MonoBehaviour
 {
     RectTransform rt;
     Image img;
+    AudioManager audioManager;
     // Start is called before the first frame update
     void Awake()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         rt = GetComponent<RectTransform>();
         img = GetComponent<Image>();
     }
@@ -23,7 +25,9 @@ public class showTreeBalance : MonoBehaviour
 
         var color = Color.HSVToRGB(Mathf.Lerp(0.21f,0, balance/10f),1,1);
         //Color.Lerp(new Color(190,255,0), Color.red, (balance-1)/10f);
-        if(balance == 0){
+        if(balance == 0)
+        {
+            audioManager.PlaySFX(audioManager.TreeBalanced);
             color = Color.green;
         }
         img.color = color;
