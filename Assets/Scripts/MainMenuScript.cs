@@ -23,6 +23,11 @@ public class MainMenuScript : MonoBehaviour
         SceneManager.LoadScene("Level0Scene");
     }
 
+    //public void OpenTutorial()
+    //{
+    //    SceneManager.LoadScene("Tutorial");
+    //}
+
     public void Quit()
     {
         Application.Quit();
