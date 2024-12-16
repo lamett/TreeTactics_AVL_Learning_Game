@@ -29,7 +29,7 @@ public class showTreeBalance : MonoBehaviour
         var balance = Mathf.Clamp(balanceFactor, 0, 20);
         bool light;
         Material material;
-        if (balance >= 1)
+        if (balance >= 0)
         {
             light = true;
             material = materials[0];
@@ -41,7 +41,7 @@ public class showTreeBalance : MonoBehaviour
         }
         leds[0].transform.GetChild(0).gameObject.SetActive(light);
         leds[0].GetComponent<Renderer>().material = material;
-        if (balance >= 3)
+        if (balance >= 1)
         {
             light = true;
             material = materials[1];
@@ -53,7 +53,7 @@ public class showTreeBalance : MonoBehaviour
         }
         leds[1].transform.GetChild(0).gameObject.SetActive(light);
         leds[1].GetComponent<Renderer>().material = material;
-        if (balance >= 6)
+        if (balance >= 3)
         {
             light = true;
             material = materials[2];
@@ -65,7 +65,7 @@ public class showTreeBalance : MonoBehaviour
         }
         leds[2].transform.GetChild(0).gameObject.SetActive(light);
         leds[2].GetComponent<Renderer>().material = material;
-        if (balance >= 10)
+        if (balance >= 8)
         {
             light = true;
             material = materials[3];

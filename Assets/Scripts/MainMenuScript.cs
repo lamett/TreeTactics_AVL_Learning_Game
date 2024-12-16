@@ -20,13 +20,14 @@ public class MainMenuScript : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Level0Scene");
+        SceneManager.LoadScene("Cutscene_Start");
     }
 
-    //public void OpenTutorial()
-    //{
-    //    SceneManager.LoadScene("Tutorial");
-    //}
+    public void StartTutorial()
+    {
+        Settings.isTutorial = true;
+        SceneManager.LoadScene("Level0Scene");
+    }
 
     public void Quit()
     {

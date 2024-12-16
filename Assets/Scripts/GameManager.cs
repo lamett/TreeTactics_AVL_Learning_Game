@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,16 +18,19 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    void Start()
+    IEnumerator Start()
     {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         if (Settings.isTutorial)
         {
             StartTutorial();
         }
         else
         {
-            gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-            UpdateGameState(GameState.StartMenu);
+            //UpdateGameState(GameState.StartMenu);
+            //UpdateGameState(GameState.RollChallengeTalk);
+            yield return new WaitForEndOfFrame();
+            HandleRollChallangeTalk();
         }
     }
 
@@ -90,6 +95,7 @@ public class GameManager : MonoBehaviour
 
     public async void HandleRollChallangeTalk()
     {
+        Debug.Log("hi");
         await gameController.StartRollChallengeTalk();
         UpdateGameState(GameState.AddPhase);
     }
