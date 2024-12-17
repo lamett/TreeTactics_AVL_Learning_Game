@@ -71,6 +71,7 @@ public class GameController : MonoBehaviour
         //dummyText = GameObject.FindGameObjectWithTag("DummyText").GetComponent<TMP_Text>();
         //endButton = GameObject.FindGameObjectWithTag("EndButton").GetComponent<Button>();
         //endButton.hide();
+        
     }
     private void ManageAVLOperationsOnGameStateChanged(GameState gameState)
     {
@@ -146,22 +147,24 @@ public class GameController : MonoBehaviour
 
     public async Task DamageEnemy()
     {
-        audioManager.PlaySFX(audioManager.EnemyTakesDamage);
+        
         textBox.index = UnityEngine.Random.Range(9, 11);
         textBox.StartDialogue();
         enemy.reduceHealth();
         //setDummyText("Damage on Enemy. Remaining Health:" + enemy.Health);
         rotating.rotatingNumber += 1;
         await Task.Delay(2000);
+        audioManager.PlaySFX(audioManager.EnemyTakesDamage);
     }
     public async Task DamagePlayer()
     {
-        audioManager.PlaySFX(audioManager.PlayerTakesDamage);
+        
         textBox.index = UnityEngine.Random.Range(11, 13);
         textBox.StartDialogue();
         player.reduceHealth();
         //setDummyText("Damage on Player. Remaining Health:" + player.Health);
         await Task.Delay(2000);
+        audioManager.PlaySFX(audioManager.PlayerTakesDamage);
     }
 
     public int HealthCheck()
@@ -233,9 +236,11 @@ public class GameController : MonoBehaviour
     {
         //setDummyText("Du hast mich noch nicht besiegt!");
         await Task.Delay(500);
-        enemy.GetComponent<Animator>().SetTrigger("JumpOnTable"); //triggers shake and RandomRot as animation event
+        enemy.GetComponent<Animator>().SetTrigger("JumpOnTable");//triggers shake and RandomRot as animation event
+        await Task.Delay(1500);
+        audioManager.PlaySFX(audioManager.JumpOnTable);
         audioManager.StartBossMusic();
-        await Task.Delay(4000);
+        await Task.Delay(2500);
         
     }
 
