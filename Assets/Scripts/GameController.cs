@@ -237,6 +237,7 @@ public class GameController : MonoBehaviour
     public async Task StartSpezialAttakUnbalanceTalk()
     {
         //setDummyText("Du hast mich noch nicht besiegt!");
+        Debug.Log("xxxStartSpezialAttakUnbalanceTalkxxx");
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOnTable"); //triggers shake and RandomRot as animation event
         await Task.Delay(4000);

@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class CutSceneManager : MonoBehaviour
 {
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene("Level0Scene");
+        }
+    }
     public void LoadLevel0()
     {
         Debug.Log("Szenenwechesel");
