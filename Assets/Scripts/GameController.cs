@@ -40,13 +40,7 @@ public class GameController : MonoBehaviour
     int leftNodesToAdd = 0;
     public NewRotating rotating;
     public ArmBehaviour Arm;
-    public TextBox enemyDamageText;
-    public TextBox enemyWinText;
-    public TextBox playerWinText;
-    public TextBox playerDamageText;
-    public TextBox rotatingText;
-    public TextBox checkText;
-    public TextBox specialAttackText;
+    public TextBox textBox;
     public TextBoxGeneric genericText;
 
     public GameObject platine;
@@ -131,7 +125,8 @@ public class GameController : MonoBehaviour
     {
         rotating.GenerateRotation(); // Startet rotieren der Nummern
         await rotating.WaitRotating();// wartet bis fertig gerollt (bis jetzt nur 12s)
-        rotatingText.StartDialogue();
+        textBox.index = UnityEngine.Random.Range(3, 5);
+        textBox.StartDialogue();
         chooseAmountBalls(-1);
         //setDummyText("Add " + amountBalls + " Nodes");
         //ScreenAnimation
@@ -162,7 +157,8 @@ public class GameController : MonoBehaviour
 
     public async Task DamageEnemy()
     {
-        enemyDamageText.StartDialogue();
+        textBox.index = UnityEngine.Random.Range(9, 11);
+        textBox.StartDialogue();
         enemy.reduceHealth();
         //setDummyText("Damage on Enemy. Remaining Health:" + enemy.Health);
         rotating.rotatingNumber += 1;
@@ -170,7 +166,8 @@ public class GameController : MonoBehaviour
     }
     public async Task DamagePlayer()
     {
-        playerDamageText.StartDialogue();
+        textBox.index = UnityEngine.Random.Range(11, 13);
+        textBox.StartDialogue();
         player.reduceHealth();
         //setDummyText("Damage on Player. Remaining Health:" + player.Health);
         await Task.Delay(2000);
@@ -180,12 +177,14 @@ public class GameController : MonoBehaviour
     {
         if (enemy.isDead())
         {
-            playerWinText.StartDialogue();
+            textBox.index = UnityEngine.Random.Range(7, 9);
+            textBox.StartDialogue();
             return 1;
         }
         else if (player.isDead())
         {
-            enemyWinText.StartDialogue();
+            textBox.index = UnityEngine.Random.Range(5, 7);
+            textBox.StartDialogue();
             return -1;
         }
         else { return 0; }
@@ -200,7 +199,8 @@ public class GameController : MonoBehaviour
     public async Task StartSpezialAttakDelTalk()
     {
         await Task.Delay(1800);
-        specialAttackText.StartDialogue();
+        textBox.index = UnityEngine.Random.Range(13, 15);
+        textBox.StartDialogue();
         var node = treeManager.findNodeToDelete();
         Arm.DestroyNode(treeManager.findNode(node).gameObject);
         //setDummyText("Knoten gelöscht, wähle einen Knoten um das Loch zu füllen");
