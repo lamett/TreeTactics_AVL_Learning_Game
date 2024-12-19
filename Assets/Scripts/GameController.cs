@@ -74,11 +74,13 @@ public class GameController : MonoBehaviour
         enemy.setHealth(enemyStartHealth);
         addPhaseTimer = new Timer(this, EndAddPhaseEvent, addPhaseTimeUpdate);
         specialPhaseTimer = new Timer(this, EndSpezialPhaseByTimer, specialPhaseTimeUpdate);
-        //delAttackTimer = new Timer(this, EndDelAttackByTimer, delAttackTimeUpdate);
         balls = new List<GameObject>();
-        //dummyText = GameObject.FindGameObjectWithTag("DummyText").GetComponent<TMP_Text>();
-        //endButton = GameObject.FindGameObjectWithTag("EndButton").GetComponent<Button>();
-        //endButton.hide();
+
+        //HardMode
+        if (Settings.HardModeActivated) {
+            enemy.setHealth(6);
+        }
+
     }
     private void ManageAVLOperationsOnGameStateChanged(GameState gameState)
     {
