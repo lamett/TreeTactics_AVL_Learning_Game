@@ -47,6 +47,7 @@ public class GameController : MonoBehaviour
     public GameObject UndoButtonObject;
     public GameObject EndButtonObject;
     public GameObject TimerObject;
+    AudioManager audioManager;  
 
     private List<GameObject> balls;
     Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
@@ -56,6 +57,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         GameManager.OnGameStateChanged += ManageAVLOperationsOnGameStateChanged;
     }
     void OnDestroy()
@@ -139,13 +141,14 @@ public class GameController : MonoBehaviour
         //endButton.show();
         treeManager.backUpTree();
         addPhaseTimer.startTimer(amountBalls * 10, 0.2f);
+        audioManager.StartTimer();
         commandHistory.Clear(); // kann eigentlich auch zum Event OnGameStateChanged hinzugefügt werden
     }
 
     //returns if Challenge was accomplished or not
     public bool EndAddphase()
     {
-        //checkText.StartDialogue();
+        audioManager.StopTimer();
         addPhaseTimer.stopTimer();
         leftNodesToAdd = balls.Count;
         clearBowl();
@@ -163,6 +166,7 @@ public class GameController : MonoBehaviour
         //setDummyText("Damage on Enemy. Remaining Health:" + enemy.Health);
         rotating.rotatingNumber += 1;
         await Task.Delay(2000);
+        audioManager.PlaySFX(audioManager.EnemyTakesDamage);
     }
     public async Task DamagePlayer()
     {
@@ -171,6 +175,7 @@ public class GameController : MonoBehaviour
         player.reduceHealth();
         //setDummyText("Damage on Player. Remaining Health:" + player.Health);
         await Task.Delay(2000);
+        audioManager.PlaySFX(audioManager.EnemyTakesDamage);
     }
 
     public int HealthCheck()
@@ -209,6 +214,8 @@ public class GameController : MonoBehaviour
         treeManager.markDeletion(node); //makes random Node small
         treeManager.markGapFillers(); //sets higher and smaller neighbourgh to isGapFiller = true
         //Animation
+        await Task.Delay(3500);
+        audioManager.PlaySFX(audioManager.OrbDestoryed);
     }
 
     public void StartSpezialAttakDel()
@@ -246,6 +253,7 @@ public class GameController : MonoBehaviour
 
     public async Task StartSpezialAttakUnbalance()
     {
+        audioManager.StartTimer();
         specialPhaseTimer.startTimer(20, 0.2f);
         while (!treeManager.isBalanced())
         {
@@ -256,6 +264,7 @@ public class GameController : MonoBehaviour
 
     public async Task StartWin()
     {
+        audioManager.StopTimer();
         specialPhaseTimer.stopTimer();
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
@@ -266,6 +275,7 @@ public class GameController : MonoBehaviour
 
     public async Task StartLose()
     {
+        audioManager.StopTimer();
         specialPhaseTimer.stopTimer();
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
@@ -582,11 +592,13 @@ public class GameController : MonoBehaviour
 
     public void leftRotation(int ID)
     {
+        audioManager.PlaySFX(audioManager.OrbsMoving);
         treeManager.leftRotation(ID);
     }
 
     public void rightRotation(int ID)
     {
+        audioManager.PlaySFX(audioManager.OrbsMoving);
         treeManager.rightRotation(ID);
     }
 
@@ -612,10 +624,12 @@ public class GameController : MonoBehaviour
             case TreeManager.Commands.RotateLeft:
                 treeManager.rightRotation(command.Item2);
                 commandHistory.Pop();
+                audioManager.PlaySFX(audioManager.OrbsMoving);
                 break;
             case TreeManager.Commands.RotateRight:
                 treeManager.leftRotation(command.Item2);
                 commandHistory.Pop();
+                audioManager.PlaySFX(audioManager.OrbsMoving);
                 break;
             case TreeManager.Commands.Insert:
                 treeManager.markDeletion(command.Item2);
