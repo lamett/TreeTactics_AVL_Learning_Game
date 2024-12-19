@@ -186,7 +186,8 @@ public class AVLNode : MonoBehaviour
 
     public void markInsert(bool isLeft)
     {
-        var timeForEdgeMarking = -transform.position.z / heightFactor / 5;
+        //var timeForEdgeMarking = -transform.position.z / heightFactor / 5;
+        var timeForEdgeMarking = 0f;
         if (isLeft)
         {
             if (leftEdge == null)

@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   standardMaterial: {fileID: 2100000, guid: 85154be93e7b74f4690d3d780d8b774e, type: 2}
-  alternativMaterial: {fileID: 2100000, guid: 3cb15af07a8666745a8fe9bffd273e1f, type: 2}
+  alternativMaterial: {fileID: 2100000, guid: 3670835c8771d0b4bb315120ce1832f3, type: 2}
   headPos: {x: 0, y: 0, z: 0}
   tailPos: {x: 0, y: 0, z: 0}
   markingDuration: 1
