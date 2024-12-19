@@ -27,7 +27,7 @@ public class showTreeBalance : MonoBehaviour
         //Color.Lerp(new Color(190,255,0), Color.red, (balance-1)/10f);
         if(balance == 0)
         {
-            audioManager.PlaySFX(audioManager.TreeBalanced);
+            audioManager.PlayBing(audioManager.TreeBalanced);
             color = Color.green;
         }
         img.color = color;

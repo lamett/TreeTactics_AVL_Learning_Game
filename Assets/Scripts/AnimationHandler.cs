@@ -7,6 +7,11 @@ public class AnimationHandler : MonoBehaviour
 {
     Animator animator;
     GameController gameController;
+    AudioManager audioManager;
+    void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     void Start()
     {
         animator = gameObject.GetComponent<Animator>();
@@ -36,6 +41,8 @@ public class AnimationHandler : MonoBehaviour
 
     public void ShakeCamera()
     {
+        audioManager.PlaySFX(audioManager.JumpOnTable);
+        audioManager.StartBossMusic();
         Debug.Log(GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>());
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>().SetTrigger("ToShake");
     }

@@ -237,10 +237,7 @@ public class GameController : MonoBehaviour
         //setDummyText("Du hast mich noch nicht besiegt!");
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOnTable");//triggers shake and RandomRot as animation event
-        await Task.Delay(1500);
-        audioManager.PlaySFX(audioManager.JumpOnTable);
-        audioManager.StartBossMusic();
-        await Task.Delay(2500);
+        await Task.Delay(4000);
         
     }
 

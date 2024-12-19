@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameState prevGameState;
 
     private GameController gameController;
+    
 
     public static event Action<GameState> OnGameStateChanged;
     void Awake()

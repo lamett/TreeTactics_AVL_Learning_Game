@@ -39,7 +39,7 @@ public class TextBox : MonoBehaviour
             {
                 StopAllCoroutines();
                 textComponent.text = lines[index];
-                audioManager.StopMusic(audioManager.EnemyWriting);
+                audioManager.StopEnemySpeak();
             }
         }
 
@@ -57,13 +57,13 @@ public class TextBox : MonoBehaviour
 
     IEnumerator TypeLine()
     {
-        audioManager.StartMusic(audioManager.EnemyWriting);
+        audioManager.StartEnemySpeak();
         foreach (char c in lines[index].ToCharArray())
         {
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
-        audioManager.StopMusic(audioManager.EnemyWriting);
+        audioManager.StopEnemySpeak();
     }
 
 }

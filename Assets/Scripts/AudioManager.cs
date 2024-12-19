@@ -8,6 +8,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource loopSource;
     [SerializeField] AudioSource SFXSource;
     [SerializeField] AudioSource timerSource;
+    [SerializeField] AudioSource enemySource;
+    [SerializeField] AudioSource bingSource;
+    [SerializeField] AudioSource bossMusicSource;
 
 
     [Header("---------- Audio Clip ----------")]
@@ -16,7 +19,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip EnemyTakesDamage;
     public AudioClip PlayerTakesDamage;
     public AudioClip OrbsMoving;
-    public AudioClip OrbsFallInBowl;
+    public AudioClip CameraSound;
     public AudioClip OrbDestoryed;
     public AudioClip TimerSounds;
     public AudioClip PickFalseOrb;
@@ -64,10 +67,29 @@ public class AudioManager : MonoBehaviour
         timerSource.Stop();
     }
 
+    public void StartEnemySpeak()
+    {
+        enemySource.clip = EnemyWriting;
+        enemySource.Play();
+
+    }
+
+    public void StopEnemySpeak()
+    {
+        enemySource.clip = EnemyWriting;
+        enemySource.Stop();
+    
+    }
+
     public void StartBossMusic()
     {
         musicSource.Stop();
-        musicSource.clip = EndBossMusic;
-        musicSource.Play();
+        bossMusicSource.clip = EndBossMusic;
+        bossMusicSource.Play();
+    }
+
+    public void PlayBing(AudioClip clip)
+    {
+        bingSource.PlayOneShot(clip);
     }
 }
