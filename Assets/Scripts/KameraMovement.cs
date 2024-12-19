@@ -5,9 +5,10 @@ public class KameraMovement : MonoBehaviour
     public ViewState viewState;
     private Animator animator;
     public Animator animatorScreen;
-
+    AudioManager audioManager;
     void Awake()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         GameManager.OnGameStateChanged += ManageCameraMovementOnGameStateChanged;
     }
     void OnDestroy()
@@ -27,6 +28,7 @@ public class KameraMovement : MonoBehaviour
         {
             if (viewState == ViewState.SideView)
             {
+                audioManager.PlaySFX(audioManager.CameraSound);
                 MoveToTopView();
                 viewState = ViewState.TopView;
             }
@@ -35,6 +37,7 @@ public class KameraMovement : MonoBehaviour
         {
             if (viewState == ViewState.TopView)
             {
+                audioManager.PlaySFX(audioManager.CameraSound);
                 MoveToSideView();
                 viewState = ViewState.SideView;
             }

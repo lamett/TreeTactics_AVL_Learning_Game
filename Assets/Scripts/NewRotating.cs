@@ -12,9 +12,16 @@ public class NewRotating : MonoBehaviour
     public bool rowStopped;
     public int diceNumber;
     public int rotatingNumber;  
+    AudioManager audioManager;
 
-// Start is called before the first frame update
-        void Start()
+
+    void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
     {
         rotatingNumber = 1;
         rowStopped = true;
@@ -46,6 +53,7 @@ public class NewRotating : MonoBehaviour
 
     public void StartRotating()
     {
+        audioManager.StartMusic(audioManager.CasinoSpin);
         StartCoroutine("Rotate");
     }
 
@@ -213,7 +221,7 @@ public class NewRotating : MonoBehaviour
             }
 
         }
-
+        audioManager.StopMusic(audioManager.CasinoSpin);
         rowStopped = true;
         
     }
