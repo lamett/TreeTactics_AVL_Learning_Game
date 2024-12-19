@@ -5206,9 +5206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485c58e9e9478124db24dbba0272f1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Figur1: {fileID: 0}
-  Figur2: {fileID: 0}
-  Figur3: {fileID: 0}
+  Figur1: {fileID: 2660788002631415530, guid: 040791f69acdbbe42849393e26374f34, type: 3}
+  Figur2: {fileID: 6303356227833382817, guid: c899931a08d73b7498c614217643151b, type: 3}
+  Figur3: {fileID: 8056686634539521925, guid: fbc49e5f26a0b164f8cb58a3b0c9d344, type: 3}
   Arm: {fileID: 1029910019}
 --- !u!4 &742929738
 Transform:
@@ -7269,18 +7269,12 @@ MonoBehaviour:
   amountBalls: 10
   rotating: {fileID: 1464542912}
   Arm: {fileID: 1029910019}
-  enemyDamageText: {fileID: 0}
-  enemyWinText: {fileID: 0}
-  playerWinText: {fileID: 0}
-  playerDamageText: {fileID: 0}
-  rotatingText: {fileID: 0}
-  checkText: {fileID: 0}
-  specialAttackText: {fileID: 0}
-  genericText: {fileID: 0}
-  platine: {fileID: 0}
-  UndoButtonObject: {fileID: 0}
-  EndButtonObject: {fileID: 0}
-  TimerObject: {fileID: 0}
+  textBox: {fileID: 1291348314}
+  genericText: {fileID: 1091088713}
+  platine: {fileID: 270326972}
+  UndoButtonObject: {fileID: 1813589618}
+  EndButtonObject: {fileID: 1813589624}
+  TimerObject: {fileID: 1113027978}
   rotationButtonsPanel: {fileID: 692016019}
   endbuttonClicked: 0
   undoButtonClicked: 0
@@ -8241,9 +8235,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485c58e9e9478124db24dbba0272f1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Figur1: {fileID: 0}
-  Figur2: {fileID: 0}
-  Figur3: {fileID: 0}
+  Figur1: {fileID: 504932631285186269, guid: c4cedb1b8e84afe448685e7ab0abc5c4, type: 3}
+  Figur2: {fileID: 504932631285186269, guid: df62efbcfa365df4da270c21a0c33b7f, type: 3}
+  Figur3: {fileID: 504932631285186269, guid: 63ffc6d1396f3cb48ac1e9b3d11ea2d0, type: 3}
   Arm: {fileID: 1029910019}
 --- !u!4 &1238394911
 Transform:
@@ -8357,7 +8351,7 @@ GameObject:
   - component: {fileID: 1291348312}
   - component: {fileID: 1291348314}
   m_Layer: 0
-  m_Name: CheckText
+  m_Name: TextBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
