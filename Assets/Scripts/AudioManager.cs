@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Threading.Tasks;
+using System.Collections;
 
 public class AudioManager : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource enemySource;
     [SerializeField] AudioSource bingSource;
     [SerializeField] AudioSource bossMusicSource;
+    [SerializeField] AudioSource WinMusicSource;
 
 
     [Header("---------- Audio Clip ----------")]
@@ -25,6 +28,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip CasinoSpin;
     public AudioClip JumpOnTable;
     public AudioClip EndBossMusic;
+    public AudioClip WinMusic;
 
 
 
@@ -82,9 +86,45 @@ public class AudioManager : MonoBehaviour
         bossMusicSource.clip = EndBossMusic;
         bossMusicSource.Play();
     }
+    public void StopBossMusic()
+    {
+        bossMusicSource.Stop();
+    }
 
     public void PlayBing(AudioClip clip)
     {
         bingSource.PlayOneShot(clip);
     }
+
+  
+
+    public void FadeInWinMusic()
+    {
+        WinMusicSource.Play();
+        WinMusicSource.volume = 0;
+        StartCoroutine(Fade(true, WinMusicSource, 2f, 0.3f));
+    }
+
+    public IEnumerator Fade(bool fadeIn, AudioSource source, float duration, float targetVolume)
+    {
+        if (!fadeIn)
+        {
+            double lengthOfSource = (double)source.clip.samples / source.clip.frequency;
+            yield return new WaitForSecondsRealtime((float)(lengthOfSource - duration));
+
+        }
+
+        float time = 0f;
+        float startVol = source.volume;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            source.volume = Mathf.Lerp(startVol, targetVolume, time / duration);
+            yield return null;
+
+        }
+        yield break;
+
+    }
+
 }

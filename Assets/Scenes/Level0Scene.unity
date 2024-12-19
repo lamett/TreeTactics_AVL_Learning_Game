@@ -1655,8 +1655,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_PlayOnAwake: 0
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1877,6 +1877,134 @@ MonoBehaviour:
   - {fileID: 64639098}
   - {fileID: 1740945455}
   - {fileID: 543378381}
+--- !u!1 &238794158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 238794160}
+  - component: {fileID: 238794159}
+  m_Layer: 0
+  m_Name: WinMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &238794159
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238794158}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 770fa8ae9828a8341aaa20acf9c046cd, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &238794160
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238794158}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 983654413}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &239900775 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 595bc866055634647addac08ed5201fb, type: 3}
@@ -2023,7 +2151,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.02
   m_Pitch: 1
   Loop: 1
@@ -5706,17 +5834,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leds:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1813589619}
+  - {fileID: 1813589620}
+  - {fileID: 1813589621}
+  - {fileID: 1813589622}
+  - {fileID: 1813589623}
   materials:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: cc2486d43a34e18439b3cf7af78b70cf, type: 2}
+  - {fileID: 2100000, guid: c49f544913be57f468d9e92589aad9b4, type: 2}
+  - {fileID: 2100000, guid: 7bcb898350550ce429304931f096bd16, type: 2}
+  - {fileID: 2100000, guid: b9fd4deb144a934499450f0931120054, type: 2}
+  - {fileID: 2100000, guid: de31893967abe7542a53bd643cd0aa33, type: 2}
   standardMaterial: {fileID: 2100000, guid: b1824b1f9a1ee924f9bb2a1c57c7f6f2, type: 2}
 --- !u!1 &823275357
 GameObject:
@@ -6666,6 +6794,7 @@ MonoBehaviour:
   enemySource: {fileID: 1708974370}
   bingSource: {fileID: 1021838357}
   bossMusicSource: {fileID: 1059275745}
+  WinMusicSource: {fileID: 238794159}
   background: {fileID: 8300000, guid: 4ed329fb053834bc281b49629c77fa03, type: 3}
   EnemyWriting: {fileID: 8300000, guid: bb4708c3030689e478989e665db0d06f, type: 3}
   EnemyTakesDamage: {fileID: 8300000, guid: 8350c2ae2b8fbba4799a79ca44f8598e, type: 3}
@@ -6678,6 +6807,7 @@ MonoBehaviour:
   CasinoSpin: {fileID: 8300000, guid: 7eda97b91ed61334b9bff4af39cddbba, type: 3}
   JumpOnTable: {fileID: 8300000, guid: 13c1fd924db870c40830c94e16c221a2, type: 3}
   EndBossMusic: {fileID: 8300000, guid: 3c1b2e1f07aab3a46a3000271dbb6a27, type: 3}
+  WinMusic: {fileID: 8300000, guid: 770fa8ae9828a8341aaa20acf9c046cd, type: 3}
 --- !u!4 &983654413
 Transform:
   m_ObjectHideFlags: 0
@@ -6697,6 +6827,7 @@ Transform:
   - {fileID: 1708974369}
   - {fileID: 1021838356}
   - {fileID: 1059275744}
+  - {fileID: 238794160}
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6886,7 +7017,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.1567
   m_Pitch: 1
   Loop: 0
@@ -7348,7 +7479,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
@@ -8455,6 +8586,7 @@ MonoBehaviour:
   - Das kannst du besser.
   - Wie kommst du damit zurecht ?
   - So einfach mache ich es dir nicht.
+  - "Du hast mich besiegt, der Sieg geh\xF6rt dir."
   textSpeed: 0
   index: 0
 --- !u!1 &1312449763
@@ -8648,8 +8780,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: c5e2a73ad4706440f93bf05df0b465fe, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
@@ -10427,7 +10559,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
@@ -11836,7 +11968,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
   Loop: 1

@@ -259,18 +259,24 @@ public class GameController : MonoBehaviour
         {
             await Task.Yield(); // Continue checking each frame
         }
+        audioManager.PlayBing(audioManager.TreeBalanced);
         await Task.Delay(1000);
     }
 
     public async Task StartWin()
     {
+     
         audioManager.StopTimer();
         specialPhaseTimer.stopTimer();
+        audioManager.StopBossMusic();
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
         await Task.Delay(2000);
+        textBox.index = 15;
+        textBox.StartDialogue();
+        audioManager.FadeInWinMusic();
         //setDummyText("Ich habe dir nichts mehr beizubringen. Gut gemacht.");
-        await Task.Delay(1000);
+        await Task.Delay(4000);
     }
 
     public async Task StartLose()
@@ -674,6 +680,14 @@ public class GameController : MonoBehaviour
     {
         treeManager.destroyTree();
         treeManager.rebuildTree();
+    }
+    public bool isBling()
+    {
+        if (balls.Count == 0 && treeManager.isBalanced())
+        {
+            return true;
+        }
+        else { return false; }
     }
 
     /*private void setDummyText(string text)

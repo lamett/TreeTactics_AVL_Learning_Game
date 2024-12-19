@@ -7,8 +7,10 @@ public class showTreeBalance : MonoBehaviour
     public GameObject[] leds;
     public Material[] materials;
     public Material standardMaterial;
+    AudioManager audioManager;
     void Awake()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         foreach (var led in leds)
         {
             led.GetComponent<Outline>().enabled = false;
@@ -36,6 +38,7 @@ public class showTreeBalance : MonoBehaviour
         }
         else
         {
+            
             light = false;
             material = standardMaterial;
         }
@@ -48,6 +51,7 @@ public class showTreeBalance : MonoBehaviour
         }
         else
         {
+            //audioManager.PlayBing(audioManager.TreeBalanced);
             light = false;
             material = standardMaterial;
         }

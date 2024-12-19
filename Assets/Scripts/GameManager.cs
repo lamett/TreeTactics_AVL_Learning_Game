@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,10 +12,12 @@ public class GameManager : MonoBehaviour
     public GameState prevGameState;
 
     private GameController gameController;
+    AudioManager audioManager;
 
     public static event Action<GameState> OnGameStateChanged;
     void Awake()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         Instance = this;
     }
 
@@ -100,9 +103,25 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.AddPhase);
     }
 
-    private void HandleAddPhase()
+    private async void HandleAddPhase()
     {
         gameController.StartAddPhase();
+        bool blinged = false;
+        while (gameState == GameState.AddPhase)
+        {
+
+            if (gameController.isBling() & blinged == false)
+            {
+                audioManager.PlayBing(audioManager.TreeBalanced);// play bling
+                blinged = true;
+            }
+            else if(!gameController.isBling() & blinged == true)
+            {
+                blinged = false;
+            }
+
+            await Task.Yield(); // Continue checking each frame
+        }
     }
 
     public void HandleAddPhaseEnd()
