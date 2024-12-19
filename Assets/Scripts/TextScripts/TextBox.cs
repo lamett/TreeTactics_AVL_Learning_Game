@@ -9,20 +9,12 @@ public class TextBox : MonoBehaviour
     public string[] lines;
     public float textSpeed;
     public int index;
-    AudioManager audioManager;
-
-    void Awake()
-    {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-    }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        textComponent.text = string.Empty;
-        index = 0;
-        StartDialogue();    
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,14 +24,12 @@ public class TextBox : MonoBehaviour
         {
             if (textComponent.text == lines[index])
             {
-                
                 gameObject.SetActive(false);
             }
             else
             {
                 StopAllCoroutines();
                 textComponent.text = lines[index];
-                audioManager.StopEnemySpeak();
             }
         }
 
@@ -47,23 +37,20 @@ public class TextBox : MonoBehaviour
 
     public void StartDialogue()
     {
-        
         gameObject.SetActive(true);
-        
         textComponent.text = string.Empty;
-       
+        index = Random.Range(0, lines.Length);
         StartCoroutine(TypeLine());
     }
 
     IEnumerator TypeLine()
     {
-        audioManager.StartEnemySpeak();
         foreach (char c in lines[index].ToCharArray())
         {
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
-        audioManager.StopEnemySpeak();
+
     }
 
 }

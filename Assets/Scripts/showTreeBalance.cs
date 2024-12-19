@@ -1,35 +1,98 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class showTreeBalance : MonoBehaviour
 {
-    RectTransform rt;
-    Image img;
-    AudioManager audioManager;
-    // Start is called before the first frame update
+    public GameObject[] leds;
+    public Material[] materials;
+    public Material standardMaterial;
     void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-        rt = GetComponent<RectTransform>();
-        img = GetComponent<Image>();
+        foreach (var led in leds)
+        {
+            led.GetComponent<Outline>().enabled = false;
+        }
+    }
+
+    void Start()
+    {
+        foreach (var led in leds)
+        {
+            led.transform.GetChild(0).gameObject.SetActive(false);
+            led.GetComponent<Renderer>().material = standardMaterial;
+        }
     }
 
     public void updateTreeBalance(int balanceFactor)
     {
         var balance = Mathf.Clamp(balanceFactor, 0, 20);
-        
-        var pos = new Vector2(rt.offsetMax.x, balance * 0.05f);
-        rt.offsetMax = pos;
-        rt.sizeDelta = new Vector2(rt.sizeDelta.x, balance *0.1f);
-
-
-        var color = Color.HSVToRGB(Mathf.Lerp(0.21f,0, balance/10f),1,1);
-        //Color.Lerp(new Color(190,255,0), Color.red, (balance-1)/10f);
-        if(balance == 0)
+        bool light;
+        Material material;
+        if (balance >= 0)
         {
-            audioManager.PlayBing(audioManager.TreeBalanced);
-            color = Color.green;
+            light = true;
+            material = materials[0];
         }
-        img.color = color;
+        else
+        {
+            light = false;
+            material = standardMaterial;
+        }
+        leds[0].transform.GetChild(0).gameObject.SetActive(light);
+        leds[0].GetComponent<Renderer>().material = material;
+        if (balance >= 1)
+        {
+            light = true;
+            material = materials[1];
+        }
+        else
+        {
+            light = false;
+            material = standardMaterial;
+        }
+        leds[1].transform.GetChild(0).gameObject.SetActive(light);
+        leds[1].GetComponent<Renderer>().material = material;
+        if (balance >= 3)
+        {
+            light = true;
+            material = materials[2];
+        }
+        else
+        {
+            light = false;
+            material = standardMaterial;
+        }
+        leds[2].transform.GetChild(0).gameObject.SetActive(light);
+        leds[2].GetComponent<Renderer>().material = material;
+        if (balance >= 8)
+        {
+            light = true;
+            material = materials[3];
+        }
+        else
+        {
+            light = false;
+            material = standardMaterial;
+        }
+        leds[3].transform.GetChild(0).gameObject.SetActive(light);
+        leds[3].GetComponent<Renderer>().material = material;
+        if (balance >= 15)
+        {
+            light = true;
+            material = materials[4];
+        }
+        else
+        {
+            light = false;
+            material = standardMaterial;
+        }
+        leds[4].transform.GetChild(0).gameObject.SetActive(light);
+        leds[4].GetComponent<Renderer>().material = material;
+    }
+
+    public List<GameObject> LEDs()
+    {
+        return leds.ToList();
     }
 }

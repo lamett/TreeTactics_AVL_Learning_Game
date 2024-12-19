@@ -18,9 +18,6 @@ public class TreeManager
     AVLTree baum;
     int[] oldBaum;
 
-
-
-
     public enum Commands
     {
         RotateRight,
