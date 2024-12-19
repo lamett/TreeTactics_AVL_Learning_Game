@@ -6,11 +6,16 @@ using UnityEngine;
 
 public class TextBoxGeneric : MonoBehaviour
 {
-    public TextMeshProUGUI textComponent;
+    private TextMeshProUGUI textComponent;
     string line = "";
     public float textSpeed;
     public bool finished = true;
 
+
+    private void Start()
+    {
+        textComponent = GetComponent<TextMeshProUGUI>();
+    }
     // Update is called once per frame
     void Update()
     {

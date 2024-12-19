@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TextBox : MonoBehaviour
 {
-    public TextMeshProUGUI textComponent;
+    private TextMeshProUGUI textComponent;
     public string[] lines;
     public float textSpeed;
     public int index;
@@ -14,6 +14,7 @@ public class TextBox : MonoBehaviour
     void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        textComponent = gameObject.GetComponent<TextMeshProUGUI>();
     }
 
 
