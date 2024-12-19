@@ -5705,9 +5705,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec58a8386078544486b799fc512aab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leds: []
-  materials: []
-  standardMaterial: {fileID: 0}
+  leds:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  materials:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  standardMaterial: {fileID: 2100000, guid: b1824b1f9a1ee924f9bb2a1c57c7f6f2, type: 2}
 --- !u!1 &823275357
 GameObject:
   m_ObjectHideFlags: 0
