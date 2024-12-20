@@ -48,7 +48,7 @@ public class TextBox : MonoBehaviour
 
     public void StartDialogue()
     {
-
+        if (gameObject == null) { return; };
         gameObject.SetActive(true);
 
         textComponent.text = string.Empty;
