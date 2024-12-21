@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5667050596545793227}
   - component: {fileID: 4122082426297563383}
   - component: {fileID: 7447782092370456366}
+  - component: {fileID: 6538307984947588112}
   m_Layer: 0
   m_Name: ID
   m_TagString: Untagged
@@ -172,6 +173,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 4122082426297563383}
   m_maskType: 0
+--- !u!114 &6538307984947588112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344457007013790877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18e93639c996f044f89865e7f28cd94d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3414816012870035070
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +196,7 @@ GameObject:
   - component: {fileID: 4254749086084077281}
   - component: {fileID: 9029533843687132209}
   - component: {fileID: 6667307792373997299}
+  - component: {fileID: 1487775787642862371}
   m_Layer: 0
   m_Name: balanceFaktor
   m_TagString: Untagged
@@ -344,6 +358,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 9029533843687132209}
   m_maskType: 0
+--- !u!114 &1487775787642862371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3414816012870035070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18e93639c996f044f89865e7f28cd94d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8472255154092253738
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,7 +385,6 @@ GameObject:
   - component: {fileID: 8472255154092253741}
   - component: {fileID: 1050869989290586397}
   - component: {fileID: 7022163112180497070}
-  - component: {fileID: 4702826008000376442}
   - component: {fileID: 4221854802976145324}
   m_Layer: 0
   m_Name: PrefabNode
@@ -503,18 +528,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4702826008000376442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8472255154092253738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 187ea058bcd5bb64dbd5f7bb7720c3d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4221854802976145324
 MonoBehaviour:
   m_ObjectHideFlags: 0
