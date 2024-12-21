@@ -4,6 +4,7 @@ public class HealthScript : MonoBehaviour
 {
 
     public int Health;
+    public bool isEnemy;
     public FigureHolderScript FigureHolder;
     public ArmBehaviour Arm;
 
@@ -16,7 +17,7 @@ public class HealthScript : MonoBehaviour
     public void setHealth(int value)
     {
         Health = value;
-        FigureHolder.init(value);
+        FigureHolder.init(value,isEnemy);
     }
 
     public bool isDead()

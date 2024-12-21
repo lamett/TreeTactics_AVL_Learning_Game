@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
     //Timer delAttackTimer;
 
     public int playerStartHealth = 3;
-    public int enemyStartHealth = 3;
+    private int enemyStartHealth = 4;
     public int amountBalls = 0;
     int leftNodesToAdd = 0;
     public NewRotating rotating;
@@ -77,8 +77,10 @@ public class GameController : MonoBehaviour
         balls = new List<GameObject>();
 
         //HardMode
-        if (Settings.HardModeActivated) {
-            enemy.setHealth(6);
+        if (Settings.HardModeActivated)
+        {
+            enemyStartHealth += 2;
+            enemy.setHealth(enemyStartHealth);
         }
 
     }
