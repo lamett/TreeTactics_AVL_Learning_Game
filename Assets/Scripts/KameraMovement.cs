@@ -1,11 +1,15 @@
 using UnityEngine;
+using UnityEngine.Playables;
+using Cinemachine;
 
 public class KameraMovement : MonoBehaviour
 {
     public ViewState viewState;
-    private Animator animator;
+    //private Animator animator;
     //public Animator animatorScreen;
     AudioManager audioManager;
+    public CinemachineVirtualCamera TopCam;
+    public CinemachineVirtualCamera SideCam;
     void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -18,7 +22,7 @@ public class KameraMovement : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
         viewState = ViewState.SideView;
     }
 
@@ -46,13 +50,19 @@ public class KameraMovement : MonoBehaviour
 
     public void MoveToTopView()
     {
-        animator.SetTrigger("ToTopView");
+        SideCam.Priority = 0;
+        TopCam.Priority = 1;
+        
+        //animator.SetTrigger("ToTopView");
         //animatorScreen.SetTrigger("ToTop");
     }
 
     public void MoveToSideView()
     {
-        animator.SetTrigger("ToSideView");
+
+        SideCam.Priority = 1;
+        TopCam.Priority = 0;
+        //animator.SetTrigger("ToSideView");
         //animatorScreen.SetTrigger("ToSide");
     }
 }
