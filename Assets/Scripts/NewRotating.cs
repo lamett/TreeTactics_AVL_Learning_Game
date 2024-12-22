@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 
@@ -7,13 +6,14 @@ public class NewRotating : MonoBehaviour
 { 
     
     
-    private float timeInterval;
-
     public bool rowStopped;
     public int diceNumber;
     public int rotatingNumber;  
     AudioManager audioManager;
 
+    float stepdistance = 0.1f;
+    private float v = 3f;
+    float timeInterval = 0.005f;
 
     void Awake()
     {
@@ -27,24 +27,23 @@ public class NewRotating : MonoBehaviour
         rowStopped = true;
     }
     
-   
     public void GenerateRotation()
     {
         if (rotatingNumber == 4)
         {
-            rotatingNumber = 1;
+            rotatingNumber = 1; //zurücksetzen auf 1. Runde
         }
-        else if (rotatingNumber == 1)
+        else if (rotatingNumber == 1) //erste Runde
         {
             diceNumber = Random.Range(4, 8);
             StartRotating();
         }
-        else if (rotatingNumber == 2)
+        else if (rotatingNumber == 2) //zweite Runde
         {
             diceNumber = Random.Range(5, 9);
             StartRotating();
         }
-        else if (rotatingNumber == 3)
+        else if (rotatingNumber == 3) //dritte Runde
         {
             diceNumber  = Random.Range(6, 10);
             StartRotating();
@@ -54,176 +53,78 @@ public class NewRotating : MonoBehaviour
     public void StartRotating()
     {
         audioManager.StartMusic(audioManager.CasinoSpin);
-        StartCoroutine("Rotate");
+        StartCoroutine("RotateNew");
     }
 
-    private IEnumerator Rotate()
+    private IEnumerator RotateNew()
     {
+        diceNumber = 8;
+
         rowStopped = false;
-        timeInterval = 0.005f;
-        transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+        Vector3 endpos = new Vector3(transform.localPosition.x, 4.2f, 0);
+        int num = 0;
 
-        for (int i = 0; i < 160; i++)
+        transform.localPosition = endpos; //reset position
+
+        for (int i = 0; i < 1*(99/v); i++)
         {
-            if (transform.localPosition.y <= -5.7f)
-                transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
-
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
+            if (transform.localPosition.y <= -5.7f) { transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);}
+                
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - stepdistance*v, 0);
 
             yield return new WaitForSeconds(timeInterval);
         }
 
-        if (diceNumber == 4)
+        transform.localPosition = endpos; //reset position
+
+        switch (diceNumber)
         {
-            for (int i = 0; i < 140; i++)
-            {
-                if (transform.localPosition.y <= -5.7f)
-                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
-
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
-
-
-                if (i > Mathf.RoundToInt(59 * 0.04f))
-                    timeInterval = 0.0065f;
-                if (i > Mathf.RoundToInt(59 * 0.08f))
-                    timeInterval = 0.0085f;
-                if (i > Mathf.RoundToInt(59 * 0.12f))
-                    timeInterval = 0.01f;
-                if (i > Mathf.RoundToInt(59 * 0.15f))
-                    timeInterval = 0.015f;
-
-
-                yield return new WaitForSeconds(timeInterval);
-            }
+            case 4:
+                endpos = new Vector3(transform.localPosition.x, -5.7f, 0);
+                num = 32;
+                break;
+            case 5:
+                num = 26;
+                endpos = new Vector3(transform.localPosition.x, -3.9f, 0);
+                break;
+            case 6:
+                num = 20;
+                endpos = new Vector3(transform.localPosition.x, -2.3f, 0);
+                break;
+            case 7:
+                num = 13;
+                endpos = new Vector3(transform.localPosition.x, - 0.6f, 0);
+                break;
+            case 8:
+                num = 11;
+                endpos = new Vector3(transform.localPosition.x, 0.9f, 0);
+                break;
+            case 9:
+                num = 5;
+                endpos = new Vector3(transform.localPosition.x, 2.7f , 0);
+                break;
         }
 
-        else if (diceNumber == 5)
+        for (int i = 0; i < num; i++)
         {
-            for (int i = 0; i < 123; i++)
-            {
-                if (transform.localPosition.y <= -5.7f)
-                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - stepdistance * v, 0);
 
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
+            if (i > Mathf.RoundToInt(num * 0.1f))
+                timeInterval = 0.01f;
+            if (i > Mathf.RoundToInt(num * 0.25f))
+                timeInterval = 0.02f;
+            if (i > Mathf.RoundToInt(num * 0.5f))
+                timeInterval = 0.03f;
+            if (i > Mathf.RoundToInt(num * 0.75f))
+                timeInterval = 0.04f;
 
-
-                if (i > Mathf.RoundToInt(59 * 0.04f))
-                    timeInterval = 0.0065f;
-                if (i > Mathf.RoundToInt(59 * 0.08f))
-                    timeInterval = 0.0085f;
-                if (i > Mathf.RoundToInt(59 * 0.12f))
-                    timeInterval = 0.01f;
-                if (i > Mathf.RoundToInt(59 * 0.15f))
-                    timeInterval = 0.015f;
-
-
-                yield return new WaitForSeconds(timeInterval);
-            }
-
+            yield return new WaitForSeconds(timeInterval);
         }
 
-        else if (diceNumber == 6)
-        {
-            for (int i = 0; i < 106; i++)
-            {
-                if (transform.localPosition.y <= -5.7f)
-                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
+        transform.localPosition = endpos; //set endposition
 
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
-
-
-                if (i > Mathf.RoundToInt(59 * 0.04f))
-                    timeInterval = 0.0065f;
-                if (i > Mathf.RoundToInt(59 * 0.08f))
-                    timeInterval = 0.0085f;
-                if (i > Mathf.RoundToInt(59 * 0.12f))
-                    timeInterval = 0.01f;
-                if (i > Mathf.RoundToInt(59 * 0.15f))
-                    timeInterval = 0.015f;
-
-
-                yield return new WaitForSeconds(timeInterval);
-            }
-
-        }
-
-        else if (diceNumber == 7)
-        {
-            for (int i = 0; i < 89; i++)
-            {
-                if (transform.localPosition.y <= -5.7f)
-                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
-
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
-
-
-                if (i > Mathf.RoundToInt(59 * 0.04f))
-                    timeInterval = 0.0065f;
-                if (i > Mathf.RoundToInt(59 * 0.08f))
-                    timeInterval = 0.0085f;
-                if (i > Mathf.RoundToInt(59 * 0.12f))
-                    timeInterval = 0.01f;
-                if (i > Mathf.RoundToInt(59 * 0.15f))
-                    timeInterval = 0.015f;
-
-
-                yield return new WaitForSeconds(timeInterval);
-            }
-
-        }
-
-        else if (diceNumber == 8)
-        {
-            for (int i = 0; i < 72; i++)
-            {
-                if (transform.localPosition.y <= -5.7f)
-                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
-
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
-
-
-                if (i > Mathf.RoundToInt(59 * 0.04f))
-                    timeInterval = 0.0065f;
-                if (i > Mathf.RoundToInt(59 * 0.08f))
-                    timeInterval = 0.0085f;
-                if (i > Mathf.RoundToInt(59 * 0.12f))
-                    timeInterval = 0.01f;
-                if (i > Mathf.RoundToInt(59 * 0.15f))
-                    timeInterval = 0.015f;
-
-
-                yield return new WaitForSeconds(timeInterval);
-            }
-
-        }
-
-        else if (diceNumber == 9)
-        {
-            for (int i = 0; i < 55; i++)
-            {
-                if (transform.localPosition.y <= -5.7f)
-                    transform.localPosition = new Vector3(transform.localPosition.x, 4.2f, 0);
-
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.1f, 0);
-
-
-                if (i > Mathf.RoundToInt(59 * 0.04f))
-                    timeInterval = 0.0065f;
-                if (i > Mathf.RoundToInt(59 * 0.08f))
-                    timeInterval = 0.0085f;
-                if (i > Mathf.RoundToInt(59 * 0.12f))
-                    timeInterval = 0.01f;
-                if (i > Mathf.RoundToInt(59 * 0.15f))
-                    timeInterval = 0.015f;
-
-
-                yield return new WaitForSeconds(timeInterval);
-            }
-
-        }
         audioManager.StopMusic(audioManager.CasinoSpin);
         rowStopped = true;
-        
     }
     
     public async Task WaitRotating()
