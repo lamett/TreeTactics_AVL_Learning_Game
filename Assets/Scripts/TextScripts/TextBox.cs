@@ -22,8 +22,6 @@ public class TextBox : MonoBehaviour
     void Start()
     {
         textComponent.text = string.Empty;
-        index = 0;
-        StartDialogue();
     }
 
     // Update is called once per frame

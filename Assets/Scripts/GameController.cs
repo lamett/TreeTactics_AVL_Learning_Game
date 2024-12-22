@@ -38,7 +38,8 @@ public class GameController : MonoBehaviour
     public int enemyStartHealth = 4;
     public int amountBalls = 0;
     int leftNodesToAdd = 0;
-    public NewRotating rotating;
+    public GameObject DiceHolder;
+    private NewRotating rotating;
     public ArmBehaviour Arm;
     public TextBox textBox;
     public TextBoxGeneric genericText;
@@ -70,6 +71,7 @@ public class GameController : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthScript>();
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<HealthScript>();
+        rotating = DiceHolder.GetComponentInChildren<NewRotating>();
         player.setHealth(playerStartHealth);
         enemy.setHealth(enemyStartHealth);
         addPhaseTimer = new Timer(this, EndAddPhaseEvent, addPhaseTimeUpdate);
@@ -121,16 +123,12 @@ public class GameController : MonoBehaviour
         {
             amountBalls = num;
         }
-        /*var rnd = new System.Random();
-        amountBalls = rnd.Next(4, 8);
-        */
     }
 
     //Handle Phases
     async public Task StartRollChallengeTalk()
     {
-        rotating.GenerateRotation(); // Startet rotieren der Nummern
-        await rotating.WaitRotating();// wartet bis fertig gerollt (bis jetzt nur 12s)
+        await showRotation();
         textBox.index = UnityEngine.Random.Range(3, 5);
         textBox.StartDialogue();
         chooseAmountBalls(-1);
@@ -528,6 +526,16 @@ public class GameController : MonoBehaviour
     //    Debug.Log(msg);
     //}
     //#############################################
+
+    public async Task showRotation()
+    {
+        DiceHolder.SetActive(true);
+        audioManager.StartMusic(audioManager.CasinoSpin);
+        rotating.GenerateRotation(); //calculate number
+        await rotating.RunRotationAsTask(); //start rotation
+        await Task.Delay(1000);
+        DiceHolder.SetActive(false);
+    }
 
     public void randomRot()
     {

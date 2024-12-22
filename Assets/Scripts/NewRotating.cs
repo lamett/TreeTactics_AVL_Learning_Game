@@ -36,23 +36,33 @@ public class NewRotating : MonoBehaviour
         else if (rotatingNumber == 1) //erste Runde
         {
             diceNumber = Random.Range(4, 8);
-            StartRotating();
         }
         else if (rotatingNumber == 2) //zweite Runde
         {
             diceNumber = Random.Range(5, 9);
-            StartRotating();
         }
         else if (rotatingNumber == 3) //dritte Runde
         {
             diceNumber  = Random.Range(6, 10);
-            StartRotating();
         }
+    }
+
+    public Task RunRotationAsTask()
+    {
+        var taskCompletionSource = new TaskCompletionSource<object>();
+        StartCoroutine(CoroutineWrapper(taskCompletionSource));
+        return taskCompletionSource.Task;
+    }
+
+    private IEnumerator CoroutineWrapper(TaskCompletionSource<object> tcs)
+    {
+        yield return StartCoroutine("RotateNew");
+        tcs.SetResult(null);
     }
 
     public void StartRotating()
     {
-        audioManager.StartMusic(audioManager.CasinoSpin);
+        
         StartCoroutine("RotateNew");
     }
 
@@ -125,10 +135,5 @@ public class NewRotating : MonoBehaviour
 
         audioManager.StopMusic(audioManager.CasinoSpin);
         rowStopped = true;
-    }
-    
-    public async Task WaitRotating()
-    {
-        await Task.Delay((8-rotatingNumber)*1000);
     }
 }

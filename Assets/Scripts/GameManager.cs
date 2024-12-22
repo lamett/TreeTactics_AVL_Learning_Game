@@ -30,10 +30,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //UpdateGameState(GameState.StartMenu);
-            //UpdateGameState(GameState.RollChallengeTalk);
             yield return new WaitForEndOfFrame();
-            HandleRollChallangeTalk();
+            UpdateGameState(GameState.RollChallengeTalk);
         }
     }
 
@@ -98,7 +96,6 @@ public class GameManager : MonoBehaviour
 
     public async void HandleRollChallangeTalk()
     {
-        Debug.Log("hi");
         await gameController.StartRollChallengeTalk();
         UpdateGameState(GameState.AddPhase);
     }
