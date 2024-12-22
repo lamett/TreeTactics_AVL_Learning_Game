@@ -7807,7 +7807,7 @@ MonoBehaviour:
   playerStartHealth: 3
   enemyStartHealth: 4
   amountBalls: 10
-  rotating: {fileID: 1464542912}
+  DiceHolder: {fileID: 1957238091}
   Arm: {fileID: 1029910019}
   textBox: {fileID: 1580120647}
   genericText: {fileID: 1835872100}
