@@ -1904,7 +1904,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 770fa8ae9828a8341aaa20acf9c046cd, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 4c489bd41e9abec438e47b6672be438d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0
   m_Pitch: 1
@@ -7159,7 +7159,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 35e34ba636483eb419f08cae01a51dfd, type: 2}
   m_CullingMode: 0
@@ -7220,7 +7220,7 @@ MonoBehaviour:
   CasinoSpin: {fileID: 8300000, guid: 7eda97b91ed61334b9bff4af39cddbba, type: 3}
   JumpOnTable: {fileID: 8300000, guid: 13c1fd924db870c40830c94e16c221a2, type: 3}
   EndBossMusic: {fileID: 8300000, guid: 3c1b2e1f07aab3a46a3000271dbb6a27, type: 3}
-  WinMusic: {fileID: 8300000, guid: 770fa8ae9828a8341aaa20acf9c046cd, type: 3}
+  WinMusic: {fileID: 8300000, guid: 4c489bd41e9abec438e47b6672be438d, type: 3}
 --- !u!4 &983654413
 Transform:
   m_ObjectHideFlags: 0
@@ -7807,6 +7807,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   playerStartHealth: 3
+  enemyStartHealth: 4
   amountBalls: 10
   rotating: {fileID: 1464542912}
   Arm: {fileID: 1029910019}
@@ -10878,6 +10879,9 @@ MonoBehaviour:
   - Wie kommst du damit zurecht ?
   - So einfach mache ich es dir nicht.
   - "Du hast mich besiegt, der Sieg geh\xF6rt dir."
+  - Das tut mir leid.
+  - "Da hab ich wohl gewonnen. Komm gerne wieder wenn du f\xFCr eine Revanche bereit
+    bist."
   textSpeed: 0
   index: 0
 --- !u!1 &1582890340 stripped
@@ -11843,9 +11847,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1797517360}
   - component: {fileID: 1797517359}
+  - component: {fileID: 1797517361}
   m_Layer: 0
   m_Name: SideCam
-  m_TagString: Untagged
+  m_TagString: SideCam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11904,6 +11909,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 18.376, y: 0, z: 0}
+--- !u!95 &1797517361
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797517358}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 35e34ba636483eb419f08cae01a51dfd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1811817339
 GameObject:
   m_ObjectHideFlags: 0
@@ -18086,8 +18111,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7454180202298287575}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: -0.03146041, y: 3.5665164, z: 0.72377086}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: -0.03146041, y: 3.5665164, z: 0.7237709}
   m_LocalScale: {x: 108.601105, y: 75.88997, z: 81.41665}
   m_ConstrainProportionsScale: 0
   m_Children:

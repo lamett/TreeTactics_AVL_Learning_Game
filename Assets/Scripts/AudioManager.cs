@@ -98,10 +98,12 @@ public class AudioManager : MonoBehaviour
         bingSource.PlayOneShot(clip);
     }
 
+    public void PlayWinMusic() { WinMusicSource.Play(); }
   
 
     public void FadeInWinMusic()
     {
+        Debug.Log("FadeIN");
         WinMusicSource.Play();
         WinMusicSource.volume = 0;
         StartCoroutine(Fade(true, WinMusicSource, 2f, 0.3f));

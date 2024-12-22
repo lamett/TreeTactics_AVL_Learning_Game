@@ -6,7 +6,6 @@ public class HealthScript : MonoBehaviour
     public int Health;
     public bool isEnemy;
     public FigureHolderScript FigureHolder;
-    public ArmBehaviour Arm;
 
     public void reduceHealth()
     {

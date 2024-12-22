@@ -44,14 +44,24 @@ public class AnimationHandler : MonoBehaviour
     public void ShakeCamera()
     {
         audioManager.PlaySFX(audioManager.JumpOnTable);
-        audioManager.StartBossMusic();
-        Debug.Log(GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>());
-        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>().SetTrigger("ToShake");
+        //audioManager.StartBossMusic();
+        Debug.Log(GameObject.FindGameObjectWithTag("SideCam").GetComponent<Animator>());
+        GameObject.FindGameObjectWithTag("SideCam").GetComponent<Animator>().SetTrigger("ToShake");
     }
 
     public void MixUpNodes()
     {
        
         gameController.randomRot();
+    }
+
+    public void PlayBossMusic()
+    {
+        audioManager.StartBossMusic();
+    }
+
+    public void FadeWinMusic() 
+    { 
+        audioManager.FadeInWinMusic();
     }
 }

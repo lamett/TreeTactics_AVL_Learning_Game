@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
     //Timer delAttackTimer;
 
     public int playerStartHealth = 3;
-    private int enemyStartHealth = 4;
+    public int enemyStartHealth = 4;
     public int amountBalls = 0;
     int leftNodesToAdd = 0;
     public NewRotating rotating;
@@ -273,24 +273,34 @@ public class GameController : MonoBehaviour
         audioManager.StopTimer();
         specialPhaseTimer.stopTimer();
         audioManager.StopBossMusic();
+
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
-        await Task.Delay(2000);
+        await Task.Delay(1200);
+
         textBox.index = 15;
         textBox.StartDialogue();
-        audioManager.FadeInWinMusic();
-        //setDummyText("Ich habe dir nichts mehr beizubringen. Gut gemacht.");
-        await Task.Delay(4000);
+        await Task.Delay(8000);
     }
 
     public async Task StartLose()
     {
         audioManager.StopTimer();
         specialPhaseTimer.stopTimer();
+        audioManager.StopBossMusic();
+
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
-        //setDummyText("Komm später nochmal wieder");
-        await Task.Delay(1000);
+        await Task.Delay(2500);
+
+        enemy.GetComponent<Animator>().SetTrigger("TiltHead");
+        textBox.index = 16;
+        textBox.StartDialogue();
+        
+        await Task.Delay(2500);
+        textBox.index = 17;
+        textBox.StartDialogue();
+        await Task.Delay(8000);
     }
 
     public bool endbuttonClicked = false;
