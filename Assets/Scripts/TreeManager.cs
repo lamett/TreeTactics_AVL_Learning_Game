@@ -89,7 +89,7 @@ public class TreeManager
     public GameObject instantiateBallForBowl()
     {
         var prefab = UnityEngine.Object.Instantiate(nodePrefab);
-        prefab.transform.position = new Vector3(-15, 20, -2);
+        prefab.transform.position = new Vector3(-17.5f, 20, 3.23f);
         return prefab;
     }
 

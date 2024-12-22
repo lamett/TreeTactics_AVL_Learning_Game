@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
     public GameObject nodePrefab;
     private Button endButton;
     public UnityEvent<int> updateTreeBalance;
+    //public GameObject playerFigureHolder;
 
     public UnityEvent EndAddPhaseEvent;
     public UnityEvent ChangeToDamageOnPlayerEvent;
@@ -71,6 +72,7 @@ public class GameController : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthScript>();
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<HealthScript>();
+        //playerFigureHolder = GameObject.FindGameObjectWithTag("PlayerFigureHolder");
         rotating = DiceHolder.GetComponentInChildren<NewRotating>();
         player.setHealth(playerStartHealth);
         enemy.setHealth(enemyStartHealth);
@@ -249,6 +251,7 @@ public class GameController : MonoBehaviour
         Debug.Log("xxxStartSpezialAttakUnbalanceTalkxxx");
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOnTable"); //triggers shake and RandomRot as animation event
+        
         await Task.Delay(4000);
     }
 
@@ -531,7 +534,7 @@ public class GameController : MonoBehaviour
     {
         DiceHolder.SetActive(true);
         audioManager.StartMusic(audioManager.CasinoSpin);
-        rotating.GenerateRotation(); //calculate number
+        //rotating.GenerateRotation(); //calculate number
         await rotating.RunRotationAsTask(); //start rotation
         await Task.Delay(1000);
         DiceHolder.SetActive(false);

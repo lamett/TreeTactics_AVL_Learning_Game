@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 public class AnimationHandler : MonoBehaviour
 {
@@ -63,5 +64,21 @@ public class AnimationHandler : MonoBehaviour
     public void FadeWinMusic() 
     { 
         audioManager.FadeInWinMusic();
+    }
+
+    public void HitFigures()
+    {
+        foreach (Transform figure in GameObject.FindGameObjectWithTag("PlayerFigureHolder").transform)
+        {
+            figure.gameObject.GetComponent<Animator>().SetTrigger("Hit");
+        }
+    }
+
+    public void DestroyFigures()
+    {
+        foreach (Transform figure in GameObject.FindGameObjectWithTag("PlayerFigureHolder").transform)
+        {
+            Destroy(figure);
+        }
     }
 }
