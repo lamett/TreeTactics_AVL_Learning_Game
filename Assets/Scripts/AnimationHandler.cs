@@ -78,7 +78,7 @@ public class AnimationHandler : MonoBehaviour
     {
         foreach (Transform figure in GameObject.FindGameObjectWithTag("PlayerFigureHolder").transform)
         {
-            Destroy(figure);
+            Destroy(figure.gameObject);
         }
     }
 }

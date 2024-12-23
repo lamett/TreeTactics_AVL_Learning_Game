@@ -18,16 +18,18 @@ public class NewRotating : MonoBehaviour
     void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        rotatingNumber = 1;
+        rowStopped = true;
+        Debug.Log(rotatingNumber);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        rotatingNumber = 1;
-        rowStopped = true;
+        
     }
     
-    public void GenerateRotation()
+    private void GenerateRotation()
     {
         if (rotatingNumber == 4)
         {
@@ -45,6 +47,11 @@ public class NewRotating : MonoBehaviour
         {
             diceNumber  = Random.Range(6, 10);
         }
+        else
+        {
+            Debug.Log("RotatingNumber not found :" + rotatingNumber);
+            diceNumber = 5;
+        }
     }
 
     public Task RunRotationAsTask()
@@ -60,16 +67,16 @@ public class NewRotating : MonoBehaviour
         tcs.SetResult(null);
     }
 
-    public void StartRotating()
-    {
+    //public void StartRotating()
+    //{
         
-        StartCoroutine("RotateNew");
-    }
+    //    StartCoroutine("RotateNew");
+    //}
 
     private IEnumerator RotateNew()
     {
-        diceNumber = 8;
-
+        GenerateRotation();
+        Debug.Log(diceNumber);
         rowStopped = false;
         Vector3 endpos = new Vector3(transform.localPosition.x, 4.2f, 0);
         int num = 0;
