@@ -201,18 +201,22 @@ public class GameManager : MonoBehaviour
     private async void HandleSpezialAttakUnbalance()
     {
         await gameController.StartSpezialAttakUnbalance();
-        UpdateGameState(GameState.Win);
+        //UpdateGameState(GameState.Win);
     }
 
     private async void HandleWin()
     {
         await gameController.StartWin();
+        GameObject.FindGameObjectWithTag("SideCam").GetComponent<Animator>().SetTrigger("FadeOut");
+        await Task.Delay(4000);
         SceneManager.LoadScene("StartMenu");
     }
 
     private async void HandleLose()
     {
         await gameController.StartLose();
+        GameObject.FindGameObjectWithTag("SideCam").GetComponent<Animator>().SetTrigger("FadeOut");
+        await Task.Delay(4000);
         SceneManager.LoadScene("StartMenu");
     }
 
@@ -229,6 +233,11 @@ public class GameManager : MonoBehaviour
     public void ChangeToLose()
     {
         UpdateGameState(GameState.Lose);
+    }
+
+    public void ChangeToWin()
+    {
+        UpdateGameState(GameState.Win);
     }
 
     public async void StartTutorial()

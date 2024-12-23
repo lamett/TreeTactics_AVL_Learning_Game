@@ -29,6 +29,9 @@ public class GameController : MonoBehaviour
     public UnityEvent EndSpezialPhaseByTimer;
     public UnityEvent<float> specialPhaseTimeUpdate;
     public UnityEvent EndDelAttackByTimer;
+
+    public UnityEvent ChangeToWin;
+    public UnityEvent ChangeToLose;
     //public UnityEvent<float> delAttackTimeUpdate;
 
     Timer addPhaseTimer;
@@ -260,12 +263,29 @@ public class GameController : MonoBehaviour
     {
         audioManager.StartTimer();
         specialPhaseTimer.startTimer(20, 0.2f);
+
+        await DuringSpezialAttakUnbalance();
+        if (treeManager.isBalanced())
+        {
+            audioManager.PlayBing(audioManager.TreeBalanced);
+            await Task.Delay(1000);
+            Debug.Log("invoke win");
+            ChangeToWin.Invoke();
+        }
+        else
+        {
+            await Task.Delay(1000);
+            Debug.Log("invoke lose");
+            //ChangeToLose.Invoke();
+        }
+    }
+
+    public async Task DuringSpezialAttakUnbalance()
+    {
         while (!treeManager.isBalanced())
         {
             await Task.Yield(); // Continue checking each frame
         }
-        audioManager.PlayBing(audioManager.TreeBalanced);
-        await Task.Delay(1000);
     }
 
     public async Task StartWin()
@@ -281,7 +301,7 @@ public class GameController : MonoBehaviour
 
         textBox.index = 15;
         textBox.StartDialogue();
-        await Task.Delay(8000);
+        await Task.Delay(5000);
     }
 
     public async Task StartLose()
@@ -301,7 +321,7 @@ public class GameController : MonoBehaviour
         await Task.Delay(2500);
         textBox.index = 17;
         textBox.StartDialogue();
-        await Task.Delay(8000);
+        await Task.Delay(5000);
     }
 
     public bool endbuttonClicked = false;

@@ -103,7 +103,7 @@ public class AudioManager : MonoBehaviour
 
     public void FadeInWinMusic()
     {
-        Debug.Log("FadeIN");
+        Debug.Log("FadeINMusic");
         WinMusicSource.Play();
         WinMusicSource.volume = 0;
         StartCoroutine(Fade(true, WinMusicSource, 2f, 0.3f));
