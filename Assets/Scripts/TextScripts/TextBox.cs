@@ -65,4 +65,11 @@ public class TextBox : MonoBehaviour
         audioManager.StopEnemySpeak();
     }
 
+    public void StartCutsceneDialoge(int index)
+    {
+        textComponent.text = string.Empty;
+        this.index = index;
+        StartDialogue();
+    }
+
 }
