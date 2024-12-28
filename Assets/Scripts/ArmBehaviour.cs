@@ -16,6 +16,7 @@ public class ArmBehaviour : MonoBehaviour
 
     private float speed = 2;
     private GameObject testNode;
+    AudioManager audioManager;
     
 
     // Start is called before the first frame update
@@ -23,6 +24,7 @@ public class ArmBehaviour : MonoBehaviour
     {
        anim = Arm.GetComponent<Animator>();
        StartCoroutine(LerpPosition(restPosition.position, 1f));
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -90,6 +92,7 @@ public class ArmBehaviour : MonoBehaviour
         yield return StartCoroutine(MoveToPositionPlayAnim(restPos, "ClawDestroy"));
         yield return new WaitForSeconds(0.53f);
         Destroy(spawnedPrefab);
+        audioManager.PlaySFX(audioManager.OrbDestoryed);
         effect.Play();
 
     }
@@ -109,6 +112,7 @@ public class ArmBehaviour : MonoBehaviour
         var rb = node.GetComponent<Rigidbody>();
         rb.isKinematic = false;
         rb.AddForce(new Vector3(1000, 200, 0));
+        audioManager.PlaySFX(audioManager.EnemyTakesDamage);
 
         yield return new WaitForSeconds(0.5f);
 
