@@ -7250,6 +7250,7 @@ MonoBehaviour:
   JumpOnTable: {fileID: 8300000, guid: 13c1fd924db870c40830c94e16c221a2, type: 3}
   EndBossMusic: {fileID: 8300000, guid: 3c1b2e1f07aab3a46a3000271dbb6a27, type: 3}
   WinMusic: {fileID: 8300000, guid: 4c489bd41e9abec438e47b6672be438d, type: 3}
+  SFXButton: {fileID: 8300000, guid: e8af9035f5758f44da37af4225a02619, type: 3}
 --- !u!4 &983654413
 Transform:
   m_ObjectHideFlags: 0
@@ -13639,7 +13640,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 7eda97b91ed61334b9bff4af39cddbba, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
@@ -14052,7 +14053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1957238092
 Transform:
   m_ObjectHideFlags: 0

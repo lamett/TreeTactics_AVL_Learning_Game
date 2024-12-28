@@ -29,6 +29,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip JumpOnTable;
     public AudioClip EndBossMusic;
     public AudioClip WinMusic;
+    public AudioClip SFXButton;
 
 
 

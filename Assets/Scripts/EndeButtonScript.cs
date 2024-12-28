@@ -3,9 +3,11 @@ using UnityEngine;
 public class EndeButtonScript : MonoBehaviour
 {
     public GameManager gameManager;
+    AudioManager audioManager;
     void Awake()
     {
         GetComponent<Outline>().enabled = false;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     void OnMouseOver()
@@ -14,6 +16,7 @@ public class EndeButtonScript : MonoBehaviour
         {
             if (gameManager.gameState == GameState.AddPhase || Settings.isTutorial)
             {
+                audioManager.PlaySFX(audioManager.SFXButton);
                 gameManager.HandleAddPhaseEnd();
             }
         }
