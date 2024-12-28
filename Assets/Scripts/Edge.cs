@@ -17,6 +17,7 @@ public class Edge : MonoBehaviour
         renderer.material = standardMaterial;
         spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
+        renderer.enabled = false;
     }
 
     void Update()
@@ -28,6 +29,7 @@ public class Edge : MonoBehaviour
             var scale = ((headPos - tailPos).magnitude / 2) - 0.5f;
             transform.localScale = new Vector3(transform.localScale.x, scale, transform.localScale.z);
             transform.GetChild(0).transform.localScale = new Vector3(10, 1 / scale, 10);
+            renderer.enabled = true;
         }
     }
 
