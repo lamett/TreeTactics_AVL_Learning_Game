@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
     public GameObject UndoButtonObject;
     public GameObject EndButtonObject;
     public GameObject TimerObject;
-    AudioManager audioManager;  
+    AudioManager audioManager;
 
     private List<GameObject> balls;
     Stack<Tuple<TreeManager.Commands, int>> commandHistory = new Stack<Tuple<TreeManager.Commands, int>>();
@@ -144,7 +144,7 @@ public class GameController : MonoBehaviour
 
     public void StartAddPhase()
     {
-
+        endless = true;
         //endButton.show();
         treeManager.backUpTree();
         addPhaseTimer.startTimer(amountBalls * 10, 0.2f);
@@ -155,6 +155,7 @@ public class GameController : MonoBehaviour
     //returns if Challenge was accomplished or not
     public bool EndAddphase()
     {
+        endless = false;
         audioManager.StopTimer();
         addPhaseTimer.stopTimer();
         leftNodesToAdd = balls.Count;
@@ -254,7 +255,7 @@ public class GameController : MonoBehaviour
         Debug.Log("xxxStartSpezialAttakUnbalanceTalkxxx");
         await Task.Delay(500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOnTable"); //triggers shake and RandomRot as animation event
-        
+
         await Task.Delay(4000);
     }
 
@@ -290,7 +291,7 @@ public class GameController : MonoBehaviour
 
     public async Task StartWin()
     {
-     
+
         audioManager.StopTimer();
         specialPhaseTimer.stopTimer();
         audioManager.StopBossMusic();
@@ -317,7 +318,7 @@ public class GameController : MonoBehaviour
         enemy.GetComponent<Animator>().SetTrigger("TiltHead");
         textBox.index = 16;
         textBox.StartDialogue();
-        
+
         await Task.Delay(2500);
         textBox.index = 17;
         textBox.StartDialogue();
@@ -328,6 +329,7 @@ public class GameController : MonoBehaviour
     public bool undoButtonClicked = false;
     public bool endDelTutorial = false;
     public bool isEndOfTutorial = false;
+    bool endless = false;
 
 
     public async Task Tutorial()
@@ -476,6 +478,7 @@ public class GameController : MonoBehaviour
         endbuttonClicked = false;
         isEndOfTutorial = true; ;
         chooseAmountBalls(15);
+        endless = true;
         await SpawnBallsAsync();
         treeManager.backUpTree();
         commandHistory.Clear();
@@ -717,9 +720,13 @@ public class GameController : MonoBehaviour
     //#####-Methode zu Test zwecken-#############
     async public void addFromButton()
     {
-        chooseAmountBalls(-1);
-        await SpawnBallsAsync();
-        enableBallsClickAdd(true);
+        if (endless)
+        {
+            audioManager.PlayBing(audioManager.TreeBalanced);
+            chooseAmountBalls(5);
+            await SpawnBallsAsync();
+            enableBallsClickAdd(true);
+        }
     }
 
 
