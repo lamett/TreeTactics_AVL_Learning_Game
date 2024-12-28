@@ -32,13 +32,18 @@ public class AudioManager : MonoBehaviour
     public AudioClip SFXButton;
     public AudioClip PlatineButton;
 
+    public bool isCutscene;
+
 
 
 
     private void Start()
     {
-        musicSource.clip = background;
-        musicSource.Play();
+        if (!isCutscene)
+        {
+            musicSource.clip = background;
+            musicSource.Play();
+        }
     }
 
     public void StartMusic(AudioClip clip)
