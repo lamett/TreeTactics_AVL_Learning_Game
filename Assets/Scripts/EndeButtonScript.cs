@@ -12,7 +12,10 @@ public class EndeButtonScript : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            gameManager.HandleAddPhaseEnd();
+            if (gameManager.gameState == GameState.AddPhase || Settings.isTutorial)
+            {
+                gameManager.HandleAddPhaseEnd();
+            }
         }
     }
 }

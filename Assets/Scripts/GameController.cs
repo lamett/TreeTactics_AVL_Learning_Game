@@ -387,7 +387,9 @@ public class GameController : MonoBehaviour
         {
             await Task.Delay(100);
         }
+        audioManager.PlayBing(audioManager.TreeBalanced);
         Utils.StopPulsing();
+        endbuttonClicked = false;
         await genericText.PrintOnScreen("Sehr gut, nun beende deinen Zug");
         Utils.StartPulsing(EndButtonObject);
         while (!endbuttonClicked)
@@ -400,6 +402,7 @@ public class GameController : MonoBehaviour
         await genericText.PrintOnScreen("Du hast diese Runde gewonnen also ziehe ich mir ein Leben ab");
         enemy.reduceHealth();
         await Task.Delay(2000);
+        audioManager.PlaySFX(audioManager.EnemyTakesDamage);
         await genericText.PrintOnScreen("Da du so gut warst, hab ich eine kleine Challange für dich", 1.5f);
 
         var node = treeManager.findNodeToDelete();
@@ -408,6 +411,7 @@ public class GameController : MonoBehaviour
         treeManager.markDeletion(node);
         treeManager.markGapFillers();
         await Task.Delay(1000);
+        audioManager.PlaySFX(audioManager.OrbDestoryed);
 
         await genericText.PrintOnScreen("Ich habe dir eine Kugel gelöscht. Klicke auf die Kugel, die an den Fehlenden Platz musst");
         var gapFillers = treeManager.getTreeAsGOArray().Where(node => node.GetComponent<AVLNode>().isGapFiller);
@@ -465,6 +469,7 @@ public class GameController : MonoBehaviour
         audioManager.StopTimer();
         player.reduceHealth();
         resetTree();
+        audioManager.PlaySFX(audioManager.EnemyTakesDamage);
         await genericText.PrintOnScreen("Ich war gemein, ich wollte dir nur zeigen, du startest immer mit deinem vorherigem Baum neu", 2.5f);
 
         await genericText.PrintOnScreen("Übe noch so viel du möchtest ohne Zeidruck. Beende die Übung einfach mit dem Knopf");
