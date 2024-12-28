@@ -30,11 +30,6 @@ public class OptionsMenuScript : MonoBehaviour
         Settings.ShowArrowHint = arrowHint;
     }
 
-    public void changeHardMode(bool value)
-    {
-        Settings.HardModeActivated = value;
-    }
-
     public void ChangeVolume(float volume)
     {
         Settings.Volume = volume;

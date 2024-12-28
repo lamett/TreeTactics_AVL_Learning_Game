@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         Instance = this;
-        
+
     }
 
     IEnumerator Start()
@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
         if (Settings.isTutorial)
         {
             StartTutorial();
+        }
+        else if (Settings.isSandbox)
+        {
+            StartSandbox();
         }
         else
         {
@@ -113,7 +117,7 @@ public class GameManager : MonoBehaviour
                 audioManager.PlayBing(audioManager.TreeBalanced);// play bling
                 blinged = true;
             }
-            else if(!gameController.isBling() & blinged == true)
+            else if (!gameController.isBling() & blinged == true)
             {
                 blinged = false;
             }
@@ -127,6 +131,11 @@ public class GameManager : MonoBehaviour
         if (Settings.isTutorial)
         {
             gameController.endbuttonClicked = true;
+            return;
+        }
+        else if (Settings.isSandbox)
+        {
+            SceneManager.LoadScene("StartMenu");
             return;
         }
         bool isAccomplished = gameController.EndAddphase();
@@ -244,6 +253,11 @@ public class GameManager : MonoBehaviour
     public async void StartTutorial()
     {
         await gameController.Tutorial();
+    }
+
+    public async void StartSandbox()
+    {
+        await gameController.StartSandbox();
     }
 }
 

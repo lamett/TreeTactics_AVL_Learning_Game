@@ -470,7 +470,7 @@ public class GameController : MonoBehaviour
 
         await genericText.PrintOnScreen("Übe noch so viel du möchtest ohne Zeidruck. Beende die Übung einfach mit dem Knopf");
         endbuttonClicked = false;
-        isEndOfTutorial = true; ;
+        isEndOfTutorial = true;
         chooseAmountBalls(15);
         endless = true;
         await SpawnBallsAsync();
@@ -487,6 +487,32 @@ public class GameController : MonoBehaviour
         endbuttonClicked = false;
         Settings.isTutorial = false;
         SceneManager.LoadScene("StartMenu");
+    }
+
+    public async Task StartSandbox()
+    {
+        Settings.isSandbox = true;
+        rotating.gameObject.SetActive(false);
+        mainCamera.GetComponent<KameraMovement>().MoveToTutorialView();
+        await genericText.PrintOnScreen("Sandbox!");
+
+        chooseAmountBalls(5);
+        await SpawnBallsAsync();
+        treeManager.backUpTree();
+        commandHistory.Clear();
+        enableBallsClickAdd(true);
+
+        while (true)
+        {
+            if (balls.Count <= 0)
+            {
+                chooseAmountBalls(5);
+                await SpawnBallsAsync();
+                enableBallsClickAdd(true);
+                await genericText.PrintOnScreen("Sandbox!\n\n\nKlick mich.");
+            }
+            await Task.Delay(100);
+        }
     }
     //async public void startAddPhase()
     //{
@@ -566,6 +592,8 @@ public class GameController : MonoBehaviour
 
     public void randomRot()
     {
+        if (treeManager.Count() <= 0) return;
+        treeManager.rotateRandom(10);
         int i = 0;
         while (treeManager.isBalanced() && i < 10)
         {

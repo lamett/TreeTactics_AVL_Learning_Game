@@ -6591,6 +6591,8 @@ GameObject:
   - component: {fileID: 901143459}
   - component: {fileID: 901143462}
   - component: {fileID: 901143461}
+  - component: {fileID: 901143464}
+  - component: {fileID: 901143463}
   m_Layer: 0
   m_Name: ROBO2
   m_TagString: Enemy
@@ -6665,6 +6667,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14db4ebdc1c4bfb458d3b2764f52a300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &901143463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901143458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3bc587c1e4e1844a1bb45dee7855a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 1034459914}
+--- !u!136 &901143464
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901143458}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 3.62
+  m_Height: 11.04
+  m_Direction: 1
+  m_Center: {x: 0, y: 2, z: 1.42}
 --- !u!1 &901457700
 GameObject:
   m_ObjectHideFlags: 0

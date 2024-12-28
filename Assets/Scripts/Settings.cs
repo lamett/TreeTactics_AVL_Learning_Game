@@ -7,6 +7,7 @@ public static class Settings
     public static float Volume { get; set; }
 
     public static bool isTutorial { get; set; }
+    public static bool isSandbox { get; set; }
 
     //To run only once
     public static bool DidItRun = false;
