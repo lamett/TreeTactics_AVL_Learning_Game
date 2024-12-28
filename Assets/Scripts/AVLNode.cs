@@ -48,7 +48,6 @@ public class AVLNode : MonoBehaviour
         {
             StartCoroutine(LerpPostion(newPosition, 0.25f));
         }
-
         setEdges();
     }
 
@@ -103,18 +102,6 @@ public class AVLNode : MonoBehaviour
     //Soll Edge Prefeab von this.positon zu left/right.position ziehen
     void updateEdge()
     {
-        //gibt die aktuellen Positionen an die Edges weiter
-        if (leftEdge != null && left != null)
-        {
-            leftEdge.headPos = transform.position;
-            leftEdge.tailPos = left.transform.position;
-        }
-        if (rightEdge != null && right != null)
-        {
-            rightEdge.headPos = transform.position;
-            rightEdge.tailPos = right.transform.position;
-        }
-
         //remove wenn Node kein Kind mehr hat
         if (left == null && leftEdge != null)
         {
@@ -125,6 +112,18 @@ public class AVLNode : MonoBehaviour
         {
             Destroy(rightEdge.gameObject);
             rightEdge = null;
+        }
+
+        //gibt die aktuellen Positionen an die Edges weiter
+        if (leftEdge != null && left != null)
+        {
+            leftEdge.headPos = transform.position;
+            leftEdge.tailPos = left.transform.position;
+        }
+        if (rightEdge != null && right != null)
+        {
+            rightEdge.headPos = transform.position;
+            rightEdge.tailPos = right.transform.position;
         }
     }
 
