@@ -14,7 +14,7 @@ public class UndoButtonScript : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            audioManager.PlaySFX(audioManager.SFXButton);
+            audioManager.PlaySFX(audioManager.PlatineButton);
             gameController.undo();
         }
     }

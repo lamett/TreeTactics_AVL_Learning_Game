@@ -30,6 +30,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip EndBossMusic;
     public AudioClip WinMusic;
     public AudioClip SFXButton;
+    public AudioClip PlatineButton;
 
 
 

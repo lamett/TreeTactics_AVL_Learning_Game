@@ -16,7 +16,7 @@ public class EndeButtonScript : MonoBehaviour
         {
             if (gameManager.gameState == GameState.AddPhase || Settings.isTutorial)
             {
-                audioManager.PlaySFX(audioManager.SFXButton);
+                audioManager.PlaySFX(audioManager.PlatineButton);
                 gameManager.HandleAddPhaseEnd();
             }
         }
