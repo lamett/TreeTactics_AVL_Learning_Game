@@ -19,10 +19,12 @@ public class GameManager : MonoBehaviour
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         Instance = this;
+        
     }
 
     IEnumerator Start()
     {
+        yield return new WaitForEndOfFrame();
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         if (Settings.isTutorial)
         {
@@ -30,7 +32,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            yield return new WaitForEndOfFrame();
             UpdateGameState(GameState.RollChallengeTalk);
         }
     }

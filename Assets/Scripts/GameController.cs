@@ -456,11 +456,13 @@ public class GameController : MonoBehaviour
         Utils.StopPulsing();
         Utils.StartPulsing(TimerObject);
         await genericText.PrintOnScreen("Übrigends gibt es auch eine Zeitlimit");
+        audioManager.StartTimer();
         addPhaseTimer.startTimer(1.5f, 0.2f);
         //TODO start TimerSound
         await Task.Delay(3000);
         Utils.StopPulsing();
         addPhaseTimer.stopTimer();
+        audioManager.StopTimer();
         player.reduceHealth();
         resetTree();
         await genericText.PrintOnScreen("Ich war gemein, ich wollte dir nur zeigen, du startest immer mit deinem vorherigem Baum neu", 2.5f);
