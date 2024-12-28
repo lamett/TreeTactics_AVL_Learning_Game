@@ -339,7 +339,7 @@ public class GameController : MonoBehaviour
         await SpawnBallsAsync();
         treeManager.backUpTree();
         commandHistory.Clear();
-        mainCamera.GetComponent<KameraMovement>().MoveToTopView();
+        mainCamera.GetComponent<KameraMovement>().MoveToTutorialView();
         await Task.Delay(1200);
         await genericText.PrintOnScreen("Klicke auf die Kugeln in der Schale.");
         enableBallsClickDelPhase(false);

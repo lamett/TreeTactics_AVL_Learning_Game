@@ -7085,6 +7085,7 @@ MonoBehaviour:
   viewState: 0
   TopCam: {fileID: 2056125540}
   SideCam: {fileID: 1797517359}
+  TutorialCam: {fileID: 503744623}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0

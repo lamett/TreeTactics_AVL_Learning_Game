@@ -10,6 +10,7 @@ public class KameraMovement : MonoBehaviour
     AudioManager audioManager;
     public CinemachineVirtualCamera TopCam;
     public CinemachineVirtualCamera SideCam;
+    public CinemachineVirtualCamera TutorialCam;
     void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -64,6 +65,10 @@ public class KameraMovement : MonoBehaviour
         TopCam.Priority = 0;
         //animator.SetTrigger("ToSideView");
         //animatorScreen.SetTrigger("ToSide");
+    }
+
+    public void MoveToTutorialView(){
+        TutorialCam.Priority = 2;
     }
 }
 public enum ViewState
