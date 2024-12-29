@@ -7259,6 +7259,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 508309010}
   optionsMenuUI: {fileID: 1981216655}
   gameController: {fileID: 1034459913}
+  audioManager: {fileID: 983654412}
 --- !u!1 &944473633
 GameObject:
   m_ObjectHideFlags: 0

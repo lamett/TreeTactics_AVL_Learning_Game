@@ -74,6 +74,10 @@ public class AudioManager : MonoBehaviour
         timerSource.Stop();
     }
 
+    public bool isTimerPlaying(){
+        return timerSource.isPlaying;
+    }
+
     public void StartEnemySpeak()
     {
         enemySource.clip = EnemyWriting;
