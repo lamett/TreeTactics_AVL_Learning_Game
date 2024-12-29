@@ -259,7 +259,9 @@ public class GameController : MonoBehaviour
     public async Task StartSpezialAttakUnbalance()
     {
         audioManager.StartTimer();
-        specialPhaseTimer.startTimer(20, 0.2f);
+        float time = treeManager.BalancedFactorOfTree() * 2;
+        Debug.Log(time);
+        specialPhaseTimer.startTimer(time, 0.2f);
 
         await DuringSpezialAttakUnbalance();
         if (treeManager.isBalanced())

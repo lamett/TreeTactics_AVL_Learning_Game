@@ -242,6 +242,10 @@ public class TreeManager
     {
         return baum.treeBalance(baum.root) <= 1;
     }
+    public int BalancedFactorOfTree()
+    {
+        return baum.treeBalance(baum.root);
+    }
 
     private void colorTree()
     {

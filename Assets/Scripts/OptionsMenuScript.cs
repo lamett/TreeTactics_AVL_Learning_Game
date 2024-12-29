@@ -23,9 +23,6 @@ public class OptionsMenuScript : MonoBehaviour
         showBF.isOn = Settings.ShowBalanceFactor;
         ShowArrow.isOn = Settings.ShowArrowHint;
         volumeSlider.value = Settings.Volume;
-
-        Debug.Log("a " + Settings.ShowArrowHint);
-        Debug.Log("b " + Settings.ShowBalanceFactor);
     }
 
     public void changeBalanceFactor(bool balanceFactor)
