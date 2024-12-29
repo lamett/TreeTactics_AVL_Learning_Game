@@ -48,21 +48,26 @@ public class FigureHolderScript : MonoBehaviour
                 m++;
             }
         }
-
-
-        else {
+        else
+        {
             for (int j = 0; j < num; j++)
             {
                 var figur = Instantiate(figure_arr[(j % figure_arr.Length)], gameObject.transform);
-                if (j > 3) { figur.transform.localPosition = new Vector3(2, 0, (j % 4) * 3); } //hardmode: 2 rows
-                else { figur.transform.localPosition = new Vector3(0, 0, j * 3); }
+                if (j > 3)
+                {
+                    figur.transform.localPosition = new Vector3(2, 0, (j % 4) * 3);
+                } //hardmode: 2 rows
+                else
+                {
+                    figur.transform.localPosition = new Vector3(0, 0, j * 3);
+                }
                 figur.GetComponent<Rigidbody>().isKinematic = true;
                 allFigures.Add(figur);
             }
         }
     }
 
-        public void remove()
+    public void remove()
     {
         if (allFigures.Count < 1) return;
         var figur = allFigures.Last();

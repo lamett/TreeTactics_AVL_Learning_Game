@@ -18,6 +18,6 @@ public class ButtonAudio : MonoBehaviour
     
     public void OnChanged()
     {
-        audioSrc.Play();
+        audioSrc?.Play();
     }
 }

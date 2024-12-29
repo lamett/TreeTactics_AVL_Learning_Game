@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Threading.Tasks;
 using System.Collections;
 
 public class AudioManager : MonoBehaviour
@@ -31,6 +30,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip WinMusic;
     public AudioClip SFXButton;
     public AudioClip PlatineButton;
+    public AudioClip BallCollision;
+    public AudioClip InsertBall;
 
     public bool isCutscene;
 
@@ -100,13 +101,13 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBing(AudioClip clip)
     {
-        if(clip == null) {return;};
-        Debug.Log("ArgumentNullException Debuging: Clip ="+clip.ToString());
+        if (clip == null) { return; };
+        Debug.Log("ArgumentNullException Debuging: Clip =" + clip.ToString());
         bingSource.PlayOneShot(clip);
     }
 
     public void PlayWinMusic() { WinMusicSource.Play(); }
-  
+
 
     public void FadeInWinMusic()
     {

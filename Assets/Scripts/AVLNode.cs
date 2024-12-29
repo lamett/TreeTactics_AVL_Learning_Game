@@ -29,16 +29,28 @@ public class AVLNode : MonoBehaviour
     public float heightFactor;
 
     public bool isGapFiller = false;
+    AudioManager audioManager;
     private void Awake()
     {
         renderer = GetComponent<MeshRenderer>();
         renderer.material = gray;
         balanceFactorObject = transform.GetChild(1).GetComponent<TextMeshPro>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void Update()
     {
         updateEdge();
+    }
+
+    int hitCounter = 0;
+    void OnCollisionEnter()
+    {
+        hitCounter++;
+        if (hitCounter <= 2)
+        {
+            audioManager.PlaySFX(audioManager.BallCollision);
+        }
     }
 
     //Soll eine Animation triggern, um von der aktuellen Position zur neuen Position zu bewegen

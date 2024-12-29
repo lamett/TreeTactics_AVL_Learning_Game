@@ -71,6 +71,12 @@ public class GameController : MonoBehaviour
     }
     void Start()
     {
+        //HardMode
+        if (Settings.HardModeActivated)
+        {
+            enemyStartHealth += 2;
+        }
+
         treeManager = new TreeManager(nodePrefab, updateTreeBalance, commandHistory);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthScript>();
@@ -82,14 +88,6 @@ public class GameController : MonoBehaviour
         addPhaseTimer = new Timer(this, EndAddPhaseEvent, addPhaseTimeUpdate);
         specialPhaseTimer = new Timer(this, EndSpezialPhaseByTimer, specialPhaseTimeUpdate);
         balls = new List<GameObject>();
-
-        //HardMode
-        if (Settings.HardModeActivated)
-        {
-            enemyStartHealth += 2;
-            enemy.setHealth(enemyStartHealth);
-        }
-
     }
     private void ManageAVLOperationsOnGameStateChanged(GameState gameState)
     {
@@ -147,7 +145,8 @@ public class GameController : MonoBehaviour
         endless = true;
         //endButton.show();
         treeManager.backUpTree();
-        addPhaseTimer.startTimer(amountBalls * 10, 0.2f);
+        float timeleft = Settings.HardModeActivated ? amountBalls * 5 : amountBalls * 10;
+        addPhaseTimer.startTimer(timeleft, 0.2f);
         audioManager.StartTimer();
         commandHistory.Clear(); // kann eigentlich auch zum Event OnGameStateChanged hinzugefügt werden
     }
@@ -332,6 +331,7 @@ public class GameController : MonoBehaviour
     public async Task Tutorial()
     {
         Settings.isTutorial = true;
+        textBox.gameObject.SetActive(false);
         rotating.gameObject.SetActive(false);
         await genericText.PrintOnScreen("Willkommen! Du möchtest also mein Spiel lernen.", 1.5f);
         await genericText.PrintOnScreen("Du bekommst Kugeln, die musst du hinzufügen.");
@@ -492,6 +492,7 @@ public class GameController : MonoBehaviour
     public async Task StartSandbox()
     {
         Settings.isSandbox = true;
+        textBox.gameObject.SetActive(false);
         rotating.gameObject.SetActive(false);
         mainCamera.GetComponent<KameraMovement>().MoveToTutorialView();
         await genericText.PrintOnScreen("Sandbox!");
@@ -636,6 +637,7 @@ public class GameController : MonoBehaviour
 
         if (treeManager.addObject(ball, ID))
         {
+            audioManager.PlaySFX(audioManager.InsertBall);
             balls.Remove(ball);
             return true;
         }

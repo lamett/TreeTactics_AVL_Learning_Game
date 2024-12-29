@@ -10,14 +10,22 @@ public class OptionsMenuScript : MonoBehaviour
 
     void Start()
     {
-        showBF.isOn = Settings.ShowBalanceFactor;
-        ShowArrow.isOn = Settings.ShowArrowHint;
-        volumeSlider.value = Settings.Volume;
+        updateUI();
     }
 
     public void closeUI()
     {
         optionsMenuUI.SetActive(false);
+    }
+
+    public void updateUI()
+    {
+        showBF.isOn = Settings.ShowBalanceFactor;
+        ShowArrow.isOn = Settings.ShowArrowHint;
+        volumeSlider.value = Settings.Volume;
+
+        Debug.Log("a " + Settings.ShowArrowHint);
+        Debug.Log("b " + Settings.ShowBalanceFactor);
     }
 
     public void changeBalanceFactor(bool balanceFactor)

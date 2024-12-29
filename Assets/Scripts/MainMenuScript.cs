@@ -41,6 +41,8 @@ public class MainMenuScript : MonoBehaviour
         Settings.HardModeActivated = true;
         Settings.isTutorial = false;
         Settings.isSandbox = false;
+        Settings.ShowArrowHint = false;
+        Settings.ShowBalanceFactor = false;
         SceneManager.LoadScene("Level0Scene");
     }
 

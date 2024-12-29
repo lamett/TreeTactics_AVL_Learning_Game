@@ -85,11 +85,20 @@ public class TreeManager
         }
         showAllBF();
     }
+    bool alternatingPos = true;
 
     public GameObject instantiateBallForBowl()
     {
         var prefab = UnityEngine.Object.Instantiate(nodePrefab);
-        prefab.transform.position = new Vector3(-17.5f, 20, 3.23f);
+        if (alternatingPos)
+        {
+            prefab.transform.position = new Vector3(-17.9f, 20, 3.63f);
+        }
+        else
+        {
+            prefab.transform.position = new Vector3(-17.1f, 20, 2.83f);
+        }
+        alternatingPos = !alternatingPos;
         return prefab;
     }
 

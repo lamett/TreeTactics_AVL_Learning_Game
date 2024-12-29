@@ -46,5 +46,6 @@ public class PauseMenuScript : MonoBehaviour
     public void loadOptions()
     {
         optionsMenuUI.SetActive(true);
+        optionsMenuUI.transform.parent.GetComponent<OptionsMenuScript>().updateUI();
     }
 }
