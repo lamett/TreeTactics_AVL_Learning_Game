@@ -38,7 +38,7 @@ public class TreeManager
         this.nodePrefab = nodePrefab;
         this.updateTreeBalance = updateTreeBalance;
         baum = new AVLTree(commandHistory);
-        possibleNumbers = Enumerable.Range(0, 50).ToList();
+        possibleNumbers = Enumerable.Range(0, 99).ToList();
         shuffle();
     }
 
