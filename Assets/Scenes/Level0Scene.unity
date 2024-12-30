@@ -6932,7 +6932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 156841dd4e17ca340ac2bd7052dae2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 3
+  Health: 1
   isEnemy: 1
   FigureHolder: {fileID: 1238394910}
 --- !u!114 &901143462
@@ -11352,7 +11352,7 @@ MonoBehaviour:
   - Das kannst du besser.
   - Wie kommst du damit zurecht ?
   - So einfach mache ich es dir nicht.
-  - "Du hast mich besiegt, der Sieg geh\xF6rt dir."
+  - "Gl\xFCckwunsch. Der Sieg geh\xF6rt dir!"
   - Das tut mir leid.
   - "Da hab ich wohl gewonnen. Komm gerne wieder wenn du f\xFCr eine Revanche bereit
     bist."
