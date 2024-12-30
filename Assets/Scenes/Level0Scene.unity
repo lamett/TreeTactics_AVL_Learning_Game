@@ -7559,7 +7559,7 @@ MonoBehaviour:
   TimerSounds: {fileID: 8300000, guid: c5e2a73ad4706440f93bf05df0b465fe, type: 3}
   TreeBalanced: {fileID: 8300000, guid: c24a169b1f8834f4c94eed9c8b841795, type: 3}
   CasinoSpin: {fileID: 8300000, guid: 7eda97b91ed61334b9bff4af39cddbba, type: 3}
-  JumpOnTable: {fileID: 8300000, guid: 13c1fd924db870c40830c94e16c221a2, type: 3}
+  JumpOnTable: {fileID: 8300000, guid: 6a8123a70d739144da95461cf3e691c5, type: 3}
   EndBossMusic: {fileID: 8300000, guid: 3c1b2e1f07aab3a46a3000271dbb6a27, type: 3}
   WinMusic: {fileID: 8300000, guid: 4c489bd41e9abec438e47b6672be438d, type: 3}
   SFXButton: {fileID: 8300000, guid: e8af9035f5758f44da37af4225a02619, type: 3}
@@ -11342,10 +11342,10 @@ MonoBehaviour:
   - "Auf in die n\xE4chste Runde!"
   - "Hier sind deine Kugeln, die Zeit l\xE4uft ab jetzt!"
   - Da kommen die Kugeln, das Spiel geht los.
-  - Damit ist dein letztes Leben aufgebraucht.
-  - "Sieht so aus, als h\xE4ttest du keine Leben mehr."
+  - Damit ist deine letzte Figur weg.
+  - "Sieht so aus, als h\xE4ttest du keine Figuren mehr."
   - "ES WIRD ZEIT F\xDCR MEINE FINALE FORM!!!!!"
-  - Das Spiel ist noch nicht vorbei !
+  - DAS SPIEL IST NOCH NICHT VORBEI!
   - Du lernst schnell.
   - Nicht Schlecht.
   - Ist das alles, was du draufhast?
@@ -11356,7 +11356,10 @@ MonoBehaviour:
   - Das tut mir leid.
   - "Da hab ich wohl gewonnen. Komm gerne wieder wenn du f\xFCr eine Revanche bereit
     bist."
-  textSpeed: 0
+  - 'Oh... '
+  - Aber eine Figur habe ich noch.
+  - Dann zeig mal was du drauf hast.
+  textSpeed: 0.03
   index: 0
 --- !u!1 &1582890340 stripped
 GameObject:
@@ -14479,7 +14482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1957238092
 Transform:
   m_ObjectHideFlags: 0
@@ -18634,7 +18637,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7454180202298287575}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: -0.03146041, y: 3.5665164, z: 0.7237709}
+  m_LocalPosition: {x: -0.03146039, y: 3.7508714, z: 1.5163014}
   m_LocalScale: {x: 108.601105, y: 75.88997, z: 81.41665}
   m_ConstrainProportionsScale: 0
   m_Children:

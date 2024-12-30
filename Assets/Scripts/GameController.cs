@@ -148,16 +148,29 @@ public class GameController : MonoBehaviour
     {
         if (prevGameState == GameState.StartMenu)
         {
-            textBox.index = 1;
-            textBox.StartDialogue();
+            if (Settings.HardModeActivated) 
+            {
+                await Task.Delay(3000);
+                textBox.index = 20;
+                textBox.StartDialogue();
+                await Task.Delay(1000);
+            }
+            else
+            {
+                await Task.Delay(3000);
+                textBox.index = 1;
+                textBox.StartDialogue();
+            }
         }
         else
         {
+            await Task.Delay(2000);
             textBox.index = 2;
             textBox.StartDialogue();
         }
         await Task.Delay(3000);
         await showRotation();
+        await Task.Delay(1500);
         textBox.index = UnityEngine.Random.Range(3, 5);
         textBox.StartDialogue();
         chooseAmountBalls(-1);
@@ -171,7 +184,7 @@ public class GameController : MonoBehaviour
         endless = true;
         //endButton.show();
         treeManager.backUpTree();
-        float timeleft = Settings.HardModeActivated ? amountBalls * 5 : amountBalls * 10;
+        float timeleft = Settings.HardModeActivated ? amountBalls * 4 : amountBalls * 10;
         addPhaseTimer.startTimer(timeleft, 0.2f);
         audioManager.StartTimer();
         commandHistory.Clear(); // kann eigentlich auch zum Event OnGameStateChanged hinzugefügt werden
@@ -213,8 +226,7 @@ public class GameController : MonoBehaviour
     {
         if (enemy.isDead())
         {
-            textBox.index = UnityEngine.Random.Range(7, 9);
-            textBox.StartDialogue();
+
             return 1;
         }
         else if (player.isDead())
@@ -273,9 +285,26 @@ public class GameController : MonoBehaviour
 
     public async Task StartSpezialAttakUnbalanceTalk()
     {
-        //setDummyText("Du hast mich noch nicht besiegt!");
-        Debug.Log("xxxStartSpezialAttakUnbalanceTalkxxx");
+        await Task.Delay(2000);
+
+        enemy.GetComponent<Animator>().SetTrigger("NoFigures");
+
         await Task.Delay(500);
+
+        textBox.index = 18;
+        textBox.StartDialogue();
+
+        await Task.Delay(2700);
+
+        textBox.index = 19;
+        textBox.StartDialogue();
+
+        await Task.Delay(3000);
+
+        textBox.index = UnityEngine.Random.Range(7, 9);
+        textBox.StartDialogue();
+
+        await Task.Delay(1500);
         enemy.GetComponent<Animator>().SetTrigger("JumpOnTable"); //triggers shake and RandomRot as animation event
 
         await Task.Delay(4000);
@@ -327,7 +356,7 @@ public class GameController : MonoBehaviour
         await Task.Delay(1000);
 
         enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
-        await Task.Delay(3000);
+        await Task.Delay(2500);
         enemy.GetComponent<Animator>().SetTrigger("Happy");
         await Task.Delay(500);
         textBox.index = 15;
