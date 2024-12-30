@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            UpdateGameState(GameState.RollChallengeTalk);
+            UpdateGameState(GameState.StartMenu);
         }
     }
 
@@ -50,7 +50,8 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.StartMenu:
-                Debug.Log("StartMenu");
+                Debug.Log("Geladen vom StartMenu");
+                UpdateGameState(GameState.RollChallengeTalk);
                 break;
             case GameState.RollChallengeTalk:
                 Debug.Log("RollChallengeTalk");
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
 
     public async void HandleRollChallangeTalk()
     {
-        await gameController.StartRollChallengeTalk();
+        await gameController.StartRollChallengeTalk(prevGameState);
         UpdateGameState(GameState.AddPhase);
     }
 

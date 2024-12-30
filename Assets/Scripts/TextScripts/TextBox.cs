@@ -21,7 +21,7 @@ public class TextBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        textComponent.text = string.Empty;
+        EmptyText();
     }
 
     // Update is called once per frame
@@ -42,6 +42,11 @@ public class TextBox : MonoBehaviour
             }
         }
 
+    }
+
+    public void EmptyText()
+    {
+        textComponent.text = string.Empty;
     }
 
     public void StartDialogue()
@@ -67,7 +72,7 @@ public class TextBox : MonoBehaviour
 
     public void StartCutsceneDialoge(int index)
     {
-        textComponent.text = string.Empty;
+        EmptyText();
         this.index = index;
         StartDialogue();
     }

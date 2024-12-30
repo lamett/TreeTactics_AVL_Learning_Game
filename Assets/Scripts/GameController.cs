@@ -144,8 +144,19 @@ public class GameController : MonoBehaviour
     }
 
     //Handle Phases
-    async public Task StartRollChallengeTalk()
+    async public Task StartRollChallengeTalk(GameState prevGameState)
     {
+        if (prevGameState == GameState.StartMenu)
+        {
+            textBox.index = 1;
+            textBox.StartDialogue();
+        }
+        else
+        {
+            textBox.index = 2;
+            textBox.StartDialogue();
+        }
+        await Task.Delay(3000);
         await showRotation();
         textBox.index = UnityEngine.Random.Range(3, 5);
         textBox.StartDialogue();
@@ -638,6 +649,7 @@ public class GameController : MonoBehaviour
     }
     public async Task showRotation()
     {
+        textBox.EmptyText();
         DiceHolder.SetActive(true);
         audioManager.StartMusic(audioManager.CasinoSpin);
         //rotating.GenerateRotation(); //calculate number
