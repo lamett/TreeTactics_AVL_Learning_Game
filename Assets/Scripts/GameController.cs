@@ -683,7 +683,7 @@ public class GameController : MonoBehaviour
         audioManager.StartMusic(audioManager.CasinoSpin);
         //rotating.GenerateRotation(); //calculate number
         await rotating.RunRotationAsTask(); //start rotation
-        await Task.Delay(1000);
+        await Task.Delay(2000);
         DiceHolder.SetActive(false);
     }
 

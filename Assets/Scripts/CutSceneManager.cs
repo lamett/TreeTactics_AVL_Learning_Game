@@ -7,10 +7,15 @@ public class CutSceneManager : MonoBehaviour
 {
     private void Update()
     {
-        if (Input.anyKeyDown)
+        if (SceneManager.GetActiveScene().name == "Cutscene_Start" && Input.anyKeyDown)
         {
-            SceneManager.LoadScene("Level0Scene");
+            LoadLevel0();
         }
+        if (SceneManager.GetActiveScene().name == "TitelScene" && Input.anyKeyDown)
+        {
+            LoadMenu();
+        }
+
     }
     public void LoadLevel0()
     {

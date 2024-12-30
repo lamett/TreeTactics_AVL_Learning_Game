@@ -106,7 +106,6 @@ public class AudioManager : MonoBehaviour
     public void PlayBing(AudioClip clip)
     {
         if (clip == null) { return; };
-        Debug.Log("ArgumentNullException Debuging: Clip =" + clip.ToString());
         bingSource.PlayOneShot(clip);
     }
 

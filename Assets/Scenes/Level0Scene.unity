@@ -1331,7 +1331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &194086470
 Transform:
   m_ObjectHideFlags: 0
@@ -11337,11 +11337,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - "Willkommen zurr\xFCck, auf ein gutes Spiel!"
-  - "Schauen wir mal, was ich f\xFCr dich parat habe."
+  - 
+  - Los geht's!
   - "Auf in die n\xE4chste Runde!"
   - "Hier sind deine Kugeln, die Zeit l\xE4uft ab jetzt!"
-  - Da kommen die Kugeln, das Spiel geht los.
+  - Da kommen die Kugeln, die Runde beginnt.
   - Damit ist deine letzte Figur weg.
   - "Sieht so aus, als h\xE4ttest du keine Figuren mehr."
   - "ES WIRD ZEIT F\xDCR MEINE FINALE FORM!!!!!"
@@ -14482,7 +14482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1957238092
 Transform:
   m_ObjectHideFlags: 0
