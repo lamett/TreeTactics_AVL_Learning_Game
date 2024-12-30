@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AVLNode : MonoBehaviour
@@ -268,5 +269,17 @@ public class AVLNode : MonoBehaviour
         Destroy(hintArrow);
         left?.hideHint();
         right?.hideHint();
+    }
+
+    public void DestroyEdges()
+    {
+        if (leftEdge != null)
+        {
+            leftEdge.OnDestroy();
+        }
+        if(rightEdge != null)
+        {
+            rightEdge.OnDestroy();
+        }
     }
 }

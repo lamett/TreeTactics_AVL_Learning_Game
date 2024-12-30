@@ -71,4 +71,9 @@ public class Edge : MonoBehaviour
         transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, 0);
         spriteRenderer.enabled = false;
     }
+
+    public void OnDestroy()
+    {
+        Destroy(gameObject);
+    }
 }

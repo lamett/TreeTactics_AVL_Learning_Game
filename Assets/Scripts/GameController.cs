@@ -8,6 +8,7 @@ using UnityEditor;
 using System.Collections;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 
 public class GameController : MonoBehaviour
 {
@@ -308,10 +309,16 @@ public class GameController : MonoBehaviour
         specialPhaseTimer.stopTimer();
         audioManager.StopBossMusic();
 
-        await Task.Delay(500);
-        enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
-        await Task.Delay(1200);
+        await Task.Delay(1000);
 
+        await ExplodeNodes();
+
+        await Task.Delay(1000);
+
+        enemy.GetComponent<Animator>().SetTrigger("JumpOffTable");
+        await Task.Delay(3000);
+        enemy.GetComponent<Animator>().SetTrigger("Happy");
+        await Task.Delay(500);
         textBox.index = 15;
         textBox.StartDialogue();
         await Task.Delay(5000);
@@ -598,6 +605,37 @@ public class GameController : MonoBehaviour
     //}
     //#############################################
 
+    private async Task ExplodeNodes()
+    {
+        GameObject[] nodes = treeManager.getTreeAsGOArray();
+        int delay = 100;
+        float round = 0;
+        foreach (GameObject node in nodes) {
+            node.GetComponentInChildren<VisualEffect>().Play();
+            audioManager.PlaySFX(audioManager.OrbDestoryed);
+            
+            node.GetComponent<MeshRenderer>().enabled = false;
+            MeshRenderer[] childs = node.GetComponentsInChildren<MeshRenderer>();
+            foreach (MeshRenderer child in childs)
+            { 
+                child.enabled = false;
+            }
+
+            node.GetComponent<AVLNode>().DestroyEdges();
+            double currentDelay = delay*Math.Cos(round/10);
+            Debug.Log(currentDelay);
+            if(currentDelay > 50) {
+                await Task.Delay((int) Math.Round(currentDelay));
+            }
+            else
+            {
+                await Task.Delay(50);
+            }
+
+            round++;
+        }
+
+    }
     public async Task showRotation()
     {
         DiceHolder.SetActive(true);
