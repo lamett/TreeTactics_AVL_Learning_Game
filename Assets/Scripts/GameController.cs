@@ -76,7 +76,7 @@ public class GameController : MonoBehaviour
         {
             enemyStartHealth += 2;
         }
-
+        DeleteAllInstancesOfNodes();
         treeManager = new TreeManager(nodePrefab, updateTreeBalance, commandHistory);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthScript>();
@@ -114,6 +114,20 @@ public class GameController : MonoBehaviour
                     break;
             }
         }
+    }
+
+    void DeleteAllInstancesOfNodes()
+    {
+        // Alle GameObjects in der Szene finden
+        GameObject[] allObjects = GameObject.FindGameObjectsWithTag("Node");
+
+        // Prüfen, ob ein GameObject mit dem angegebenen Prefab übereinstimmt
+        foreach (GameObject obj in allObjects)
+        {
+            Destroy(obj);
+        }
+
+        Debug.Log($"Alle Instanzen des Prefabs {nodePrefab.name} wurden gelöscht.");
     }
 
     public void chooseAmountBalls(int num)
@@ -259,7 +273,7 @@ public class GameController : MonoBehaviour
     public async Task StartSpezialAttakUnbalance()
     {
         audioManager.StartTimer();
-        float time = treeManager.BalancedFactorOfTree() * 2;
+        float time = Settings.HardModeActivated ? treeManager.BalancedFactorOfTree() : treeManager.BalancedFactorOfTree() * 2;
         Debug.Log(time);
         specialPhaseTimer.startTimer(time, 0.2f);
 
@@ -336,14 +350,14 @@ public class GameController : MonoBehaviour
         textBox.gameObject.SetActive(false);
         rotating.gameObject.SetActive(false);
         await genericText.PrintOnScreen("Willkommen! Du möchtest also mein Spiel lernen.", 1.5f);
-        await genericText.PrintOnScreen("Du bekommst Kugeln, die musst du hinzufügen.");
+        await genericText.PrintOnScreen("Hier ist der erste Datensatz.");
         chooseAmountBalls(4);
         await SpawnBallsAsync();
         treeManager.backUpTree();
         commandHistory.Clear();
         mainCamera.GetComponent<KameraMovement>().MoveToTutorialView();
         await Task.Delay(1200);
-        await genericText.PrintOnScreen("Klicke auf die Kugeln in der Schale.");
+        await genericText.PrintOnScreen("Mit einem Klick fügst du die Elemente dem AVL-Baum hinzu.");
         enableBallsClickDelPhase(false);
         enableBallsClickAdd(true);
         Utils.StartPulsing(balls);
@@ -357,10 +371,10 @@ public class GameController : MonoBehaviour
             await Task.Delay(100);
         }
         Utils.StopPulsing();
-        await genericText.PrintOnScreen("Jetzt kannst du keine Kugeln hinzufügen, denn dein Baum ist nicht ausbalanciert", 1.5f);
+        await genericText.PrintOnScreen("Stop! Hier ist etwas aus dem Gleichgewicht geraten.", 1.5f);
         Utils.StartPulsing(treeManager.getRoot().gameObject);
 
-        await genericText.PrintOnScreen("Halte die Kugel gedrückt und zieh nach rechts oder links");
+        await genericText.PrintOnScreen("Halte die Kugel gedrückt und zieh nach rechts oder links zum Rotieren.");
         enableBallsClickOperation(true);
         var notBalanced = true;
         var erinnerung = false;
@@ -374,16 +388,16 @@ public class GameController : MonoBehaviour
             if (commandHistory.Count > 8 && !erinnerung)
             {
                 erinnerung = true;
-                await genericText.PrintOnScreen("Erinnere Dich, was du im Tutorial der vorherigen Gruppe gelernt hast!");
+                await genericText.PrintOnScreen("Ajajaj, das braucht aber lange. Erinnere dich, was du im Tutorial der vorherigen Gruppe gelernt hast!");
             }
             await Task.Delay(100);
         }
         enableBallsClickOperation(false);
         commandCount = commandHistory.Count;
-        await genericText.PrintOnScreen("Der Baum ist grün, also ist er wieder balanciert", 1.5f);
+        await genericText.PrintOnScreen("Sehr gut.", 1f);
 
         Utils.StartPulsing(balls);
-        await genericText.PrintOnScreen("Füge nun die letzte Kugel hinzu");
+        await genericText.PrintOnScreen("Füge nun das letzte Element hinzu.");
         while (commandCount >= commandHistory.Count)
         {
             await Task.Delay(100);
@@ -391,7 +405,7 @@ public class GameController : MonoBehaviour
         audioManager.PlayBing(audioManager.TreeBalanced);
         Utils.StopPulsing();
         endbuttonClicked = false;
-        await genericText.PrintOnScreen("Sehr gut, nun beende deinen Zug");
+        await genericText.PrintOnScreen("Beende deinen Zug.");
         Utils.StartPulsing(EndButtonObject);
         while (!endbuttonClicked)
         {
@@ -400,19 +414,18 @@ public class GameController : MonoBehaviour
         Utils.StopPulsing();
         endbuttonClicked = false;
         commandHistory.Clear();
-        await genericText.PrintOnScreen("Du hast diese Runde gewonnen also ziehe ich mir ein Leben ab");
+        await genericText.PrintOnScreen("Diese Runde geht an dich.");
         enemy.reduceHealth();
-        await Task.Delay(2000);
-        await genericText.PrintOnScreen("Da du so gut warst, hab ich eine kleine Challange für dich", 1.5f);
+        await Task.Delay(6000);
 
         var node = treeManager.findNodeToDelete();
         Arm.DestroyNode(treeManager.findNode(node).gameObject);
         await Task.Delay(1000);
         treeManager.markDeletion(node);
         treeManager.markGapFillers();
-        await Task.Delay(1000);
-
-        await genericText.PrintOnScreen("Ich habe dir eine Kugel gelöscht. Klicke auf die Kugel, die an den Fehlenden Platz musst");
+        await Task.Delay(4000);
+        await genericText.PrintOnScreen("Ups...", 1.5f);
+        await genericText.PrintOnScreen("Mit welcher Kugel kannst du die Lücke schließen?");
         var gapFillers = treeManager.getTreeAsGOArray().Where(node => node.GetComponent<AVLNode>().isGapFiller);
         Utils.StartPulsing(gapFillers.ToList());
         foreach (var gapFiller in gapFillers)
@@ -426,15 +439,16 @@ public class GameController : MonoBehaviour
         }
         treeManager.resetGapFillers();
         Utils.StopPulsing();
-        await genericText.PrintOnScreen("Sehr gut, nun beginnt eine neue Runde");
+        await genericText.PrintOnScreen("Auf in die nächste Runde.");
         chooseAmountBalls(2);
         await SpawnBallsAsync();
         treeManager.backUpTree();
         commandHistory.Clear();
         enableBallsClickDelPhase(false);
         enableBallsClickAdd(true);
-        Utils.StartPulsing(balls);
-        await genericText.PrintOnScreen("Füge nun diese Kugeln hinzu");
+        enableBallsClickOperation(true);
+        //Utils.StartPulsing(balls);
+        //await genericText.PrintOnScreen("Füge nun diese Kugeln hinzu");
         commandCount = commandHistory.Count;
         while (commandHistory.Count < 2)
         {
@@ -447,9 +461,9 @@ public class GameController : MonoBehaviour
         Utils.StopPulsing();
 
         Utils.StartPulsing(platine.GetComponent<showTreeBalance>().LEDs());
-        await genericText.PrintOnScreen("Hier kannst du erkennen, wie unbalanciert dein Baum ist", 3);
+        await genericText.PrintOnScreen("Hier siehst du wie unbalanciert dein Baum ist.", 3);
         Utils.StopPulsing();
-        await genericText.PrintOnScreen("Du kannst natürlich auch deinen Zug Rückgängig machen.");
+        await genericText.PrintOnScreen("Da kannst du deinen Schritt rückgängig machen.");
         Utils.StartPulsing(UndoButtonObject);
         while (!undoButtonClicked)
         {
@@ -458,7 +472,7 @@ public class GameController : MonoBehaviour
         enableBallsClickOperation(false);
         Utils.StopPulsing();
         Utils.StartPulsing(TimerObject);
-        await genericText.PrintOnScreen("Übrigends gibt es auch eine Zeitlimit");
+        await genericText.PrintOnScreen("Vorsicht! Die Zeit läuft.");
         audioManager.StartTimer();
         addPhaseTimer.startTimer(1.5f, 0.2f);
         //TODO start TimerSound
@@ -468,9 +482,9 @@ public class GameController : MonoBehaviour
         audioManager.StopTimer();
         player.reduceHealth();
         resetTree();
-        await genericText.PrintOnScreen("Ich war gemein, ich wollte dir nur zeigen, du startest immer mit deinem vorherigem Baum neu", 2.5f);
+        await genericText.PrintOnScreen("Diese Runde geht an mich.", 1.5f);
 
-        await genericText.PrintOnScreen("Übe noch so viel du möchtest ohne Zeidruck. Beende die Übung einfach mit dem Knopf");
+        await genericText.PrintOnScreen("Übe noch so viel du möchtest. Beende die Übung einfach mit dem Knopf.");
         endbuttonClicked = false;
         isEndOfTutorial = true;
         chooseAmountBalls(15);
@@ -479,6 +493,7 @@ public class GameController : MonoBehaviour
         treeManager.backUpTree();
         commandHistory.Clear();
         enableBallsClickAdd(true);
+        enableBallsClickOperation(true);
         Utils.StartPulsing(EndButtonObject);
 
         while (!endbuttonClicked)

@@ -10,10 +10,12 @@ public class TextBoxGeneric : MonoBehaviour
     string line = "";
     public float textSpeed;
     public bool finished = true;
+    AudioManager audioManager;
 
 
     private void Start()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         textComponent = GetComponent<TextMeshProUGUI>();
     }
     // Update is called once per frame
@@ -40,17 +42,21 @@ public class TextBoxGeneric : MonoBehaviour
         StartCoroutine(TypeLine());
 
         while (!finished) await Task.Delay(100);
+        audioManager.StopEnemySpeak();
         await Task.Delay((int)(waitForSeconds * 1000));
         return;
     }
 
     IEnumerator TypeLine()
     {
+        audioManager.StartEnemySpeak();
         for (int i = 0; i < line.Count(); i++)
         {
+            
             textComponent.text += line[i];
             yield return new WaitForSeconds(textSpeed);
         }
+        audioManager.StopEnemySpeak();
         finished = true;
     }
 
