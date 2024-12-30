@@ -17,5 +17,11 @@ public class CutSceneManager : MonoBehaviour
         Debug.Log("Szenenwechesel");
         SceneManager.LoadScene("Level0Scene");
     }
-    
+
+    public void LoadMenu()
+    {
+        Debug.Log("Szenenwechesel");
+        SceneManager.LoadScene("StartMenu");
+    }
+
 }
